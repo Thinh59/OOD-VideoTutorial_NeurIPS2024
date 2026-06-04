@@ -1,0 +1,197 @@
+Kế Hoạch Tổng Thể
+
+Audit lại toàn bộ scene
+
+Đo duration của từng .mp4 và .wav.
+So sánh timeline: chỗ nào audio đi trước, video đi trước, hoặc video bị kéo dài bằng frame đứng yên.
+Ghi bảng: scene, video duration, audio duration, lỗi visual, cần sửa code/audio.
+
+Sửa lỗi layout và timing hiện có
+
+Ưu tiên các lỗi làm người xem khó hiểu: chữ đè, khung tràn, mũi tên đè node, audio bị cắt.
+Không dùng tpad kéo frame đứng yên nữa trừ đoạn outro/credits thật sự cần pause.
+Nếu audio dài hơn video: thêm chuyển động có ý nghĩa.
+Nếu video dài hơn audio: cắt wait hoặc tăng tốc scene, không để đứng yên.
+
+Bổ sung 4 mảng nội dung bị thiếu
+
+Thêm scene mới vào đúng vị trí logic.
+Cập nhật render script.
+Tạo narration .txt/.srt/.wav tương ứng.
+Render và ghép audio chuẩn _vo48.mp4.
+
+Chạy QA cuối
+
+Kiểm tra toàn bộ _vo48.mp4 có audio AAC stereo 48 kHz.
+Kiểm tra không còn partial_movie_files, __pycache__.
+Tạo danh sách scene final theo thứ tự để sau này concat thành video hoàn chỉnh.
+
+Phân Việc Chi Tiết
+
+A. Module 0
+
+OpeningClinicalNotes
+Dời label shortcut để không đè lên khung/mũi tên.
+Căn lại timeline: đoạn shortcut, Hospital B, accuracy drop phải xuất hiện đúng lúc audio nói tới.
+Thêm transition rõ hơn từ Hospital A shortcut sang Hospital B failure.
+RoadMap
+Đẩy biển START sang phải hoặc thu nhỏ để không bị cắt.
+Làm mỗi node có animation riêng: glow, tooltip/icon nhỏ, car pause lâu hơn.
+Không để car chạy nhanh hơn lời đọc.
+B. Module 1
+
+ERMAccuracyIllusion
+Dời wrong feature khỏi trục/label background.
+Thêm thêm animation “decision boundary reads background” để rõ hơn.
+ERMAnatomy
+Cắt đoạn dư sau khi audio hết hoặc thêm chuyển động nếu audio thật sự còn.
+SpuriousDefinition
+Thêm chuyển động timeline/causal arrow bị vỡ khi environment đổi.
+Căn lại audio-video.
+Thêm Scene 1.4: Geometry & Inductive Bias
+Vị trí: sau SpuriousDefinition, trước Module 2.
+Nội dung: hình học x = y μ* + y z μz + ξ.
+Visual: trục μ* và μz, cụm majority kéo decision boundary nghiêng, minority bị xuyên qua.
+Mục tiêu: giải thích vì sao SGD/max-margin cũng góp phần học shortcut, không chỉ ERM/statistics.
+C. Module 2
+
+Hiện chưa có lỗi cụ thể bạn nêu, nhưng cần audit duration/audio.
+Có thể tăng liên kết với scene 1.4: từ minority bị xuyên qua → group structure/worst-group accuracy.
+D. Module 3
+
+Cần kiểm tra lại sau khi thêm scene 1.4 vì logic nhân quả phải liền mạch.
+Có thể thêm bridge text/animation từ geometry sang SCM: “geometry tells what happens; causality tells why”.
+E. Module 4
+
+IRMInvariantIdea
+Kiểm tra audio có bị cắt không.
+Nếu còn cắt: kéo thêm motion meaningful, không freeze.
+Thêm Scene 4.0: Importance Weighting & Interpolation
+Vị trí: trước IRM.
+Nội dung:
+Công thức w = p_train(Y) / p_train(Y|Z).
+Minority samples được đánh trọng số lớn.
+Neural network lớn vẫn interpolate, loss = 0, nên weighting/penalty mất tác dụng.
+Visual: điểm minority được phóng to trọng số, rồi mạng lớn “nuốt” hết điểm, loss về 0.
+IRMFormula
+Fix audio bị cắt.
+Có thể thêm parabola/gradient penalty animation thay vì công thức đứng yên.
+IRMGradientVectors
+Thêm chuyển động vector xoay/dần thu nhỏ, khớp thêm ~3s audio.
+IRMLimitations
+Thêm cảnh 2 environments giống shortcut nhau → IRM không phát hiện.
+Giảm cảnh icon đứng yên.
+Thêm NuRD
+Vị trí: sau IRM limitations hoặc trước GroupDRO.
+Nội dung: Y ⟂ Z | φ(X).
+Visual: pipeline X -> φ filter -> clean representation -> w -> Y, rác Z bị lọc ra.
+F. Module 5
+
+GroupDRO
+Công thức bay lên đang đè title: dời title, scale formula nhỏ hơn, hoặc dùng split layout.
+Thêm loss landscape hoặc worst group bar được upweight từng bước.
+Không để formula/text chiếm màn hình quá lâu.
+G. Module 6
+
+JTT
+Fix chữ 2. và 3. tràn khối.
+Dùng icon/stepper thay vì text dài trong box.
+Thêm Semantic Corruptions
+Vị trí: sau JTT hoặc trước JTT nếu muốn giới thiệu “không có group labels thì làm gì”.
+Visual:
+X-ray/heart icon bị che bằng ô xám.
+Nếu model vẫn predict bệnh → đang dùng shortcut.
+NLP: n-gram randomization / shuffled words.
+Mục tiêu: bổ sung kỹ thuật can thiệp vật lý/ngữ nghĩa để phát hiện shortcut.
+H. Module 7
+
+ScaleDoesNotSolve
+Video bị kéo dài: thêm chart scale vs worst-group accuracy, model boxes mọc shortcut red edges.
+CLIPSpuriousWeb
+Hiện quá đứng yên: thêm CLIP two-tower animation, web image-caption stream, bias bars.
+ICLShortcuts
+Bỏ kéo dài freeze; thêm prompt token highlight từng ví dụ, rule “movie -> positive” được học.
+ReverseScaling
+Thêm model boxes 2.7B/7B/13B lớn dần và shortcut sensitivity tăng.
+PromptingForRobustness
+Thêm ảnh đi qua VLM, labels bắn ra, GroupDRO nhận labels.
+CATO
+Fix 2./3. tràn box.
+Thêm counterfactual generation animation, minority pie chart cân bằng lại.
+Cắt đoạn đứng yên sau audio.
+I. Module 8
+
+BenchmarksReality
+Bars/phương pháp tràn màn hình: chuyển sang grid hoặc stacked mini-chart, không để ngang một hàng.
+BestPractices
+Audio còn nói nhưng video hết chuyển động: biến list thành flowchart sáng từng nhánh theo lời đọc.
+ModelSelectionParadox
+Thêm vòng lặp có chuyển động liên tục hơn, option A/B xuất hiện sau vòng lặp.
+J. Module 9
+
+JourneySummary
+Mũi tên đè JTT: reposition graph, tăng spacing.
+Sau 3 chữ Correlation -> Causation -> Stability, thêm glow/connection animation thay vì đứng yên.
+OpenProblemsCredits
+Bỏ Produced by cũ hoặc sửa đúng:
+Phan Huynh Chau Thinh
+Lai Nguyen Hong Thanh
+Nguyen Gia Bao
+Nếu chưa chắc có cần credits không: nên giữ credits ngắn, nhưng không ghi sai tên.
+Bỏ placeholder GitHub: [link repository Manim] nếu chưa có link, hoặc để trong YouTube description thôi.
+K. Audio
+
+Chỉ dùng _vo48.mp4.
+Không dùng _vo.mp4 mono cũ.
+Nguyên tắc mới:
+Audio dài hơn video: thêm animation có nghĩa.
+Video dài hơn audio: cắt wait.
+Không dùng tpad kéo frame đứng yên hàng loạt nữa.
+Sau mỗi module: chạy ffprobe kiểm tra duration và stream audio.
+Đề Xuất Thứ Tự Làm
+
+Fix các lỗi layout/timing nặng trong module 0, 1, 4, 5, 6, 7, 8, 9.
+Thêm 4 nội dung mới: Scene 1.4, Scene 4.0, NuRD, Semantic Corruptions.
+Render lại từng module theo thứ tự.
+Ghép audio _vo48.mp4.
+QA toàn bộ.
+Sau khi bạn duyệt từng scene, mới concat thành video hoàn chỉnh.
+
+
+Danh Sách Việc Tiếp Theo (theo thứ tự)
+Phase 1 – CRITICAL còn lại (video << audio, nhiều nhất 35s gap)
+
+#	Scene	Video	Audio	Δ	Lỗi chính
+✅	BestPractices	7s → 24s	42s	fix xong	—
+2	PromptingForRobustness	6s	37s	+31s	Pipeline ảnh→VLM→labels→DRO chỉ 3 box tĩnh
+3	JourneySummary	7s	35s	+28s	Gần như chỉ FadeIn, mũi tên đè JTT
+4	OpenProblemsCredits	6s	34s	+28s	Tên sai credits, GitHub placeholder
+5	BenchmarksReality	7s	29s	+22s	Bars ngang một hàng, thiếu animation
+6	CLIPSpuriousWeb	5s	29s	+24s	3 box tĩnh hoàn toàn
+7	ModelSelectionParadox	6s	25s	+19s	4 nodes FadeIn một lúc, thiếu vòng lặp động
+8	ERMAnatomy	29s	47s	+18s	Video hết sớm 18s, thiếu visual sau loss curve
+9	SpuriousDefinition	28s	46s	+18s	Thiếu animation causal arrow vỡ
+10	ScaleDoesNotSolve	9s	19s	+10s	Flash loop 3 boxes, thiếu chart
+Phase 2 – HIGH còn lại (gap 7–15s)
+
+#	Scene	Video	Audio	Δ
+11	CATO	7s	22s	+15s
+12	ReverseScaling	6s	18s	+12s
+13	ICLShortcuts	8s	19s	+12s
+14	ERMAccuracyIllusion	28s	35s	+7s
+Phase 3 – MEDIUM (layout bug, gap nhỏ)
+
+#	Scene	Lỗi
+15	GroupDRO	Formula đè title
+16	JTT	Text tràn box
+17	IRMGradientVectors	Thiếu ~2s animation
+18	IRMLimitations	Icon đứng yên
+19	OpeningClinicalNotes	Label shortcut đè mũi tên
+20	RoadMap	START bị cắt
+Phase 4 – Scene mới (sau khi fix xong)
+
+#	Scene mới	Module
+21	GeometryInductiveBias	module1_erm.py
+22	ImportanceWeightingInterpolation	module4_irm.py
+23	NuRD	module4_irm.py
+24	SemanticCorruptions	module6_jtt.py

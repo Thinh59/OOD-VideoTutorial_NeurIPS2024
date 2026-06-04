@@ -1,0 +1,7 @@
+OOD_Final_Lecture_480p15.mp4
+media/*
+assets/*
+manim.cfg
+test.py
+src/__pycache__/*
+.venv/*
