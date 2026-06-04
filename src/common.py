@@ -43,6 +43,13 @@ class OODScene(MovingCameraScene):
             self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.6)
         self.camera.frame.move_to(ORIGIN).set(width=config.frame_width)
 
+    def active_wait(self, focus, seconds: float, color=GOLD):
+        beats = max(1, int(seconds // 2.2))
+        for i in range(beats):
+            target = focus[i % len(focus)] if isinstance(focus, (VGroup, Group)) and len(focus) else focus
+            self.play(Indicate(target, color=color), run_time=0.75)
+            self.wait(max(0.2, seconds / beats - 0.75))
+
 
 def paragraph(text: str, font_size: int = 30, color=WHITE, width: int = 36, line_spacing: float = 0.7):
     lines: list[str] = []
@@ -58,6 +65,10 @@ def card(text: str, width: float = 5.2, height: float = 2.1, color=WHITE, fill=B
     box = RoundedRectangle(width=width, height=height, corner_radius=0.12, color=color, stroke_width=2)
     box.set_fill(fill, opacity=0.18)
     body = paragraph(text, font_size=font_size, width=max(18, int(width * 8)))
+    if body.width > width - 0.22:
+        body.scale((width - 0.22) / body.width)
+    if body.height > height - 0.18:
+        body.scale((height - 0.18) / body.height)
     body.move_to(box.get_center())
     return VGroup(box, body)
 
@@ -66,6 +77,11 @@ def labeled_box(label: str, width: float = 3.2, height: float = 1.1, color=WHITE
     rect = RoundedRectangle(width=width, height=height, corner_radius=0.1, color=color, stroke_width=2)
     rect.set_fill(color, opacity=0.12)
     txt = paragraph(label, font_size=font_size, width=max(10, int(width * 7))).move_to(rect)
+    if txt.width > width - 0.18:
+        txt.scale((width - 0.18) / txt.width)
+    if txt.height > height - 0.14:
+        txt.scale((height - 0.14) / txt.height)
+    txt.move_to(rect)
     return VGroup(rect, txt)
 
 
@@ -123,4 +139,3 @@ def make_axes_plane(x_label="spurious", y_label="core"):
     xl = Text(x_label, font_size=24, color=GRAY_B).next_to(axes.x_axis, DOWN)
     yl = Text(y_label, font_size=24, color=GRAY_B).rotate(PI / 2).next_to(axes.y_axis, LEFT)
     return VGroup(axes, xl, yl), axes
-

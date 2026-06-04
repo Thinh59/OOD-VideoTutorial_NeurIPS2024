@@ -1,303 +1,296 @@
-# KỊCH BẢN V3 — PART VIII, IX, X
+# SCRIPT V3 — PART VIII, IX, X
 ## NuRD + Group DRO + JTT
 
 ---
 
-# PART VIII — NuRD: "Lọc Sạch Nuisance"
+# PART VIII — NuRD: "Filtering out the Nuisance"
 
 ---
 
-## Scene N1 — NuRD: Ý tưởng cốt lõi
-**~90 giây**
+## Scene N1 — NuRD: Core Idea
+**~90 seconds**
 
 ### VISUAL
-- Tiêu đề: "NuRD — Nuisance-Randomized Distillation"
-- Pipeline đơn giản:
+- Title: "NuRD — Nuisance-Randomized Distillation"
+- Simple pipeline:
   `[X] → [Φ: Encoder] → [Φ(X): Representation] → [w] → [Ŷ]`
-- Câu hỏi: "Làm sao biết Φ(X) có còn chứa Z (nuisance) không?"
-- Điều kiện độc lập xuất hiện:
+- Central question: "How do we know if Φ(X) still contains the nuisance variable Z?"
+- Independence condition appears in GOLD:
   `Y ⊥ Z | Φ(X)`
-- Giải thích từng phần:
-  - Y ⊥ Z: "Y và Z độc lập..."
-  - | Φ(X): "...khi đã biết representation"
-  - Nghĩa là: "Φ(X) không còn thông tin về Z ngoài những gì cần để predict Y"
-- Diagram: Z bị lọc ra khỏi Φ(X). Chỉ còn Y-relevant information.
+- Component explanation:
+  - Y ⊥ Z: "Y and Z are independent..."
+  - | Φ(X): "...given the learned representation."
+  - Intuition: "Φ(X) contains no information about Z beyond what is already captured by Y."
+- Diagram: Z is filtered out of Φ(X), leaving only the Y-relevant causal information.
 
 ### AUDIO
-"Chính vì IRM gặp khó khăn khi environment không đủ đa dạng, NuRD — Nuisance-Randomized Distillation — tiếp cận vấn đề từ một góc khác: thay vì tìm invariance qua environments, hãy trực tiếp loại bỏ nuisance khỏi representation.
+"Because Invariant Risk Minimization faces practical challenges when environments lack diversity, Nuisance-Randomized Distillation, or NuRD, approaches the problem from a different angle. Instead of searching for invariance across environments, NuRD directly filters out the nuisance features from the representation.
 
-Điều kiện cốt lõi của NuRD: Y độc lập với Z khi đã có Φ(X). Nói dễ hiểu: representation Φ(X) không được chứa thêm thông tin về nuisance Z ngoài những gì đã được encode vào Y.
+The core condition of NuRD is that the label Y must be independent of the nuisance attribute Z, conditioned on the representation Phi of X.
 
-Nếu điều kiện này thỏa mãn, bất kỳ bộ phân loại nào train trên Φ(X) cũng không thể khai thác Z — vì Z đã bị lọc ra.
+In simple terms, once we extract the representation Phi of X, it should contain no residual information about the nuisance attribute Z that could be exploited by a classifier.
 
-Nhưng câu hỏi thực tế là: làm sao phát hiện được Z là gì để mà lọc?"
+If this condition holds, any model trained on Phi of X is mathematically prevented from using Z as a shortcut.
+
+But how do we identify the nuisance attribute Z in practice?"
 
 ---
 
-## Scene N2 — Phát hiện Nuisance: Semantic Corruption
-**~90 giây**
+## Scene N2 — Detecting Nuisance: Semantic Corruption
+**~90 seconds**
 
 ### VISUAL
-- Ví dụ NLP: câu gốc "The movie was incredible and the acting superb."
-- Bước 1 — N-gram randomization: xáo trộn thứ tự từ:
+- NLP example: Original sentence: "The movie was incredible and the acting superb."
+- Step 1 — N-gram randomization: The words are shuffled:
   "incredible was The movie and superb acting the."
-  Label: "N-gram randomized — ngữ nghĩa mất, n-gram bias còn"
-- Bước 2 — Cho model dự đoán trên câu bị xáo trộn.
-  Nếu model vẫn predict đúng → đang dùng n-gram shortcut, không phải ngữ nghĩa.
-- Animate: câu gốc [BLUE_D] → xáo trộn [ORANGE] → model predict → accuracy vẫn cao [RED flash]
-- Text: "Semantic Corruption = can thiệp vật lý để lộ shortcut"
-- Bổ sung ví dụ vision: ảnh X-ray → che patch ngẫu nhiên → model vẫn predict ung thư.
-  "Model đang nhìn vào artifact của máy, không phải khối u."
+  Label: "N-gram randomized — semantics destroyed, n-gram bias preserved"
+- Step 2 — Feed the corrupted sentence to the model.
+  If the model still predicts positive with high confidence → it is relying on n-gram shortcuts, not semantic understanding.
+- Animation: Original sentence [BLUE_D] → Shuffled [ORANGE] → Model prediction → High accuracy [RED flash].
+- Text: "Semantic Corruption = Physical intervention to expose shortcuts."
+- Parallel vision example: X-ray image → masking random patches → model still predicts cardiomegaly.
+  "Model relies on scanner artifacts, not clinical indicators."
 
 ### AUDIO
-"Câu hỏi căn bản: làm sao biết model đang dùng spurious feature nào?
+"To filter out a nuisance feature, we must first detect it.
 
-Kỹ thuật đầu tiên: Semantic Corruption. Ý tưởng: nếu ta phá hủy ngữ nghĩa thực sự của input nhưng giữ lại spurious feature, model vẫn predict tốt thì nó đang dùng shortcut.
+We do this using a technique called Semantic Corruption. The intuition is straightforward: if we destroy the semantic meaning of the input while preserving the spurious shortcut, and the model still predicts successfully, it is relying on the shortcut.
 
-Trong NLP: xáo trộn thứ tự từ. Câu văn mất ngữ nghĩa hoàn toàn — nhưng n-gram statistics, tần suất từ, vẫn còn. Nếu model sentiment analysis vẫn đúng 80 phần trăm sau khi xáo trộn, nó đang đếm từ, không hiểu câu.
+In natural language processing, we shuffle the word order. The semantic meaning is lost, but the word frequencies and n-gram statistics remain. If a sentiment classifier maintains eighty percent accuracy on this shuffled text, it is merely counting words, not understanding sentiment.
 
-Trong vision: che random patches của ảnh X-ray. Nếu model vẫn detect ung thư — và khối u nằm trong patch bị che — model đang dùng artifact của thiết bị chụp, không phải khối u thật.
+In computer vision, we apply random patch masking. If a medical classifier still detects a disease after the diagnostic region is masked, it is likely reading scanner artifacts or hospital-specific markers.
 
-Semantic Corruption cho ta map: shortcut nào đang được khai thác."
+Semantic corruption exposes the specific shortcuts our models are exploiting."
 
 ---
 
-## Scene N3 — Vision Masking: Phát hiện bằng Che
-**~90 giây**
+## Scene N3 — Vision Masking: Diagnostic through Occlusion
+**~90 seconds**
 
 ### VISUAL
-- Ảnh chim trên nền nước [BLUE_D frame].
-- GradCAM / Attention map: model ERM tập trung vào NỀN, không phải con chim.
-  Highlight vùng nền [RED glow].
-- Bước Masking: che nền → chỉ còn con chim.
-  Model mới predict: "Waterbird" → nhưng accuracy DROP xuống 60%.
-  "Bằng chứng: model đang dùng nền."
-- Bước ngược: che con chim → chỉ còn nền.
-  Model cũ vẫn predict đúng với accuracy cao.
-  [RED flash] "Confirmational: nền = spurious feature chính"
-- Text: "Vision Masking = Semantic Corruption cho ảnh"
+- Image of a bird on water [BLUE_D frame].
+- Attention map / GradCAM: Highlight that the ERM model focuses primarily on the background water, not the bird [RED glow].
+- Masking Step: The background is masked, leaving only the bird.
+  The model's prediction drops to 60% accuracy.
+  "Evidence: model relies on background."
+- Reverse Masking Step: The bird is masked, leaving only the background.
+  The model predicts "Waterbird" with high accuracy.
+  [RED flash] "Confirmation: background is the primary shortcut."
+- Text: "Vision Masking = Semantic Corruption for images."
 
 ### AUDIO
-"Với dữ liệu hình ảnh, Semantic Corruption có dạng Vision Masking — che đi các phần của ảnh.
+"For visual data, semantic corruption takes the form of Vision Masking.
 
-Cách làm: lấy model ERM đã train, xem attention map hoặc GradCAM — bản đồ cho thấy model đang nhìn vào vùng nào. Với Waterbirds, model ERM chủ yếu nhìn vào nền — nước hay đất — chứ không phải con chim.
+Consider an ERM model trained on the Waterbirds dataset. By examining its attention map or GradCAM outputs, we can see where the model is looking. Often, it focuses almost entirely on the background rather than the bird.
 
-Kiểm chứng: che nền đi, chỉ để lại con chim. Accuracy model ERM giảm mạnh — bằng chứng nó đang dùng nền.
+We verify this by masking the background. When evaluated on the bird alone, the model's accuracy drops significantly.
 
-Che con chim đi, chỉ để lại nền. Accuracy vẫn cao — xác nhận nền là shortcut chính.
+Conversely, if we mask the bird and leave only the background, the model still classifies the image correctly. This confirms that the background is acting as the primary shortcut.
 
-Vision Masking là công cụ diagnostic mạnh: nó không chỉ nói 'model đang dùng shortcut' mà còn nói 'shortcut nằm ở đâu'."
+Vision masking is a diagnostic tool: it tells us both that a shortcut is being used, and exactly what that shortcut is."
 
 ---
 
 ## Scene N4 — Teacher-Student Distillation
-**~2 phút**
+**~2 minutes**
 
 ### VISUAL
-- Hai mô hình song song:
-  - Teacher [ORANGE, lớn]: được train trên corrupted input (n-gram shuffled / masked)
-    → Teacher chỉ có thể học shortcut Z, không có ngữ nghĩa thật
-  - Student [BLUE_D, nhỏ hơn]: được train trên original input
-- Quá trình distillation:
+- Two models side-by-side:
+  - Teacher [ORANGE, large]: Trained on corrupted inputs (e.g., shuffled text or masked images).
+    → "Teacher only learns shortcuts (Z) because semantics are destroyed."
+  - Student [BLUE_D, smaller]: Trained on original inputs.
+- Distillation process:
   `Teacher(X_corrupted) → soft labels [p₁, p₂, ...]`
-  `Student học: predict Y AND diverge from Teacher`
-- Công thức:
+  `Student objective: predict Y AND diverge from Teacher`
+- Formula:
   `L_student = L_CE(ŷ, y) + α · L_KL(f_student(X) ‖ f_teacher(X_corrupted))`
-  Với dấu NGƯỢC: student bị phạt khi GIỐNG teacher → ép student học điều KHÁC teacher.
-- Animate: Teacher confident về nền → Student bị ép phải tìm signal khác → học hình dáng con vật.
-- Text: "Teacher dạy student những gì KHÔNG nên học"
+  Note the positive sign: the Student is penalized for mimicking the Teacher.
+- Animation: The Teacher is confident about the background. The Student is forced to look elsewhere, learning the animal's shape.
+- Text: "The Teacher teaches the Student what NOT to learn."
 
 ### AUDIO
-"NuRD dùng một kỹ thuật tinh tế: Teacher-Student distillation ngược.
+"NuRD exploits this diagnostic via a Teacher-Student distillation framework.
 
-Ý tưởng: train một Teacher model trên corrupted input — ví dụ câu văn đã bị xáo trộn, hoặc ảnh đã che mất semantic content. Teacher này CHỈ có thể học shortcuts vì semantic content đã bị phá hủy.
+First, we train a Teacher model exclusively on corrupted inputs, where the semantic features have been destroyed. Because the semantic signal is gone, the Teacher is forced to rely entirely on spurious shortcuts.
 
-Student model được train trên input gốc, với hai mục tiêu đồng thời: một, predict đúng nhãn Y. Hai, và đây là phần quan trọng, diverge khỏi Teacher — tức là đưa ra prediction KHÁC Teacher khi có thể.
+Next, we train a Student model on the original, clean inputs with a dual objective: predict the ground-truth label Y, while simultaneously diverging from the predictions of the Teacher.
 
-Vì Teacher đã học hết shortcuts, divergence penalty ép Student phải tìm signal khác — những gì Teacher không thể học từ corrupted input. Đó chính là semantic signal, causal features.
+Because the Teacher has captured the shortcuts, the divergence penalty forces the Student to ignore those same shortcuts. The Student must find alternative predictive signals — the invariant, causal features.
 
-Đây là một cơ chế elegant: Teacher không dạy Student những gì đúng, mà dạy những gì sai để Student tránh."
+Rather than teaching the Student what is correct, the Teacher defines what is spurious, guiding the Student to look elsewhere."
 
 ---
 
 ## Scene N5 — Mutual Information Intuition
-**~90 giây**
+**~90 seconds**
 
 ### VISUAL
-- Diagram Venn: 3 vòng tròn chồng nhau:
-  I(Φ(X); Y) [BLUE_D] — thông tin về nhãn
-  I(Φ(X); Z) [RED] — thông tin về nuisance
-  I(Φ(X); X) [GRAY] — tổng thông tin
-- Mục tiêu NuRD được visualize:
-  `maximize I(Φ(X); Y)` → vòng BLUE_D lớn ra
-  `minimize I(Φ(X); Z)` → vòng RED nhỏ lại
-- Vùng chồng lấp: "Thông tin về Z mà không cần để predict Y → đây là spurious"
-- Công thức đầy đủ:
+- Venn diagram showing three overlapping circles:
+  - I(Φ(X); Y) [BLUE_D] — Information about the label
+  - I(Φ(X); Z) [RED] — Information about the nuisance
+  - I(Φ(X); X) [GRAY] — Total information
+- Visualizing NuRD's objective:
+  - `maximize I(Φ(X); Y)` → expands the BLUE_D circle
+  - `minimize I(Φ(X); Z)` → shrinks the RED circle
+- Overlapping region: "Nuisance information not needed for Y → Spurious"
+- Complete formulation:
   `max_Φ  I(Φ(X); Y)  −  β · I(Φ(X); Z)`
-- Text: "NuRD = Information Bottleneck có định hướng"
+- Text: "NuRD = Directed Information Bottleneck."
 
 ### AUDIO
-"Nhìn NuRD qua lăng kính information theory cho thấy bức tranh đầy đủ hơn.
+"We can also understand NuRD through the lens of information theory.
 
-Mục tiêu: maximize thông tin mà Φ(X) chứa về Y — để predict tốt — trong khi minimize thông tin mà Φ(X) chứa về Z — để không dùng shortcut.
+Our goal is to maximize the mutual information between the representation Phi of X and the label Y, while minimizing the mutual information between Phi of X and the nuisance attribute Z.
 
-Đây là dạng Information Bottleneck có định hướng: thay vì chỉ compress thông tin tổng quát, ta compress theo hướng loại bỏ Z cụ thể.
+This is a directed information bottleneck. Instead of compressing all information generally, we compress specifically along the dimension of the nuisance variable Z.
 
-Tham số β kiểm soát trade-off: β lớn → loại Z triệt để hơn nhưng có thể mất một số thông tin về Y. β nhỏ → an toàn hơn nhưng Z có thể lọt qua.
+The hyperparameter beta controls this trade-off. A large beta aggressively filters out Z, but risks losing some features relevant to Y. A small beta preserves performance on Y, but may allow some shortcuts to leak through.
 
-Kết hợp với Teacher-Student distillation và Semantic Corruption, NuRD tạo thành một pipeline hoàn chỉnh: phát hiện nuisance → loại bỏ nuisance → train representation sạch.
+Combined with semantic corruption and distillation, NuRD provides a complete pipeline: detect the nuisance, model the shortcut, and filter it out of the representation.
 
-Chính vì những kết quả đầy hứa hẹn của NuRD trên NLP, cộng đồng bắt đầu tìm kiếm phương pháp tương tự cho structured data — nơi mà group labels đôi khi có thể thu thập được. Và đó là bối cảnh ra đời của Group DRO."
-
----
----
-
-# PART IX — GROUP DRO: "Tối ưu cho Kẻ Yếu Nhất"
+While NuRD is highly effective for text and images, other settings provide explicit group structures, allowing us to optimize for the worst-case scenario directly. This brings us to Group DRO."
 
 ---
+---
 
-## Scene 5.1 — Group DRO: Công thức Đầy đủ
-**~2.5 phút**
+# PART IX — GROUP DRO: "Optimizing for the Weakest Group"
+
+---
+
+## Scene 5.1 — Group DRO: Complete Formula
+**~2.5 minutes**
 
 ### VISUAL
-- Pie chart Waterbirds (4 mảnh):
-  Waterbird+Water: 45% [BLUE_D], Landbird+Land: 45% [GREEN_D]
-  Waterbird+Land: 5% [RED nhấp nháy], Landbird+Water: 5% [RED nhấp nháy]
-- Công thức ERM: `min_θ Σ_g p_g · 𝔼_g[ℓ]`
-  Mũi tên: "p_g nhỏ → bị bỏ qua"
-- TransformMatchingTex: `Σ_g p_g` → `max_g`:
+- Waterbirds pie chart (4 groups):
+  - Waterbird+Water: 45% [BLUE_D]
+  - Landbird+Land: 45% [GREEN_D]
+  - Waterbird+Land: 5% [RED pulsing]
+  - Landbird+Water: 5% [RED pulsing]
+- ERM formulation: `min_θ Σ_g p_g · 𝔼_g[ℓ]`
+  Arrow: "Small p_g → group is ignored."
+- The equation transforms: `Σ_g p_g` is replaced by `max_g`:
   ```
   min_h  max_{g∈G}  𝔼_{(x,y)~P_g} [ℓ(h(x), y)]
   ```
-- "max" xuất hiện GOLD, glow. Text: "Thay trung bình bằng worst-case"
-- Expand công thức thành 2 phần:
-  - **Inner maximization**: `max_{g∈G} R_g(h)` → tìm group đang tệ nhất
-  - **Outer minimization**: `min_h` → tối ưu model cho group đó
-- Vòng lặp animate:
-  Step 1: tính R_g cho mọi group → highlight group tệ nhất
-  Step 2: upweight group đó → update h
-  Step 3: quay lại Step 1
+- The word "max" appears in GOLD with a glow effect. Text: "Optimize for the worst-performing group."
+- Expanding the objective:
+  - **Inner maximization**: `max_{g∈G} R_g(h)` → Identify the group with the highest risk.
+  - **Outer minimization**: `min_h` → Update the model to reduce risk on that group.
+- Loop animation:
+  Step 1: Calculate R_g for all groups → Highlight the worst group.
+  Step 2: Increase the weight of the worst group → Update model h.
+  Step 3: Repeat.
 
 ### AUDIO
-"Group DRO thay đổi mục tiêu bằng một từ: max.
+"Group Distributionally Robust Optimization, or Group DRO, modifies the ERM objective with a single operator: max.
 
-ERM minimize trung bình có trọng số. Nhóm nhỏ có trọng số nhỏ — tự động bị bỏ qua.
+Standard ERM minimizes the average loss. Since minority groups have small weights, they contribute very little to the average and are effectively ignored.
 
-Group DRO viết lại bài toán hoàn toàn: minimize over h, maximize over g. Hai lớp tối ưu lồng nhau.
+Group DRO reframes this as a minimax game: minimize over the model parameters, maximize over the groups.
 
-Inner maximization: với mô hình h hiện tại, tìm group nào đang có risk cao nhất. Đây là worst-case group.
+The inner maximization identifies the group currently experiencing the highest risk — the worst-group.
 
-Outer minimization: cập nhật h để giảm risk của worst-case group đó.
+The outer minimization updates the model parameters specifically to reduce the risk of this worst group.
 
-Thuật toán lặp lại: group nào tệ nhất thì được upweight, h phải quan tâm đến group đó. Vòng tiếp theo, có thể group khác tệ hơn — lại upweight group mới.
-
-Kết quả: mọi group đều được bảo vệ. Không group nào bị bỏ lại phía sau."
+As training progresses, the weights dynamically shift: whichever group performs worst is upweighted, forcing the model to focus on it. The model is prevented from sacrificing any single group to improve the average."
 
 ---
 
-## Scene 5.2 — Oracle vs Practical: Giới hạn của Group DRO
-**~90 giây**
+## Scene 5.2 — Oracle vs Practical: Limits of Group DRO
+**~90 seconds**
 
 ### VISUAL
-- Hai cột: "Oracle Setting" [GOLD] vs "Practical Setting" [GRAY]
-- Oracle:
-  - Biết chính xác group label (g) của mọi điểm training
-  - Biết R_g cho mọi g
-  - Group DRO hoạt động hoàn hảo
-- Practical:
-  - Group label cần annotation thủ công → tốn kém
-  - Với Waterbirds: phải gán nhãn "nền là nước hay đất" cho hàng vạn ảnh
-  - Với CivilComments: phải gán nhãn demographic identity cho mọi comment
-- Bảng chi phí annotation:
-  | Dataset | Số mẫu | Chi phí ước tính |
-  |---------|--------|-----------------|
+- Two columns: "Oracle Setting" [GOLD] vs "Practical Setting" [GRAY].
+- Oracle column:
+  - Precise group labels (g) are available for all training points.
+  - Group DRO performs optimally.
+- Practical column:
+  - Group labels require manual annotation → prohibitively expensive.
+  - Waterbirds: annotating every background.
+  - CivilComments: identifying demographics for every comment.
+- Cost comparison table:
+  | Dataset | Size | Estimated Annotation Cost |
+  |---------|------|---------------------------|
   | Waterbirds | 4,795 | ~$500 |
   | CelebA | 202,599 | ~$20,000 |
   | CivilComments | 448,000 | ~$45,000 |
-- Text: "Oracle Group DRO rất mạnh. Nhưng ai trả tiền annotation?"
+- Text: "Group DRO is powerful, but requires expensive group labels."
 
 ### AUDIO
-"Group DRO có một điểm mạnh rõ ràng: khi group labels đầy đủ, nó consistently là phương pháp tốt nhất trên hầu hết benchmark.
+"When group labels are fully available, Group DRO consistently achieves the highest worst-group accuracy across most benchmarks.
 
-Nhưng đây là vấn đề thực tế. Group DRO cần biết group label của từng điểm training. Với Waterbirds: mỗi ảnh cần nhãn 'nền là nước hay đất'. Với CelebA: mỗi khuôn mặt cần nhãn giới tính. Với CivilComments: mỗi comment cần nhãn demographic.
+However, this requirement is also its primary limitation. Group DRO needs to know the group membership of every training point. In real-world applications, annotating thousands of examples with demographic or environmental metadata is often too expensive or logistically impossible.
 
-Annotation thủ công cho hàng trăm nghìn mẫu không khả thi. Và kể cả khi có ngân sách, annotation con người có sai số và bias.
+Furthermore, human annotations are prone to noise and bias.
 
-Chính vì limitation này, cộng đồng đã phát triển hai hướng: một là tự động hóa annotation bằng Foundation Models — đó là PfR ta sẽ thấy sau. Hai là không cần annotation group — đó là JTT ngay bây giờ."
-
----
----
-
-# PART X — JTT: "Để ERM Tự Chỉ Ra Điểm Yếu"
+To address this constraint, researchers have pursued two directions: automating group annotation using foundation models, or designing algorithms that function without group labels. Let's look at the latter first: JTT."
 
 ---
+---
 
-## Scene 6.1 — JTT: Hai vòng Train
-**~2.5 phút**
+# PART X — JTT: "Letting ERM Identify Its Own Weakness"
+
+---
+
+## Scene 6.1 — JTT: Two-Stage Training
+**~2.5 minutes**
 
 ### VISUAL
-- Câu hỏi lớn: "Nếu không biết mỗi điểm thuộc nhóm nào... làm sao tìm được nhóm thiểu số?"
-- Text xuất hiện: "Hãy để ERM tự chỉ ra."
-- Timeline 2 giai đoạn:
+- Central question: "If we don't have group labels, how do we identify the minority groups?"
+- Text: "Let the ERM model tell us."
+- Two-stage timeline:
 
-**GIAI ĐOẠN 1 — ERM sơ bộ (5 epochs):**
-- Thanh progress ngắn.
-- Kết quả: 2 rổ xuất hiện:
-  - Rổ GRAY (đúng): mờ. "Dễ — shortcut hoạt động"
-  - Rổ GOLD (sai): sáng, nhấp nháy. "Khó — shortcut sai hướng!"
-- Giải thích: (Penguin, tuyết) → shortcut đúng → rổ GRAY. (Penguin, cát) → shortcut sai → rổ GOLD.
+**STAGE 1 — Identification (5 epochs):**
+- A brief training progress bar.
+- The training set is split into two bins:
+  - Bin 1 GRAY: "Correctly classified (Easy — shortcut holds)"
+  - Bin 2 GOLD (pulsing): "Misclassified (Hard — shortcut fails!)"
+- Explanation: (Penguin, snow) → shortcut works → Bin 1. (Penguin, sand) → shortcut fails → Bin 2.
 
-**GIAI ĐOẠN 2 — Train robust:**
-- Lấy rổ GOLD. Nhân bản K=20 lần (animate: con số K=20 xuất hiện to).
-- Dataset mới: rổ GOLD chiếm tỉ lệ lớn hơn. Train mô hình thứ 2.
+**STAGE 2 — Robust Training:**
+- The examples in Bin 2 are upweighted by a factor of K=20 (a large K=20 icon appears).
+- The final model is trained on this upweighted dataset.
 
-**Kết quả:**
+**Results on Waterbirds:**
 - ERM: Worst-Group = 32% [RED]
 - JTT: Worst-Group = 71% [GREEN]
-- Label: "← Không cần một nhãn nhóm nào!"
+- Label: "No group annotations required!"
 
 ### AUDIO
-"JTT — Just Train Twice — có câu trả lời thanh lịch: hãy để ERM tự chỉ ra điểm yếu.
+"Just Train Twice, or JTT, offers a simple and elegant solution: let a standard model identify its own weaknesses.
 
-Bước một: train một mô hình ERM nhỏ trong vài epochs — đủ để nó học shortcuts, nhưng chưa memorize. Nhìn vào những điểm mà mô hình này dự đoán sai.
+In the first stage, we train a standard ERM model for only a few epochs — enough for it to capture easy shortcuts, but not long enough to memorize exceptions. We then identify the examples this model classifies incorrectly.
 
-Tại sao những điểm bị sai lại quan trọng? Vì mô hình ERM học shortcuts ngay lập tức. Điểm nào thuộc nhóm đa số — shortcut hoạt động — dự đoán đúng. Điểm nào thuộc nhóm thiểu số — shortcut sai hướng — dự đoán sai.
+Why do these mistakes matter? Because a quickly trained ERM model relies almost entirely on shortcuts. It correctly classifies majority examples where the shortcut aligns with the label. It misclassifies minority examples where the shortcut points in the wrong direction — such as a penguin on sand.
 
-Những điểm bị sai chính xác là minority: penguin trên cát, bò trên cát — những trường hợp mà shortcut 'nền màu gì' chỉ sai hướng.
+These early mistakes are a natural proxy for the minority groups.
 
-Bước hai: gom những điểm sai đó, nhân bản K=20 lần, tạo dataset mới cân bằng hơn. Train mô hình thứ hai trên dataset này.
+In the second stage, we take these misclassified examples, upweight them by a factor of K equals twenty, and train a new model from scratch.
 
-Kết quả trên Waterbirds: Worst-group accuracy tăng từ 32 lên 71 phần trăm — mà không cần một nhãn nhóm thủ công nào.
-
-ERM đã tự lộ ra điểm yếu của chính mình."
+On the Waterbirds benchmark, this simple two-stage process increases worst-group accuracy from thirty-two percent to seventy-one percent — without requiring a single manual group label. JTT leverages the model's own simplicity bias to identify what it needs to correct."
 
 ---
 
-## Scene 6.2 — So sánh Methods: Ai tốt khi nào?
-**~90 giây**
+## Scene 6.2 — Comparison of Methods: Which is Best When?
+**~90 seconds**
 
 ### VISUAL
-- Bảng so sánh 5 methods:
-
-| Method | Cần group labels? | Cần environments? | Worst-Group Acc | Phù hợp khi |
-|--------|------------------|-------------------|-----------------|-------------|
-| ERM | Không | Không | Thấp | Baseline |
-| Reweighting | Có (hoặc ước lượng) | Không | Trung bình | Dataset nhỏ |
-| IRM | Không | CÓ (đa dạng) | Cao (nếu environments tốt) | Environments rõ |
-| NuRD | Không | Không | Cao (NLP) | NLP, vision có corruption |
-| Group DRO | CÓ | Không | Cao nhất | Có oracle labels |
-| JTT | Không | Không | Cao | Không có labels/environments |
-
-- Highlight: không có phương pháp nào win tất cả.
-- Hộp GOLD: "Chọn method = chọn giả định phù hợp với bài toán của bạn"
+- Comparison table of 5 methods:
+  | Method | Needs Group Labels? | Needs Environments? | Worst-Group Acc | Ideal Context |
+  |--------|---------------------|---------------------|-----------------|---------------|
+  | ERM | No | No | Low | Baseline |
+  | Reweighting | Yes (or estimated) | No | Moderate | Small datasets |
+  | IRM | No | Yes (diverse) | High (with good envs)| Clear environments |
+  | NuRD | No | No | High (NLP/Vision) | Corruptible inputs |
+  | Group DRO | Yes | No | Highest | Oracle labels available |
+  | JTT | No | No | High | No labels or environments |
+- Gold highlight box: "Choosing a method is about choosing the assumptions that fit your data."
 
 ### AUDIO
-"Sau khi đi qua năm phương pháp, cần nhìn toàn cảnh: không có silver bullet.
+"Now that we have covered these five core methods, we can see that no single approach dominates.
 
-Reweighting đơn giản nhưng thất bại với mạng lớn. IRM thanh lịch về lý thuyết nhưng cần environments chất lượng cao. NuRD mạnh với NLP nhưng cần thiết kế corruption cẩn thận. Group DRO mạnh nhất khi có labels. JTT linh hoạt nhất khi không có gì.
+Reweighting is simple but vulnerable to memorization in deep networks. IRM is theoretically grounded but requires high-quality, diverse environments. NuRD is effective for text and images but requires designing domain-specific corruptions. Group DRO is the top performer when group labels are available. JTT is the most flexible when we lack metadata.
 
-Chọn phương pháp nào phụ thuộc vào giả định bạn có thể làm: bạn có environments không? Bạn có group labels không? Bạn có thể thiết kế corruption không?
+Selecting the right method requires matching the algorithm's mathematical assumptions with the constraints of your dataset.
 
-Hiểu điều này quan trọng hơn là nhớ công thức. Mỗi phương pháp là lời giải cho một bài toán có giả định cụ thể.
-
-Nhưng trong thực tế — kể cả khi bạn chọn đúng phương pháp — còn một câu hỏi lớn hơn: các benchmark ta đang dùng để đánh giá có thực sự phản ánh robustness thật không? Đây là câu hỏi mà phần tiếp theo sẽ trả lời, và câu trả lời không dễ chịu."
+But how do these algorithms perform under real-world conditions? Let's look at the reality of OOD benchmarks."

@@ -32,7 +32,7 @@ class StructuralCausalModel(OODScene):
         bad = Arrow(xspur.get_bottom(), learner.get_right(), color=RED, buff=0.15, stroke_width=7)
         self.play(FadeIn(learner), GrowArrow(good), GrowArrow(bad), run_time=1.2)
         self.play(bad.animate.set_opacity(0.25), good.animate.set_stroke(width=10), Circumscribe(stable, color=BLUE_D), run_time=1.2)
-        self.wait(6.4)
+        self.wait(14.36)
 
 
 class ShiftBreaksSpuriousLink(OODScene):
@@ -64,4 +64,4 @@ class ShiftBreaksSpuriousLink(OODScene):
         stable = Text("shape survives", font_size=38, color=BLUE_D, weight=BOLD).to_edge(DOWN, buff=0.5)
         brittle = Text("background flips", font_size=34, color=RED, weight=BOLD).next_to(stable, UP, buff=0.22)
         self.play(FadeIn(brittle, shift=UP), FadeIn(stable, shift=UP), run_time=1.0)
-        self.wait(6.4)
+        self.wait(15.07)

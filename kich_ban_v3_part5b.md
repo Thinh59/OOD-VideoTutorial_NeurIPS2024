@@ -1,139 +1,138 @@
-# KỊCH BẢN V3 — PART XII & XIII
-## Foundation Models + AI Fixing AI + Kết luận
+# SCRIPT V3 — PART XII & XIII
+## Foundation Models + AI Fixing AI + Outro
 
 ---
 
-# PART XII — FOUNDATION MODELS: "Hứa hẹn, Vỡ mộng, và Tái sinh"
+# PART XII — FOUNDATION MODELS: "Promise, Disillusionment, and Adaptation"
 
 ---
 
 ## Scene 7.0 — The Promise of Scale: Accuracy on the Line
-**~2 phút**
+**~2 minutes**
 
 ### VISUAL
-- Đồ thị scatter: trục x = ID accuracy, trục y = OOD accuracy.
-  Nhiều model khác nhau (chấm) — nhỏ đến lớn.
-- Đường thẳng fit qua các chấm: "Accuracy on the Line"
-  Correlation cao: ID tốt → OOD tốt.
-- Text: "Nếu scale model → ID accuracy tăng → OOD accuracy tăng theo?"
-- Animate: chấm lớn dần (model lớn hơn) di chuyển lên đường thẳng.
-- Evidence bars: "Verified across 36 datasets — ImageNet shifts, CIFAR shifts, NLP benchmarks"
-- Hộp GOLD: "Scale Law → OOD cũng được? Cộng đồng hào hứng."
+- Scatter plot: x-axis = "In-Distribution (ID) Accuracy", y-axis = "Out-of-Distribution (OOD) Accuracy".
+- Multiple models of varying sizes (represented by dots of increasing size) are plotted.
+- A straight fit line passes through the dots: "Accuracy on the Line".
+- High correlation: Higher ID accuracy corresponds directly to higher OOD accuracy.
+- Text: "Does scaling model size solve OOD generalization?"
+- Dot expansion animation: Larger models move up along the fit line.
+- Evidence list: "Verified across 36 datasets including ImageNet shifts, CIFAR shifts, and NLP benchmarks."
+- Gold box: "Scaling Law suggests OOD robustness is an emergent property."
 
 ### AUDIO
-"Năm 2021-2022, một hiện tượng thú vị được phát hiện: Accuracy on the Line.
+"Between twenty-twenty-one and twenty-twenty-two, researchers observed a compelling phenomenon known as Accuracy on the Line.
 
-Khi vẽ scatter plot giữa ID accuracy và OOD accuracy của nhiều model khác nhau, chúng nằm gần như trên một đường thẳng. Model nào tốt hơn trong distribution thì cũng tốt hơn ngoài distribution.
+When plotting the in-distribution accuracy of various models against their out-of-distribution accuracy, the points fall along a straight line. Models that perform better on the training distribution also perform better on shifted test distributions.
 
-Và scale law nói rằng: model lớn hơn, train lâu hơn, data nhiều hơn sẽ có ID accuracy cao hơn. Nếu đường thẳng đó đúng — scale cũng giải quyết OOD.
+Under the scaling laws of deep learning, larger models trained on more data yield higher in-distribution accuracy. If the linear relationship holds, scaling models should automatically resolve the OOD generalization problem.
 
-Evidence từ 36 datasets khác nhau. Cộng đồng bắt đầu hào hứng: có phải chúng ta chỉ cần scale là xong?
+This was verified across thirty-six distinct datasets, suggesting that robustness might simply emerge with scale.
 
-Câu trả lời — như thường lệ trong machine learning — phức tạp hơn nhiều."
+However, as is often the case in machine learning, the reality is more nuanced."
 
 ---
 
-## Scene 7.1 — Scale Không Giải Quyết Được: Bằng Chứng Thực
-**~2 phút**
+## Scene 7.1 — Scale Does Not Solve: Empirical Evidence
+**~2 minutes**
 
 ### VISUAL
-- Đồ thị Worst-Group Accuracy vs Model Size:
-  ERM [RED]: tăng nhẹ rồi plateau ở ~55%
-  Group DRO [BLUE_D]: tăng đáng kể hơn, đạt ~75%
-- Vùng Large Models (>10B params): cả hai đường đều plateau.
-  Icon GPT/Gemini nằm trên đường plateau ERM.
-- Text: "Bigger ≠ More Robust (for worst-group)"
-- Thêm biểu đồ: Average Accuracy vs Worst-Group Accuracy cho Large Models.
-  Average tăng mạnh theo scale. Worst-Group gần như không tăng.
-- Animation: model lớn hơn → nhiều shortcut tinh vi hơn xuất hiện [RED, nhiều nhánh].
-  "Scale amplifies capacity to memorize spurious, not to ignore them"
+- Plot: Worst-Group Accuracy vs. Model Size:
+  - ERM [RED]: Increases slightly and then plateaus at ~55%.
+  - Group DRO [BLUE_D]: Increases more significantly, peaking at ~75%.
+- Large Models Region (>10B parameters): Both performance lines plateau.
+  Icons representing large models (e.g., GPT, Gemini) are placed on the plateaued ERM line.
+- Text: "Bigger models do not automatically yield higher worst-group accuracy."
+- Chart: Average Accuracy vs. Worst-Group Accuracy for Large Models.
+  Average accuracy increases with scale, while worst-group accuracy remains flat.
+- Animation: A larger model expands, showing a complex web of learned shortcuts [RED, branching].
+- Text: "Scale increases the capacity to memorize complex shortcuts, rather than ignoring them."
 
 ### AUDIO
-"Nhìn vào Worst-Group Accuracy — thước đo ta thực sự quan tâm — bức tranh rất khác.
+"If we look at worst-group accuracy — the metric that matters most for safety — scaling tells a very different story.
 
-Khi model size tăng nhưng vẫn train theo ERM, worst-group accuracy gần như không tăng sau một điểm nhất định. Scale giúp average accuracy — nhưng không giải quyết spurious correlations.
+As model size increases under standard ERM, worst-group accuracy plateaus. Scaling improves average performance, but does not eliminate spurious correlations.
 
-Tệ hơn: mô hình lớn hơn có capacity lớn hơn để memorize spurious features tinh vi hơn. Chúng không đơn giản là màu nền — chúng là các pattern phức tạp, cross-modal, khó detect hơn.
+In fact, larger models possess the capacity to learn and memorize more complex, subtle shortcuts. These are not simple background colors; they are high-dimensional, cross-modal patterns that are difficult to detect.
 
-Accuracy on the Line đúng cho distribution shifts đơn giản — như ImageNet-V2. Nhưng với spurious correlation shift — loại shift ta thực sự lo — scale không giúp ích.
+Accuracy on the Line holds for simple, uniform distribution shifts like ImageNet-Vtwo. But for spurious correlation shifts, scale alone is not enough.
 
-Nhưng điều thú vị là với CLIP — model được train theo cách rất khác — câu chuyện có vẻ khác."
+However, contrastive vision-language models like CLIP exhibit unique properties."
 
 ---
 
-## Scene 7.2 — CLIP và Hứa hẹn Zero-Shot
-**~2 phút**
+## Scene 7.2 — CLIP and the Zero-Shot Promise
+**~2 minutes**
 
 ### VISUAL
-- Kiến trúc CLIP:
-  `[Ảnh] → [Image Encoder] ─┐`
-  `[Text] → [Text Encoder] ─┴→ Cosine Similarity → Score`
-  "Train trên 400M cặp ảnh-văn bản từ internet"
-- Zero-shot performance: CLIP vs ERM trên Waterbirds.
-  CLIP zero-shot: ~75% worst-group. ERM: ~32%. [GREEN vs RED]
-- Hộp GOLD: "CLIP không thấy Waterbirds trong train — vẫn robust hơn?"
-- Giải thích trực giác: CLIP học từ diverse web data → ít bị anchor vào spurious correlation đơn lẻ.
-- Nhưng... thêm counter-example:
-  Gender bias trong CLIP: "doctor" → predict nam mạnh hơn nữ.
-  Histogram: score "doctor" theo gender — lệch sang nam rõ ràng.
+- CLIP architecture diagram:
+  `[Image] → [Image Encoder] ─┐`
+  `[Text] → [Text Encoder] ─┴→ Cosine Similarity → Prediction`
+  Label: "Trained on 400M image-text pairs from the web."
+- Zero-shot performance chart: CLIP vs. ERM on Waterbirds.
+  CLIP zero-shot: ~75% worst-group accuracy [GREEN]. ERM: ~32% [RED].
+- Gold box: "CLIP generalizes without seeing the target dataset."
+- Intuition: Diverse web training exposes the model to varied contexts, reducing reliance on single shortcuts.
+- Counterexample: Gender bias in CLIP.
+  "doctor" → predicts male faces with higher probability.
+  Histogram: Score distribution for "doctor" skewed toward male profiles.
 
 ### AUDIO
-"CLIP là một case study thú vị. Được train trên 400 triệu cặp ảnh-văn bản từ internet với contrastive learning — không phải supervised classification thông thường.
+"CLIP represents a unique case study. It is trained on four hundred million image-text pairs from the web using contrastive learning, rather than standard supervised classification.
 
-Zero-shot performance của CLIP trên Waterbirds đáng kinh ngạc: 75 phần trăm worst-group accuracy mà không train một lần nào trên dataset đó. ERM chỉ đạt 32 phần trăm.
+CLIP's zero-shot performance on the Waterbirds benchmark is remarkable: it achieves seventy-five percent worst-group accuracy without ever being trained on the dataset. Standard ERM achieves only thirty-two percent.
 
-Tại sao? Vì web data đa dạng hơn nhiều. CLIP đã thấy penguin ở nhiều ngữ cảnh khác nhau — không chỉ trên tuyết. Spurious correlation 'penguin equals tuyết' không đủ mạnh để dominate.
+Because CLIP is exposed to diverse web data, it has seen penguins in many different contexts. The association between penguins and snow is not strong enough to dominate the representation.
 
-Nghe như scale thật sự cứu được OOD — ít nhất với CLIP?
+At first glance, this suggests that large-scale contrastive training resolves OOD shifts.
 
-Nhưng nhìn vào gender bias: từ 'doctor' trong văn bản đi kèm ảnh người trên web — phần lớn là nam. CLIP học tương quan này. Với 400 triệu ví dụ, đây trông như pattern thật."
+However, CLIP still inherits biases from its training data. For example, the term 'doctor' is strongly associated with male faces in web media, and CLIP learns this correlation. With four hundred million examples, the model treats this bias as a true pattern."
 
 ---
 
-## Scene 7.3 — Broken Promises: Vertical, Horizontal, No Trend
-**~2 phút**
+## Scene 7.3 — Broken Promises: Vertical, Horizontal, and Negative Trends
+**~2 minutes**
 
 ### VISUAL
-- 4 scatter plots nhỏ cạnh nhau (ID acc vs OOD acc):
+- 4 small scatter plots (ID Accuracy vs. OOD Accuracy):
 
 **Plot 1 — Vertical Line [GRAY]:**
-Nhiều model cùng ID accuracy nhưng OOD accuracy khác nhau nhiều.
-"Scale ID accuracy → OOD không đổi"
+- Models share the same ID accuracy but exhibit wide variance in OOD accuracy.
+- "Scale increases ID accuracy while OOD remains unchanged."
 
 **Plot 2 — Horizontal Line [ORANGE]:**
-Nhiều model cùng OOD accuracy dù ID accuracy khác.
-"OOD bão hòa — scale không giúp"
+- OOD accuracy plateaus while ID accuracy continues to rise.
+- "OOD performance saturates."
 
 **Plot 3 — No Trend [RED]:**
-Scatter ngẫu nhiên, không có correlation.
-"Với spurious shift cụ thể: không có relationship"
+- Random scatter of points with no correlation.
+- "No linear relationship under complex spurious shifts."
 
-**Plot 4 — Negative Correlation [RED đậm]:**
-Model lớn hơn → OOD TỆ HƠN.
-"REVERSE SCALING — đây là cái gây sốc nhất"
-
-- Text lớn: "Accuracy on the Line là trường hợp đặc biệt, không phải quy luật chung"
+**Plot 4 — Negative Correlation [Dark RED]:**
+- Larger models exhibit lower OOD accuracy.
+- "REVERSE SCALING — Larger models perform worse."
+- Text: "Accuracy on the Line is a special case, not a general law."
 
 ### AUDIO
-"Nhìn kỹ hơn vào Accuracy on the Line trên nhiều loại shift khác nhau — bức tranh vỡ vụn.
+"A closer examination of the relationship between ID and OOD accuracy across different shifts reveals that the linear relationship often breaks down.
 
-Với một số loại shift: scale ID accuracy trong khi OOD không đổi — vertical line. Model lớn hơn chỉ memorize training distribution tốt hơn.
+For some shifts, we observe a vertical trend: models with similar in-distribution performance vary widely in their out-of-distribution accuracy.
 
-Với loại khác: OOD accuracy bão hòa ở một mức — horizontal line. Scale không giúp gì thêm.
+For other shifts, we see a horizontal trend: OOD performance saturates, and further scaling of ID accuracy yields no improvement.
 
-Với spurious shift cụ thể: không có correlation nào cả. Đường thẳng không tồn tại.
+Under complex spurious shifts, we find no correlation at all.
 
-Và đây là phát hiện gây sốc nhất: với một số loại spurious shift — đặc biệt là ICL shortcuts trong LLMs — model lớn hơn có OOD accuracy TỆ HƠN.
+Most surprisingly, we sometimes observe negative correlation, or reverse scaling: larger models perform worse on OOD test sets.
 
-Accuracy on the Line là trường hợp đặc biệt khi shift đơn giản và smooth. Không phải quy luật chung."
+Accuracy on the Line is a special case that occurs under simple, smooth shifts. It is not a general law of scaling."
 
 ---
 
 ## Scene 7.4 — In-Context Learning Shortcuts & Reverse Scaling
-**~2 phút**
+**~2 minutes**
 
 ### VISUAL
-- Prompt ICL:
+- ICL prompt example:
   ```
   "The movie was incredible!" → Positive
   "Best movie of the year!"   → Positive
@@ -141,162 +140,163 @@ Accuracy on the Line là trường hợp đặc biệt khi shift đơn giản v�
 
   "The food was terrible."    → ???
   ```
-- LLM predict: "Positive" ✗. Highlight ORANGE: từ "movie" trong 3 ví dụ Positive.
-- Shortcut: "movie" → Positive (spurious, chỉ do cách viết prompt)
-- Đồ thị Reverse Scaling:
-  x = Model Size (2.7B → 7B → 13B), y = % bị shortcut chi phối
-  Đường đi LÊN [RED]: 30% → 52% → 71%
-- Giải thích: "Model lớn hơn đọc context tốt hơn → nhạy hơn với pattern trong prompt → dễ bị lừa hơn"
-- Text lớn: "REVERSE SCALING — Scale làm mọi thứ TỆ HƠN"
+- LLM predicts: "Positive" ✗. Highlight the word "movie" in ORANGE across the examples.
+- Shortcut: "movie" → Positive (a spurious pattern created by the prompt design).
+- Reverse Scaling plot:
+  - x-axis = Model Size (2.7B → 7B → 13B), y-axis = % of predictions driven by the shortcut.
+  - The line trends upward [RED]: 30% → 52% → 71%.
+- Text: "Larger models are more sensitive to subtle patterns in the prompt."
+- Text: "REVERSE SCALING: Scale amplifies shortcut learning."
 
 ### AUDIO
-"Trong thế giới LLMs, spurious shortcuts xuất hiện ở nơi bất ngờ: trong chính prompt bạn viết.
+"In large language models, shortcuts can emerge dynamically within the prompt itself during in-context learning.
 
-Tất cả ba ví dụ Positive đều chứa từ 'movie'. LLM học: 'movie' trong prompt → Positive. Khi gặp câu về food — không phải movie — LLM vẫn bị ảnh hưởng bởi absence của 'movie'.
+Consider a prompt where all positive examples happen to contain the word 'movie'. The model may learn a shortcut: the presence of 'movie' implies a positive label. When evaluated on a negative review about food, the model predicts 'positive'.
 
-Và đây là Reverse Scaling: mô hình 13 tỷ tham số bị ảnh hưởng bởi shortcut này nhiều hơn mô hình 2.7 tỷ.
+This is where we observe Reverse Scaling. A thirteen-billion parameter model is more likely to exploit this shortcut than a two-point-seven-billion parameter model.
 
-Tại sao? Vì mô hình lớn hơn rất giỏi đọc và nắm bắt pattern trong context. Đây chính là khả năng tạo nên ICL. Nhưng nó cũng có nghĩa mô hình lớn hơn 'quá nhạy' với mọi pattern — kể cả pattern không liên quan.
+Because larger models are highly capable of capturing patterns within the context window, they are also more sensitive to accidental correlations in the prompt.
 
-Scale không phải thuốc chữa bách bệnh. Trong trường hợp ICL, scale còn làm bệnh nặng hơn.
+Scale is not a universal solution for robustness. In the context of in-context learning, scaling can worsen the problem.
 
-Vậy là ta có một nghịch lý đẹp: scale tạo ra vấn đề mới. Nhưng chính scale cũng có thể là chìa khóa để giải quyết — chỉ cần dùng đúng cách."
+However, these same capabilities allow us to use large models to correct robustness failures. This leads to the paradigm of AI fixing AI."
 
 ---
+---
 
-# PART XIII — AI FIXING AI: "Dùng Scale để Sửa Scale"
+# PART XIII — AI FIXING AI: "Leveraging Scale for Robustness"
 
 ---
 
 ## Scene 7.5 — PfR: Prompting for Robustness
-**~2 phút**
+**~2 minutes**
 
 ### VISUAL
-- Câu hỏi: "Group DRO cần nhãn nhóm. Annotation tốn kém. Giải pháp?"
-- Pipeline PfR (3 khối):
-  `[Ảnh Waterbirds] → [VLM/GPT-4V + Prompt] → [Nhãn phông nền tự động]`
-  Prompt: "Describe the background: water or land?"
+- Question: "Group DRO requires group labels. Manual annotation is expensive. The solution?"
+- PfR Pipeline (3 blocks):
+  `[Waterbirds Image] → [VLM / GPT-4V + Prompt] → [Automated Group Labels]`
+  Prompt text: "Describe the background: water or land?"
   Output: "water", "land", "water", ...
-- Animate: ảnh đi vào VLM, nhãn bắn ra như conveyor belt.
-- Kết hợp:
-  `[Nhãn phông nền từ VLM] + [Nhãn bird type thủ công] → [Group DRO]`
-- Kết quả:
-  ```
-  ERM baseline:          32%  [RED]
-  Group DRO (manual):    91%  [GREEN]
-  PfR (VLM labels):      91.05% [GREEN+GOLD]
-  ```
-- Text: "PfR = Prompting for Robustness. AI lớn gán nhãn cho AI nhỏ."
+- Animation: Images pass through the VLM, and group labels are generated automatically.
+- Setup:
+  `[VLM Background Labels] + [Human Bird Labels] → [Group DRO]`
+- Results comparison:
+  - ERM baseline: 32% [RED]
+  - Group DRO (manual labels): 91% [GREEN]
+  - PfR (VLM-generated labels): 91.05% [GREEN+GOLD]
+- Text: "PfR = Prompting for Robustness. Large models annotate for smaller models."
 
 ### AUDIO
-"Đây là giải pháp đột phá: PfR — Prompting for Robustness.
+"This is the concept of Prompting for Robustness, or PfR.
 
-Vấn đề cốt lõi: Group DRO cần nhãn nhóm — phải biết nền mỗi ảnh là nước hay đất. Gán nhãn thủ công cho hàng vạn ảnh rất tốn kém.
+Group DRO is highly effective but requires group labels for all training data. Annotating thousands of backgrounds manually is expensive.
 
-Giải pháp: dùng chính một Foundation Model lớn như GPT-4V để gán nhãn phông nền. Prompt đơn giản: 'Hãy mô tả background của ảnh này.' VLM trả về nhãn chính xác với chi phí gần như bằng không.
+PfR resolves this by using a large Vision-Language Model to generate these labels automatically. We prompt the VLM to describe the background of each training image. The model provides accurate labels at minimal cost.
 
-Kết quả trên Waterbirds: PfR đạt 91.05 phần trăm worst-group accuracy — gần bằng Group DRO với oracle labels thủ công, và gấp gần 3 lần ERM baseline.
+We then train Group DRO using these automated annotations.
 
-Đây là arc đẹp nhất của câu chuyện: Scale tạo ra spurious correlation trong CLIP. Nhưng chính Scale — dưới dạng VLM mạnh — lại giúp ta gán nhãn để chạy Group DRO. Dùng AI để sửa AI."
+On the Waterbirds benchmark, PfR achieves ninety-one point zero-five percent worst-group accuracy — matching the performance of Group DRO trained on manual labels, and tripling the ERM baseline.
+
+This represents a clean narrative loop: while scaling introduces shortcuts in CLIP, we can leverage the capabilities of large VLMs to automate the annotations needed to train robust models. We are using AI to fix AI."
 
 ---
 
 ## Scene 7.6 — CATO: Counterfactual Data Generation
-**~2 phút**
+**~2 minutes**
 
 ### VISUAL
-- Câu hỏi: "Ngay cả khi biết group, nếu minority quá ít để train hiệu quả?"
-- Pipeline CATO:
+- Question: "What if minority groups are too small to train on, even if labeled?"
+- CATO Pipeline:
   ```
-  Bước 1: Phân tích SCM → xác định Z (spurious)
+  Step 1: Analyze SCM → Identify Z (spurious attribute)
            "Z = background (water/land)"
 
-  Bước 2: LLM + Causal Reasoning → sinh counterfactual
-           "Waterbird trên đất" (đảo ngược nền)
-           "Landbird trên nước" (đảo ngược nền)
+  Step 2: LLM + Causal Reasoning → Generate counterfactual text/images
+           "A waterbird on land" (swap background)
+           "A landbird on water" (swap background)
 
-  Bước 3: Dataset mới = Original + Counterfactual
-           → Train model robust hơn
+  Step 3: Augmented Dataset = Original + Counterfactual
+           → Train robust model
   ```
-- Animate: từ 2 nhóm nhỏ (5% mỗi loại), CATO sinh thêm data.
-  Pie chart cân bằng: từ 5%/5%/45%/45% → gần đều 4 nhóm.
-- Text: "CATO = Causal Augmentation + LLM"
-- Kết quả: Worst-group accuracy tăng thêm 3-5% so với PfR đơn thuần.
+- Animation: Minority groups expand as CATO generates synthetic examples.
+- Pie chart: The group distribution balances from 5%/5%/45%/45% to equal quarters.
+- Text: "CATO = Causal Augmentation via Language Models."
+- Results: Worst-group accuracy increases by 3-5% compared to PfR alone.
 
 ### AUDIO
-"PfR giải quyết vấn đề annotation. Nhưng còn một vấn đề khác: dù biết group, số lượng minority samples vẫn quá ít để train hiệu quả.
+"PfR automates annotation. But we still face the challenge of data scarcity: minority groups are often too small to support effective training.
 
-CATO — Causal Augmentation — giải quyết điều này bằng cách dùng LLM và suy luận nhân quả để SINH ra dữ liệu counterfactual.
+CATO, or Causal Augmentation, addresses this by using language models and causal reasoning to generate synthetic counterfactual data.
 
-Từ SCM đã xây dựng, ta biết spurious feature là phông nền. CATO yêu cầu LLM: hãy tưởng tượng waterbird này đứng trên đất thay vì nước. Mô tả lại cảnh đó.
+Using the SCM, we identify the spurious attribute — the background. CATO then prompts a generative model to synthesize counterfactual examples: placing a waterbird on land, or a landbird on water.
 
-LLM sinh ra mô tả — hoặc thậm chí ảnh tổng hợp — của các trường hợp counterfactual. Dataset mới cân bằng hơn nhiều. Model được train trên dataset augmented này robust hơn đáng kể.
+By augmenting the training set with these synthetic counterfactuals, we balance the group distributions. The model trained on this augmented dataset is significantly more robust.
 
-CATO là hướng kết hợp giữa nhân quả và generative AI — một trong những xu hướng nghiên cứu nóng nhất năm 2024.
+CATO combines causal inference with generative AI, representing an active area of research.
 
-Và đây chính là arc hoàn chỉnh: Scale hứa hẹn giải quyết OOD → Scale tạo ra spurious mới và phức tạp hơn → Scale thậm chí làm vấn đề tệ hơn trong ICL → Nhưng ta dùng chính Scale để gán nhãn và sinh dữ liệu → Scale sửa lỗi của Scale."
-
----
----
-
-# PART XIV — KẾT LUẬN
+This completes our narrative arc: scale initially promises robustness, fails under complex shifts, introduces new shortcuts, and is ultimately leveraged to automate annotations and generate counterfactual data to train robust models."
 
 ---
+---
 
-## Scene 9.1 — Hành trình Tổng hợp
-**~2 phút**
+# PART XIV — CONCLUSION
+
+---
+
+## Scene 9.1 — Journey Summary
+**~2 minutes**
 
 ### VISUAL
-- Camera zoom lùi chậm. Bản đồ khái niệm toàn bộ xuất hiện:
+- Camera zooms out slowly. A conceptual map of the tutorial appears:
   ```
-  [Intuition]         [Formalism]        [Risk Aggregation]
-       ↓                   ↓                    ↓
-  [ERM Failure] ──→ [OOD Definition] ──→ [Mean/Max/CVaR/DRO]
-       ↓                                         ↓
-  [Causal View]                          [Why Methods Differ]
-  [SCM, Invariant]                              ↓
+  [Intuition]          [Formalism]         [Risk Aggregation]
+       ↓                    ↓                     ↓
+  [ERM Failure] ───→ [OOD Definition] ───→ [Mean/Max/CVaR/DRO]
+       ↓                                          ↓
+  [Causal View]                           [Why Methods Differ]
+  [SCM, Invariance]                               ↓
        ↓                              [Reweighting → fails]
-  [Methods]                                     ↓
-  [IRM → NuRD → DRO → JTT]              [IRM → NuRD → DRO]
-       ↓                                         ↓
-  [Benchmarks]              [Foundation Models]
-  [Reality Check]           [Promise → Broken → Fix]
-       ↓                          ↓
-               [PfR + CATO: AI Fixes AI]
+  [Methods]                                       ↓
+  [IRM → NuRD → DRO → JTT]                [IRM → NuRD → DRO]
+       ↓                                          ↓
+  [Benchmarks]               [Foundation Models]
+  [Reality Check]            [Promise → Broken → Fix]
+       ↓                            ↓
+                 [PfR + CATO: AI Fixes AI]
   ```
-- Mọi thứ mờ dần. 3 từ xuất hiện lần lượt:
-  CORRELATION [GRAY] → CAUSATION [BLUE_D] → STABILITY [GOLD, glow]
-- STABILITY to nhất, particle effect nhẹ xung quanh.
-- Dưới cùng: "Đây là ranh giới tiếp theo của Trí tuệ Nhân tạo."
+- The map fades. Three words appear sequentially:
+  CORRELATION [GRAY] → CAUSATION [BLUE_D] → STABILITY [GOLD, glowing]
+- "STABILITY" is highlighted with a particle effect.
+- Footer text: "The next frontier of Artificial Intelligence."
 
 ### AUDIO
-"Chúng ta đã đi một hành trình dài.
+"We have traveled a long path.
 
-Bắt đầu từ một câu hỏi đơn giản: tại sao AI học sai? ERM tối ưu trung bình, và trung bình cho phép hy sinh thiểu số để đổi lấy majority.
+We began with a simple question: why do models learn shortcuts? We saw that ERM minimizes average loss, which can sacrifice minority groups to favor the majority.
 
-Chúng ta hình thức hóa vấn đề: OOD generalization là học tốt khi phân phối thay đổi. Risk aggregation cho thấy các thuật toán khác nhau chỉ khác nhau ở cách gộp rủi ro — mean, max, CVaR, hay DRO.
+We formalized this: OOD generalization requires performance to hold when distributions shift. We saw that robust algorithms are defined by their choice of risk aggregation — whether mean, max, CVaR, or DRO.
 
-Simplicity bias giải thích tại sao gradient descent luôn chọn shortcut: đặc trưng đơn giản có gradient lớn hơn.
+Simplicity bias explains why gradient descent prefers shortcuts: simple features present larger gradients at initialization.
 
-SCM cho thấy cấu trúc nhân quả: spurious features là hệ quả của môi trường, causal features là bất biến.
+Causal models clarify this structure: spurious features are environmental effects, while causal features are invariant properties of the object.
 
-Năm phương pháp — Reweighting, IRM, NuRD, Group DRO, JTT — mỗi cái là lời giải cho một giả định cụ thể. Không có silver bullet.
+We examined five methods: Reweighting, IRM, NuRD, Group DRO, and JTT. Each represents a solution under specific mathematical assumptions.
 
-Benchmark cho thấy thực tế phức tạp hơn lý thuyết. Và Foundation Models — Scale thất bại nhưng Scale cứu được bằng cách khác.
+Finally, we evaluated these on benchmarks, discussed the model selection paradox, and saw how foundation models fail and are then leveraged to improve robustness.
 
-Tất cả dẫn về một từ: Stability. AI ổn định không phải AI không bao giờ gặp phân phối mới. Mà là AI biết điều gì thực sự quan trọng và giữ vững điều đó dù hoàn cảnh thay đổi."
+This leads to a single concept: Stability. Robust AI is not about predicting perfectly in every new environment. It is about identifying the core causal features and relying on them consistently, regardless of context."
 
 ---
 
 ## Scene 9.2 — Open Problems & Credits
-**~45 giây**
+**~45 seconds**
 
 ### VISUAL
-- 3 cánh cửa chưa mở (ánh sáng hé ra từ khe):
-  1. "Lý thuyết OOD cho Foundation Models"
-  2. "Model Selection không cần OOD validation"
-  3. "OOD trong Multimodal & Agentic AI"
-- Fade in credits trên nền đen:
+- Three closed doors with light shining through the gaps:
+  1. "OOD Theory for Foundation Models"
+  2. "Model Selection without OOD Validation Sets"
+  3. "OOD Generalization in Multimodal & Agentic AI"
+- Fade to credits on a black screen:
   ```
   Based on:
   NeurIPS 2024 Tutorial
@@ -305,11 +305,11 @@ Tất cả dẫn về một từ: Stability. AI ổn định không phải AI kh
 
   Produced by:
   Phan Huỳnh Châu Thịnh (Na) · Mỹ Linh · Hồng Thanh · Trọng Hòa
-  Nhập Môn Học Máy · HCMUS
-  GitHub: [link]
+  Machine Learning Course · HCMUS
+  GitHub: https://github.com/Thinh59/OOD-VideoTutorial_NeurIPS2024.git
   ```
 
 ### AUDIO
-"Tutorial để lại ba cánh cửa mở: lý thuyết OOD cho foundation models, model selection không cần OOD validation, và OOD trong thế giới multimodal và agentic AI.
+"The tutorial concludes with three open research directions: developing OOD theory for foundation models, resolving model selection without OOD validation sets, and addressing robustness in multimodal and agentic systems.
 
-Đây là biên giới tiếp theo. Cảm ơn các bạn đã theo dõi. Link tutorial gốc, slides, và source code Manim đều có trong phần mô tả."
+This is the next frontier. Thank you for watching. The link to the original tutorial, slides, and Manim source code are in the description below."

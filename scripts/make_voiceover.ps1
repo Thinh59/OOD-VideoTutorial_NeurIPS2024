@@ -21,7 +21,8 @@ Get-ChildItem $narration -Filter "scene_*.txt" | Sort-Object Name | ForEach-Obje
     $stream.Open($wav, 3, $false)
     $voice.AudioOutputStream = $stream
     $text = Get-Content $_.FullName -Raw -Encoding UTF8
-    [void]$voice.Speak($text)
+    $xmlText = "<speak>" + $text + "</speak>"
+    [void]$voice.Speak($xmlText, 8)
     $stream.Close()
 }
 

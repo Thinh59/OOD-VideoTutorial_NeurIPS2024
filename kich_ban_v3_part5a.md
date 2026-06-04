@@ -1,4 +1,4 @@
-# KỊCH BẢN V3 — PART XI
+# SCRIPT V3 — PART XI
 ## Benchmark Crisis
 
 ---
@@ -7,164 +7,164 @@
 
 ---
 
-## Scene B1 — Gallery Benchmark: 4 Chiến trường Thực tế
-**~2 phút**
+## Scene B1 — Gallery Benchmark: 4 Realistic Battlegrounds
+**~2 minutes**
 
 ### VISUAL
-- Grid 2×2, mỗi ô là một benchmark. Xuất hiện lần lượt:
+- 2×2 grid showing four standard benchmarks. They appear one-by-one:
 
 **[Waterbirds]** [BLUE_D frame]
-- Icon: chim + nước/đất
-- Task: phân loại waterbird vs landbird
-- Spurious: background (water vs land)
-- Train: 4,795 ảnh. WG Gap: ~50%
-- Note: "Được tạo nhân tạo — spurious correlation kiểm soát được"
+- Icon: Bird + Water/Land background
+- Task: Classify waterbird vs. landbird
+- Spurious attribute: Background (water vs. land)
+- Train size: 4,795 images. WG Gap: ~50%
+- Note: "Synthetic correlation — background is perfectly controlled."
 
 **[CelebA]** [GREEN_D frame]
-- Icon: khuôn mặt
-- Task: hair color (blonde vs non-blonde)
-- Spurious: gender
-- Train: 162,770 ảnh. WG Gap: ~40%
-- Note: "Dataset thực tế — bias gender thực trong celebrity photos"
+- Icon: Human face
+- Task: Classify hair color (blonde vs. non-blonde)
+- Spurious attribute: Gender (female vs. male)
+- Train size: 162,770 images. WG Gap: ~40%
+- Note: "Real-world dataset — captures demographic biases in celebrity media."
 
 **[CivilComments-WILDS]** [YELLOW_D frame]
-- Icon: text bubble
-- Task: toxicity detection
-- Spurious: demographic identity (race, religion, gender)
-- Train: 269,038 comments. WG Gap: ~35%
-- Note: "High stakes — AI moderation thực tế"
+- Icon: Text bubble
+- Task: Toxicity detection
+- Spurious attribute: Mention of demographic identities (race, religion, gender)
+- Train size: 269,038 comments. WG Gap: ~35%
+- Note: "High-stakes application — real-world content moderation."
 
 **[Camelyon17-WILDS]** [PURPLE frame]
-- Icon: kính hiển vi
-- Task: tumor detection
-- Spurious: hospital (scanner artifacts)
-- Train: 302,436 patches. WG Gap: ~30%
-- Note: "Medical AI — different hospitals = different scanners"
+- Icon: Microscope slide
+- Task: Tumor detection
+- Spurious attribute: Hospital scanner artifacts
+- Train size: 302,436 patches. WG Gap: ~30%
+- Note: "Medical AI — different scanner profiles act as shortcuts."
 
 ### AUDIO
-"Cộng đồng xây dựng bốn benchmark chuẩn để đánh giá các phương pháp robust.
+"To evaluate these robust algorithms, the machine learning community has established several standard benchmarks.
 
-Waterbirds: dataset nhân tạo, spurious correlation được kiểm soát chính xác. Lý tưởng để test phương pháp trong môi trường clean.
+First: Waterbirds. This is a synthetic dataset where the correlation between the bird type and the background is controlled. It provides a clean testbed to evaluate algorithms under structured shifts.
 
-CelebA: khuôn mặt celebrity. Task là phát hiện tóc vàng, nhưng trong dataset, tóc vàng tương quan mạnh với giới tính nữ. AI học được: blonde equals female, và ngược lại.
+Second: CelebA. This contains celebrity images. The task is to predict blonde hair, but because blonde hair is strongly correlated with female faces in the dataset, standard models learn that blonde equals female.
 
-CivilComments: moderation nội dung độc hại online. Nhưng từ ngữ nhận diện nhóm dân số — như tên tôn giáo hay chủng tộc — tương quan với việc bị gán nhãn toxic, dù không phải nguyên nhân. AI học bias nguy hiểm.
+Third: CivilComments. This is a text dataset for online toxicity detection. Here, mentions of specific demographic groups — such as religions or races — are highly correlated with toxic labels, leading models to flag benign sentences containing these words.
 
-Camelyon17: phát hiện khối u từ ảnh kính hiển vi. Spurious là artifact của máy scanner từ các bệnh viện khác nhau. AI học cách nhận ra máy, không phải khối u."
+Fourth: Camelyon17. A medical dataset for tumor detection. The shortcut here is the scanner model used at different hospitals. Instead of analyzing the tissue pathology, models learn to recognize the scanner signature of the training hospital."
 
 ---
 
-## Scene B2 — Benchmark Disagreement: Kết quả Lẫn lộn
-**~2 phút**
+## Scene B2 — Benchmark Disagreement: Mixed Results
+**~2 minutes**
 
 ### VISUAL
-- Grouped bar chart: 5 phương pháp × 4 datasets
+- Grouped bar chart comparing 5 methods across the 4 datasets:
   ERM [GRAY], IRM [BLUE_D], Group DRO [GREEN_D], JTT [YELLOW_D], CORAL [PURPLE]
-- Quan sát quan trọng — animate từng điểm:
-  1. ERM được tuning tốt ≈ state-of-the-art ở 2/4 datasets [ORANGE highlight]
-  2. IRM win ở Waterbirds nhưng thua ở CivilComments [RED dashes]
-  3. Group DRO win khi có labels, nhưng không phải luôn [GREEN]
-  4. Không có phương pháp nào win tất cả 4 [RED X lớn]
-- Pearson correlation heatmap giữa performance trên các dataset:
-  Nhiều ô màu LẠNH (correlation thấp) → "Win ở dataset này không đảm bảo win ở dataset kia"
-- Text: "BENCHMARK DISAGREEMENT — không có silver bullet"
+- Key findings are highlighted sequentially:
+  1. A well-tuned ERM baseline is competitive with or outperforms robust methods on several datasets [ORANGE highlight].
+  2. IRM performs well on Waterbirds but fails on CivilComments [RED dashes].
+  3. Group DRO is strong when labels are available, but is highly sensitive to label noise.
+  4. No single method consistently outperforms the others across all benchmarks [Large RED X].
+- Pearson correlation heatmap between dataset performances:
+  Mostly cool colors (low correlation) → "Performance on one benchmark does not predict performance on another."
+- Text: "BENCHMARK DISAGREEMENT — No universal winner."
 
 ### AUDIO
-"Và đây là sự thật phũ phàng từ benchmark.
+"The empirical results on these benchmarks reveal a sobering truth: no single algorithm consistently outperforms the others.
 
-Nhìn vào kết quả thực nghiệm: không có phương pháp nào thống trị tuyệt đối. Tệ hơn: ERM được tuning cẩn thận — chọn learning rate, weight decay và augmentation tốt — thường cạnh tranh được với các phương pháp phức tạp hơn nhiều.
+In fact, a carefully tuned ERM baseline — where learning rates, weight decays, and data augmentations are optimized — often matches or exceeds the performance of more complex robust algorithms.
 
-IRM win ở Waterbirds nhưng thua ở CivilComments. Group DRO mạnh khi có labels đầy đủ nhưng fragile khi labels ồn. JTT ổn định hơn nhưng không đỉnh cao.
+IRM performs well on Waterbirds but struggles on CivilComments. Group DRO is highly effective when group labels are clean, but is sensitive to noise. JTT is flexible but rarely leads the board.
 
-Pearson correlation heatmap giữa performance trên các dataset: correlation thấp. Win ở Waterbirds không báo hiệu win ở CivilComments. Hai benchmark đang đo hai thứ khác nhau.
+A Pearson correlation analysis of model performance across these datasets shows very low correlation. Winning on Waterbirds does not predict success on CivilComments. The benchmarks are measuring distinct dimensions of robustness.
 
-Điều này đặt ra câu hỏi sâu hơn: có phải phương pháp không tốt, hay chính benchmark đang có vấn đề?"
+This inconsistency raises a deeper question: is the limitation in the algorithms themselves, or does it lie in the design of the benchmarks?"
 
 ---
 
 ## Scene B3 — Are Benchmarks Realistic?
-**~90 giây**
+**~90 seconds**
 
 ### VISUAL
-- Waterbirds được tạo nhân tạo: correlation 95% được set thủ công.
-  Câu hỏi: "Trong thực tế, correlation có mạnh đến 95% không?"
-- CelebA: celebrity photos — không đại diện cho dân số thật.
-  "Bias của celebrity ≠ bias trong ứng dụng thật"
-- Biểu đồ: OOD gap ở Waterbirds (lab) vs OOD gap ở hospital EHR (real).
-  Lab gap: predictable, structured. Real gap: messy, multi-source.
-- Text: "Benchmark tốt về kiểm soát, nhưng đơn giản hóa quá mức"
-- Hộp ORANGE: "Algorithms win benchmark ≠ algorithms work in deployment"
+- Waterbirds synthetic setup: Spurious correlation is fixed at exactly 95%.
+  Question: "Are real-world shifts this structured and clean?"
+- CelebA: Celebrity photos do not represent the demographics of the general population.
+  "Celebrity bias ≠ real-world deployment bias."
+- Plot: OOD gap in Waterbirds (lab) vs. OOD gap in clinical EHR (real world).
+  Lab gap: structured and predictable. Real-world gap: messy, multi-source, and unpredictable.
+- Text: "Benchmarks offer control, but oversimplify real-world shifts."
+- Orange box: "Winning a benchmark does not guarantee safety in deployment."
 
 ### AUDIO
-"Một câu hỏi quan trọng thường bị bỏ qua: liệu các benchmark này có thực sự phản ánh vấn đề ngoài đời thực không?
+"To understand why algorithms fail to transfer, we must examine the realism of our benchmarks.
 
-Waterbirds có spurious correlation 95 phần trăm được set thủ công. Trong thực tế, distribution shift không đơn giản và có cấu trúc như vậy. Nó noisy, multi-source, và thay đổi không theo quy luật rõ ràng.
+Waterbirds uses a synthetic spurious correlation fixed at ninety-five percent. In real-world deployments, distribution shifts are rarely this clean or structured. They are noisy, multi-source, and change unpredictably over time.
 
-CelebA dùng ảnh celebrity — một nhóm dân số rất đặc biệt, không đại diện cho deployment thực tế.
+CelebA relies on celebrity images, which feature specific lighting, poses, and demographics that do not generalize to the general public.
 
-Kết quả: thuật toán được thiết kế để win benchmark có thể khai thác cấu trúc nhân tạo của benchmark, không phải học robustness thật sự. Đây là model selection problem ở cấp độ meta: benchmark selection."
+As a result, an algorithm that is optimized to exploit the artificial structure of a benchmark may fail to generalize to real-world data. We are tuning models to win benchmarks, rather than to achieve true robustness."
 
 ---
 
 ## Scene B4 — Model Selection Paradox
-**~90 giây**
+**~90 seconds**
 
 ### VISUAL
-- Vòng lặp luẩn quẩn (circular arrows, xoay):
-  "Muốn chọn model OOD tốt nhất"
-  → "Cần validation set OOD"
-  → "Nếu có OOD val set → sao không train trực tiếp?"
-  → "Đưa vào train → không còn là OOD nữa!"
-  → (quay lại đầu)
-- Text trung tâm: "MODEL SELECTION PARADOX" [GOLD]
-- Hai lựa chọn không hoàn hảo:
-  A: Dùng ID validation → không đảm bảo OOD performance
-  B: Giả định biết test distribution → không thực tế
-- Text: "Open Problem — chưa có lời giải hoàn hảo"
+- Circular flowchart (Model Selection Loop):
+  "Select the best OOD model"
+  → "Requires an OOD validation set"
+  → "If we have an OOD validation set, why not train on it?"
+  → "Training on it makes it in-distribution!"
+  → Loop repeats.
+- Center text in GOLD: "THE MODEL SELECTION PARADOX"
+- Two imperfect choices are presented:
+  - Option A: Use an in-distribution validation set → fails to guarantee OOD performance.
+  - Option B: Assume access to the test distribution → unrealistic for real-world deployment.
+- Text: "An open research problem with no simple solution."
 
 ### AUDIO
-"Một nghịch lý thực tiễn không có lời giải hoàn hảo.
+"This leads to a fundamental challenge in robust machine learning: the Model Selection Paradox.
 
-Sau khi train ERM, IRM, và Group DRO, bạn cần chọn model nào để deploy. Bạn cần validation set OOD để đánh giá.
+To deploy a robust model, we must select the best candidate from our training runs. This selection requires an out-of-distribution validation set.
 
-Nhưng nếu đã có OOD validation set, tại sao không dùng nó để train? Và nếu dùng để train, nó không còn là OOD nữa.
+But if we have access to an OOD validation set, the most logical step is to include it in the training data to improve the model. Once we do, that data is no longer out-of-distribution.
 
-Dùng ID validation set thường không tương quan tốt với OOD performance. Tutorial gọi đây là một trong những open problems quan trọng nhất của lĩnh vực.
+Selecting models based on in-distribution validation sets does not correlate well with OOD performance. This paradox remains one of the most critical open problems in the field.
 
-Và kể cả khi giải quyết được model selection — vẫn còn một câu hỏi lớn hơn: liệu Foundation Models có thay đổi toàn bộ bức tranh này không? Câu trả lời phức tạp hơn ta nghĩ."
+Given these limitations, how do we approach OOD generalization in practice? And do Foundation Models change this landscape?"
 
 ---
 
-## Scene B5 — Best Practices: Flowchart Thực tiễn
-**~2 phút**
+## Scene B5 — Best Practices: Practical Flowchart
+**~2 minutes**
 
 ### VISUAL
-- Decision flowchart, từng nhánh sáng lên theo lời đọc:
+- Decision flowchart, highlighting nodes sequentially:
   ```
   START
     ↓
-  Loại Distribution Shift?
+  Identify the Shift Type
   (Covariate / Label / Spurious)
     ↓
-  Có Group Labels không?
-    ├─ CÓ  → Group DRO
-    └─ KHÔNG → JTT hoặc NuRD
+  Are Group Labels Available?
+    ├─ YES  → Use Group DRO
+    └─ NO   → Use JTT or NuRD
     ↓
-  Có Environments đa dạng?
-    ├─ CÓ  → Thêm IRM penalty
-    └─ KHÔNG → Tập trung vào data collection
+  Are Diverse Environments Available?
+    ├─ YES  → Apply IRM Penalty
+    └─ NO   → Focus on data collection
     ↓
-  Đang dùng Foundation Model?
-    ├─ CÓ  → PfR / Last Layer Retraining trước
-    └─ KHÔNG → Tune ERM kỹ làm baseline
+  Are you using a Foundation Model?
+    ├─ YES  → Apply Prompting for Robustness (PfR) or Last Layer Retraining
+    └─ NO   → Optimize ERM baseline first
     ↓
-  LUÔN report Worst-Group Accuracy
+  ALWAYS report Worst-Group Accuracy
   ```
-- Cuối cùng toàn bộ cây sáng [GOLD glow].
+- The entire flowchart glows in GOLD.
 
 ### AUDIO
-"Tutorial đúc kết thành bảy nguyên tắc thực tiễn.
+"The tutorial distills these findings into seven practical recommendations.
 
-Một: hiểu rõ loại distribution shift trước khi chọn phương pháp. Hai: luôn report Worst-Group Accuracy, không chỉ average. Ba: tune ERM thật kỹ làm baseline — đừng bỏ qua bước này. Bốn: nếu có group labels, Group DRO là lựa chọn mạnh nhất. Năm: nếu không, JTT hoặc NuRD là điểm khởi đầu tốt. Sáu: với foundation models, thử Last Layer Retraining trước khi fine-tune toàn bộ. Bảy: thu thập thêm dữ liệu đa dạng môi trường — data collection thường hiệu quả hơn mọi algorithmic fix.
+First: identify the type of distribution shift before selecting an algorithm. Second: always report worst-group accuracy, not just the average. Third: optimize your ERM baseline thoroughly before implementing complex algorithms. Fourth: if group labels are available, Group DRO is your strongest starting point. Fifth: if group labels are missing, use JTT or NuRD. Sixth: when working with foundation models, evaluate last-layer retraining first. Seventh: prioritize collecting more diverse data — data diversity is often more effective than algorithmic interventions.
 
-Bây giờ ta đã có bức tranh đầy đủ về các phương pháp và benchmark. Câu hỏi cuối cùng: trong thời đại của GPT, CLIP, và Gemini — Foundation Models có thay đổi mọi thứ không?"
+With this framework in place, we can address the latest shift in the machine learning landscape: how do foundation models change the nature of shortcut learning?"
