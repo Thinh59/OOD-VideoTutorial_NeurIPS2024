@@ -1,0 +1,9 @@
+To measure this, we split the training distribution into groups.
+We cross the label Y with the spurious attribute Z.
+
+Cows on grass and camels on sand are large majority groups.
+Cows on sand and camels on grass are small minority groups.
+ERM averages the risk across all groups.
+Because the majority dominates, the average risk remains low.
+
+The model sacrifices the minority to minimize average loss.

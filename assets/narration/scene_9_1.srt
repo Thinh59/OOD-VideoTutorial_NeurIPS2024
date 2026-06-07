@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:08,000
+Chúng ta đã đi một hành trình dài.
+
+2
+00:00:08,000 --> 00:00:16,000
+Bắt đầu từ một câu hỏi đơn giản: tại sao AI học những thứ sai? ERM và shortcut learning.
+
+3
+00:00:16,000 --> 00:00:24,000
+Rồi nhìn qua lăng kính nhân quả: spurious features tồn tại vì AI học tương quan thay vì nhân quả, và tương quan đó bị phá vỡ khi môi trường thay đổi.
+
+4
+00:00:24,000 --> 00:00:32,000
+Ba phương pháp, IRM, Group DRO, JTT, cố gắng buộc AI học causal features bằng những cách khác nhau: qua invariance của gradient, qua tối ưu worst-case, qua self-identification của thiểu số.
+
+5
+00:00:32,000 --> 00:00:40,000
+Và trong thời đại foundation models, vấn đề không biến mất.
+
+6
+00:00:40,000 --> 00:00:48,000
+Nó chỉ thay đổi hình dạng và quy mô. Tất cả dẫn về một từ: Stability.
+
+7
+00:00:48,000 --> 00:00:56,000
+Một AI ổn định không phải là AI không bao giờ gặp phân phối mới.
+
+8
+00:00:56,000 --> 00:01:04,000
+Mà là AI biết điều gì thực sự quan trọng, và giữ vững niềm tin đó dù hoàn cảnh thay đổi.
+
+9
+00:01:04,000 --> 00:01:14,000
+Đây là ranh giới tiếp theo.

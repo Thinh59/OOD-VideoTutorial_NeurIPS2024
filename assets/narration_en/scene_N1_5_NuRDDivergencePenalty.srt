@@ -1,0 +1,3 @@
+1
+00:00:00,000 --> 00:00:08,000
+NuRD uses a divergence penalty to force distributions to match perfectly, stripping away nuisance features.

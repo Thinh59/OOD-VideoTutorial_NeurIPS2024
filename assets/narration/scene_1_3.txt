@@ -1,0 +1,9 @@
+Vậy spurious feature là gì, chính xác?
+
+Hãy nghĩ về chuỗi sự kiện tạo ra dữ liệu. Nhiếp ảnh gia muốn chụp chim cánh cụt, họ đến Bắc Cực. Con chim là nguyên nhân, nền tuyết trắng là kết quả. Mũi tên nhân quả đi từ nhãn sang nền.
+
+Nhưng AI đang đọc ngược lại: thấy nền trắng, kết luận đây là chim cánh cụt. Đây là Anti-causal Prediction, dự đoán ngược chiều nhân quả.
+
+Vấn đề: tương quan ngược chiều này chỉ tồn tại trong một môi trường cụ thể. Khi môi trường thay đổi, chim cánh cụt xuất hiện ở sa mạc, tương quan đó tan biến. Nhưng mối quan hệ nhân quả thật, chim cánh cụt có hình dáng của chim cánh cụt dù đứng ở đâu, vẫn còn đó.
+
+Đây chính là sự khác biệt cốt lõi: Causal features ổn định qua mọi môi trường. Spurious features chỉ tồn tại ở một hoàn cảnh cụ thể.

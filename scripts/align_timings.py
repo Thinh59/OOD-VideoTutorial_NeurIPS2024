@@ -7,8 +7,22 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 NARRATION_DIR = ROOT / "assets" / "narration_en"
 VIDEO_DIR = ROOT / "media" / "videos"
+QUALITY_DIR = sys.argv[1] if len(sys.argv) > 1 else "480p15"
 
 SCENE_MAP = {
+    "FormalizingXYE": ("module1_erm", "src/module1_erm.py"),
+    "OODShiftBreaks": ("module1_erm", "src/module1_erm.py"),
+    "DistributionSetFamily": ("module1_erm", "src/module1_erm.py"),
+    "GeometricSkewMaxMargin": ("module1_erm", "src/module1_erm.py"),
+    "RiskAggregationFamilies": ("module2_framework", "src/module2_framework.py"),
+    "IRMRepresentationSpace": ("module4_irm", "src/module4_irm.py"),
+    "CausalVsSpuriousTest": ("module3_causality", "src/module3_causality.py"),
+    "InvariancePrinciple": ("module4_irm", "src/module4_irm.py"),
+    "NuRDDivergencePenalty": ("module4_irm", "src/module4_irm.py"),
+    "AvoidingInterpolation": ("module4_irm", "src/module4_irm.py"),
+    "JourneySummaryRemastered": ("module9_outro", "src/module9_outro.py"),
+    "BigTriangleConclusion": ("module9_outro", "src/module9_outro.py"),
+
     "OpeningClinicalNotes": ("module0_hook", "src/module0_hook.py"),
     "RoadMap": ("module0_hook", "src/module0_hook.py"),
     "ERMAccuracyIllusion": ("module1_erm", "src/module1_erm.py"),
@@ -127,10 +141,10 @@ def main():
     for wav_path in wav_files:
         name = wav_path.stem
         # Extract scene name
-        m = re.match(r"scene_\d+_\d+_(.+)", name)
-        if not m:
+        parts = name.split("_")
+        if len(parts) < 3:
             continue
-        scene_name = m.group(1)
+        scene_name = parts[-1]
         
         if scene_name not in SCENE_MAP:
             print(f"Warning: Scene {scene_name} not found in map.")
@@ -138,7 +152,7 @@ def main():
         
         module, py_rel = SCENE_MAP[scene_name]
         py_path = ROOT / py_rel
-        mp4_path = VIDEO_DIR / module / "480p15" / f"{scene_name}.mp4"
+        mp4_path = VIDEO_DIR / module / QUALITY_DIR / f"{scene_name}.mp4"
         
         wav_dur = get_wav_duration(wav_path)
         target_dur = wav_dur + 1.0 # 1 second buffer at the end of audio

@@ -2,136 +2,98 @@ from manim import *
 from common import *
 
 
-class JourneySummary(OODScene):
+class JourneySummaryRemastered(OODScene):
     def construct(self):
-        self.title("Journey Summary")
-        boxes = {
-            "ERM": labeled_box("ERM\nshortcuts", 2.2, 0.72, ORANGE, 17).move_to(LEFT * 4.2 + UP * 1.35),
-            "SCM": labeled_box("SCM\ncausality", 2.2, 0.72, BLUE_D, 17).move_to(LEFT * 4.2 + DOWN * 0.05),
-            "IRM": labeled_box("IRM", 1.45, 0.62, GREEN_D, 18).move_to(LEFT * 5.0 + DOWN * 1.65),
-            "DRO": labeled_box("DRO", 1.45, 0.62, YELLOW_D, 18).move_to(LEFT * 3.55 + DOWN * 1.65),
-            "JTT": labeled_box("JTT", 1.45, 0.62, GOLD, 18).move_to(LEFT * 2.1 + DOWN * 1.65),
-            "FM": labeled_box("Foundation\nmodels", 2.45, 0.72, PURPLE, 17).move_to(RIGHT * 3.7 + UP * 1.35),
-            "Scale": labeled_box("Scale !=\nrobustness", 2.45, 0.72, RED, 17).move_to(RIGHT * 3.7 + DOWN * 0.05),
-            "Bench": labeled_box("Benchmarks\nbest practices", 2.9, 0.72, GOLD, 16).move_to(RIGHT * 2.15 + DOWN * 1.65),
-        }
-        left_path = VGroup(boxes["ERM"], boxes["SCM"], boxes["IRM"], boxes["DRO"], boxes["JTT"])
-        right_path = VGroup(boxes["FM"], boxes["Scale"], boxes["Bench"])
-        arrows = VGroup(
-            Arrow(boxes["ERM"].get_bottom(), boxes["SCM"].get_top(), buff=0.08, color=BLUE_D),
-            Arrow(boxes["SCM"].get_bottom(), boxes["DRO"].get_top(), buff=0.08, color=GREEN_D),
-            Arrow(boxes["IRM"].get_right(), boxes["DRO"].get_left(), buff=0.08, color=GREEN_D),
-            Arrow(boxes["DRO"].get_right(), boxes["JTT"].get_left(), buff=0.08, color=YELLOW_D),
-            Arrow(boxes["FM"].get_bottom(), boxes["Scale"].get_top(), buff=0.08, color=RED),
-            Arrow(boxes["Scale"].get_bottom(), boxes["Bench"].get_top(), buff=0.08, color=GOLD),
-            Arrow(boxes["Scale"].get_left(), boxes["SCM"].get_right(), buff=0.1, color=PURPLE, stroke_width=3),
-            Arrow(boxes["JTT"].get_right(), boxes["Bench"].get_left(), buff=0.08, color=GOLD),
-        )
-        words = VGroup(
-            Text("CORRELATION", font_size=32, color=GRAY_B),
-            Text("CAUSATION", font_size=32, color=BLUE_D),
-            Text("STABILITY", font_size=42, color=GOLD, weight=BOLD),
-        ).arrange(RIGHT, buff=0.4).shift(DOWN * 0.2)
-        links = VGroup(
-            Arrow(words[0].get_right(), words[1].get_left(), buff=0.1, color=BLUE_D),
-            Arrow(words[1].get_right(), words[2].get_left(), buff=0.1, color=GOLD),
-        )
-        self.play(FadeIn(words[0], shift=UP * 0.1), run_time=0.4)
-        self.play(GrowArrow(links[0]), FadeIn(words[1], shift=UP * 0.1), run_time=0.4)
-        self.play(GrowArrow(links[1]), FadeIn(words[2], scale=1.1), run_time=0.5)
-        self.play(Flash(words[2].get_center(), color=GOLD, line_length=0.35, num_lines=10), Circumscribe(words[2], color=GOLD), run_time=0.5)
-        self.wait(0.1)
-
-        self.play(FadeOut(VGroup(words, links)), run_time=0.3)
-
-        left_path = VGroup(boxes["ERM"], boxes["SCM"], boxes["IRM"], boxes["DRO"], boxes["JTT"])
-        right_path = VGroup(boxes["FM"], boxes["Scale"], boxes["Bench"])
+        title = Text("The Journey Remastered", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
         
-        self.play(FadeIn(boxes["ERM"], shift=RIGHT * 0.1), run_time=0.3)
-        self.play(Indicate(boxes["ERM"], color=ORANGE), run_time=0.3)
-        self.play(GrowArrow(arrows[0]), FadeIn(boxes["SCM"], shift=DOWN * 0.1), run_time=0.4)
-        self.play(Indicate(boxes["SCM"], color=BLUE_D), run_time=0.3)
+        # Flowchart
+        boxes = VGroup(
+            labeled_box("1. Shortcut\nLearning", 2.2, 0.8, ORANGE, 18),
+            labeled_box("2. ERM\nFailures", 2.2, 0.8, RED, 18),
+            labeled_box("3. Invariance\n(DRO/IRM)", 2.4, 0.8, GREEN_D, 18),
+            labeled_box("4. Foundation\nModels", 2.4, 0.8, PURPLE, 18),
+        ).arrange(RIGHT, buff=0.6).shift(UP * 0.5)
         
-        self.play(
-            GrowArrow(arrows[1]),
-            FadeIn(boxes["IRM"], shift=UP * 0.1),
-            FadeIn(boxes["DRO"], shift=UP * 0.1),
-            FadeIn(boxes["JTT"], shift=UP * 0.1),
-            run_time=0.4,
-        )
-        self.play(GrowArrow(arrows[2]), GrowArrow(arrows[3]), run_time=0.3)
-        self.play(
-            Indicate(boxes["IRM"], color=GREEN_D),
-            Indicate(boxes["DRO"], color=YELLOW_D),
-            Indicate(boxes["JTT"], color=GOLD),
-            run_time=0.4,
-        )
-        left_label = Text("small-data robust learning", font_size=24, color=GRAY_B).next_to(left_path, DOWN, buff=0.22)
-        self.play(FadeIn(left_label, shift=UP * 0.08), Circumscribe(left_path, color=BLUE_D), run_time=0.5)
-
-        self.play(FadeIn(boxes["FM"], shift=LEFT * 0.1), run_time=0.3)
-        self.play(GrowArrow(arrows[4]), FadeIn(boxes["Scale"], shift=DOWN * 0.1), run_time=0.4)
-        self.play(Indicate(boxes["Scale"], color=RED), run_time=0.3)
-        self.play(GrowArrow(arrows[5]), FadeIn(boxes["Bench"], shift=UP * 0.1), run_time=0.4)
-        self.play(GrowArrow(arrows[6]), GrowArrow(arrows[7]), run_time=0.4)
-        self.play(Indicate(boxes["Bench"], color=GOLD), run_time=0.3)
+        arrows = VGroup(*[
+            Arrow(boxes[i].get_right(), boxes[i+1].get_left(), color=GRAY_B)
+            for i in range(3)
+        ])
         
-        bridge = Text("foundation models & scale", font_size=24, color=GRAY_B).next_to(right_path, DOWN, buff=0.22)
-        self.play(FadeIn(bridge, shift=UP * 0.08), Circumscribe(right_path, color=PURPLE), run_time=0.5)
+        self.play(FadeIn(boxes[0], shift=RIGHT * 0.2), run_time=0.6)
+        self.play(GrowArrow(arrows[0]), FadeIn(boxes[1], shift=RIGHT * 0.2), run_time=0.6)
+        self.play(GrowArrow(arrows[1]), FadeIn(boxes[2], shift=RIGHT * 0.2), run_time=0.6)
+        self.play(GrowArrow(arrows[2]), FadeIn(boxes[3], shift=RIGHT * 0.2), run_time=0.6)
+        self.wait(1.0)
         
-        # Instead of self.wait(72.95), we walk through each concept dynamically
-
-        # Stop 1: ERM
-        self.play(Indicate(boxes["ERM"], color=ORANGE), run_time=0.5)
-        self.wait(0.1)
-
-        # Stop 2: SCM
-        self.play(Indicate(boxes["SCM"], color=BLUE_D), run_time=0.5)
-        self.wait(0.1)
-
-        # Stop 3: DRO / IRM / JTT
-        self.play(
-            Indicate(boxes["IRM"], color=GREEN_D),
-            Indicate(boxes["DRO"], color=YELLOW_D),
-            Indicate(boxes["JTT"], color=GOLD),
-            run_time=0.6
-        )
-        self.wait(0.1)
-
-        # Stop 4: Foundation Models & Scale
-        self.play(
-            Indicate(boxes["FM"], color=PURPLE),
-            Indicate(boxes["Scale"], color=RED),
-            run_time=0.6
-        )
-        self.wait(0.1)
-
-        # Stop 5: Benchmarks
-        self.play(Indicate(boxes["Bench"], color=GOLD), run_time=0.5)
-        self.wait(0.1)
-
-        # Clear everything for the final grand message of STABILITY
-        self.play(
-            FadeOut(VGroup(
-                boxes["ERM"], boxes["SCM"], boxes["IRM"], boxes["DRO"], boxes["JTT"],
-                boxes["FM"], boxes["Scale"], boxes["Bench"],
-                arrows, left_label, bridge
-            )),
-            run_time=0.5
-        )
-
-        stability_word = Text("STABILITY", font_size=56, color=GOLD, weight=BOLD).shift(UP * 0.5)
-        stability_desc = Text(
-            "Identify the core causal features and rely on them consistently.",
-            font_size=24,
-            color=WHITE
-        ).next_to(stability_word, DOWN, buff=0.4)
+        # Shortcuts STILL
+        still_lbl = Text("Shortcuts STILL exist!", font_size=28, color=RED, weight=BOLD).next_to(boxes[3], DOWN, buff=0.5)
+        self.play(FadeIn(still_lbl, shift=UP * 0.2), Flash(boxes[3], color=RED), run_time=0.8)
         
-        self.play(FadeIn(stability_word, scale=1.2), run_time=0.5)
-        self.play(Flash(stability_word.get_center(), color=GOLD, line_length=0.45, num_lines=12), run_time=0.5)
-        self.play(FadeIn(stability_desc, shift=UP * 0.1), run_time=0.5)
-        self.play(Circumscribe(stability_word, color=GOLD), run_time=0.5)
-        self.wait(7.59)
+        # Text
+        quote = Text("AI inherently seeks the easiest path.\nOur job is to redefine what's easy.", font_size=24, color=GOLD, line_spacing=1.5).shift(DOWN * 2.0)
+        self.play(Write(quote), run_time=1.5)
+        
+        for _ in range(3):
+            self.play(Indicate(boxes[3], color=PURPLE), run_time=0.5)
+            self.play(Indicate(still_lbl, color=RED), run_time=0.5)
+            self.play(Circumscribe(quote, color=GOLD), run_time=0.6)
+        self.active_wait(VGroup(boxes, arrows, still_lbl, quote), 1.0, GOLD)
+
+
+class BigTriangleConclusion(OODScene):
+    def construct(self):
+        title = Text("The Robustness Triangle", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # Triangle vertices
+        top = ORIGIN + UP * 1.5
+        left = ORIGIN + LEFT * 3.0 + DOWN * 1.5
+        right = ORIGIN + RIGHT * 3.0 + DOWN * 1.5
+        
+        # Nodes
+        erm = VGroup(
+            Circle(radius=0.6, color=BLUE_D).set_fill(BLUE_D, 0.2),
+            Text("ERM", font_size=24, color=BLUE_D, weight=BOLD)
+        ).move_to(top)
+        
+        dro = VGroup(
+            Circle(radius=0.6, color=RED).set_fill(RED, 0.2),
+            Text("DRO", font_size=24, color=RED, weight=BOLD)
+        ).move_to(left)
+        
+        inv = VGroup(
+            Circle(radius=0.6, color=GREEN_D).set_fill(GREEN_D, 0.2),
+            Text("Invariance", font_size=20, color=GREEN_D, weight=BOLD)
+        ).move_to(right)
+        
+        # Edges
+        e1 = Line(erm.get_bottom(), dro.get_top(), color=GRAY_B)
+        e2 = Line(erm.get_bottom(), inv.get_top(), color=GRAY_B)
+        e3 = Line(dro.get_right(), inv.get_left(), color=GRAY_B)
+        
+        self.play(Create(e1), Create(e2), Create(e3), run_time=1.0)
+        self.play(FadeIn(erm), FadeIn(dro), FadeIn(inv), run_time=1.0)
+        
+        # Formulas
+        f_erm = MathTex(r"\min \mathbb{E}[L]", font_size=24, color=BLUE_D).next_to(erm, UP)
+        f_dro = MathTex(r"\min \max \mathbb{E}[L]", font_size=24, color=RED).next_to(dro, DOWN)
+        f_inv = MathTex(r"\min \mathbb{E}[L] + \lambda \text{Pen}", font_size=24, color=GREEN_D).next_to(inv, DOWN)
+        
+        self.play(FadeIn(f_erm), FadeIn(f_dro), FadeIn(f_inv), run_time=1.0)
+        self.wait(1.0)
+        
+        center_text = Text("STABILITY", font_size=36, color=GOLD, weight=BOLD).move_to(ORIGIN + DOWN * 0.2)
+        self.play(FadeIn(center_text, scale=0.5), run_time=0.8)
+        self.play(Flash(center_text, color=GOLD, num_lines=12), run_time=0.6)
+        
+        for _ in range(3):
+            self.play(Indicate(erm, color=BLUE_D), run_time=0.4)
+            self.play(Indicate(dro, color=RED), run_time=0.4)
+            self.play(Indicate(inv, color=GREEN_D), run_time=0.4)
+            self.play(Indicate(center_text, color=GOLD, scale_factor=1.2), run_time=0.6)
+        self.active_wait(VGroup(erm, dro, inv, center_text), 1.0, GOLD)
+
 
 
 class OpenProblemsCredits(OODScene):

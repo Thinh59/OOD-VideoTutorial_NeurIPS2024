@@ -1,0 +1,6 @@
+Prompting for Robustness, or PfR, uses a Vision-Language Model to generate group labels automatically.
+We prompt the VLM to describe the background of each image.
+
+This avoids expensive manual annotation.
+Group DRO trained on these automated labels matches manual label performance, tripling the ERM baseline.
+We are using AI to fix AI.

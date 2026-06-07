@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+Invariant Risk Minimization, or IRM, approaches this differently.
+
+2
+00:00:04,000 --> 00:00:08,000
+We seek a representation where the optimal classifier is identical across all environments.
+
+3
+00:00:08,000 --> 00:00:12,000
+If a representation relies on shortcuts, the optimal classifier must change as correlations shift.
+
+4
+00:00:12,000 --> 00:00:16,000
+If the classifier remains optimal everywhere, it must have discarded spurious features.
+
+5
+00:00:16,000 --> 00:00:24,000
+This is the core idea of IRM.

@@ -1,0 +1,6 @@
+An environment e belongs to the set of possible contexts E.
+Each environment induces its own distribution, P-e, over X and Y.
+
+Think of different hospitals using different scanners.
+The task is the same, but the data-generating contexts differ.
+This is why environment labels are so valuable.

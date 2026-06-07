@@ -1,0 +1,9 @@
+Hãy xem điều gì xảy ra khi môi trường thay đổi.
+
+E bằng đồng cỏ: mối liên hệ giữa Y và X_spur tồn tại. AI hoạt động tốt.
+E bằng bãi biển: mối liên hệ đó lung lay.
+E bằng tuyết: hoàn toàn biến mất.
+
+Nhưng mũi tên từ X_core đến Y, hình dáng con vật quyết định nhãn, không bao giờ thay đổi. Dù ở đồng cỏ, bãi biển, hay sa mạc, bò vẫn có bốn chân và hai sừng.
+
+Và câu hỏi đặt ra bây giờ là: làm thế nào để buộc AI chỉ học những thứ bất biến này?

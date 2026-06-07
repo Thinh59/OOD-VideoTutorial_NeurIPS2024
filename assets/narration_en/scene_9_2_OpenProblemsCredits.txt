@@ -1,0 +1,6 @@
+We conclude with three open research directions.
+Developing OOD theory for foundation models.
+Resolving model selection without OOD validation.
+And addressing robustness in multimodal systems.
+
+Thank you for watching.

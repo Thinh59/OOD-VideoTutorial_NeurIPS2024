@@ -1,0 +1,3 @@
+Tutorial kết thúc với bảy best practices được đúc kết từ hàng trăm công trình nghiên cứu.
+
+Một: hiểu rõ loại distribution shift trong bài toán của bạn trước khi chọn phương pháp. Hai: luôn report Worst-Group Accuracy, không chỉ average. Ba: tune ERM thật kỹ làm baseline trước. Bốn: nếu có group labels, Group DRO là lựa chọn mạnh nhất. Năm: nếu không, JTT hoặc clustering-based là điểm khởi đầu tốt. Sáu: với foundation models, thử Last Layer Retraining trước khi fine-tune toàn bộ. Và bảy, quan trọng nhất: thu thập thêm dữ liệu đa dạng môi trường. Data collection thường hiệu quả hơn mọi algorithmic fix.

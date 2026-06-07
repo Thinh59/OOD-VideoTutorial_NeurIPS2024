@@ -231,7 +231,7 @@ class RoadMap(OODScene):
         
         self.play(Transform(close, beat_notes[2]), run_time=0.25)
         self.play(car.animate.move_to(nodes[6][0]), Indicate(nodes[6], color=PURPLE), run_time=0.4)
-        self.wait(15.22)
+        self.wait(16.34)
         
         self.play(car.animate.move_to(nodes[7][0]), Flash(nodes[7][0], color=GOLD), run_time=0.4)
         self.play(Circumscribe(nodes, color=GOLD), run_time=0.4)

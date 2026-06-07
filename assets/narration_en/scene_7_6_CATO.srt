@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:05,000
+PfR automates annotation, but data scarcity remains.
+
+2
+00:00:05,000 --> 00:00:10,000
+CATO addresses this by using language models to generate synthetic counterfactual data.
+
+3
+00:00:10,000 --> 00:00:15,000
+We identify the spurious background and prompt a model to generate counterfactuals: a waterbird on land, or a landbird on water.
+
+4
+00:00:15,000 --> 00:00:20,000
+Training on this balanced dataset significantly improves robustness.
+
+5
+00:00:20,000 --> 00:00:26,000
+This completes our narrative: we use large models to fix shortcuts.

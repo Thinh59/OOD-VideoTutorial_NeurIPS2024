@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+This leads to a fundamental challenge: the Model Selection Paradox.
+
+2
+00:00:04,000 --> 00:00:08,000
+To select a robust model, we need an OOD validation set.
+
+3
+00:00:08,000 --> 00:00:12,000
+But if we have one, we should train on it.
+
+4
+00:00:12,000 --> 00:00:16,000
+Selecting models using in-distribution validation sets does not correlate with OOD performance.
+
+5
+00:00:16,000 --> 00:00:22,000
+This remains an open problem.

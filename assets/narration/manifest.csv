@@ -1,0 +1,28 @@
+scene_id,title,seconds,text_file,srt_file
+0.1,"Opening: Bệnh án của Bác sĩ",70,scene_0_1.txt,scene_0_1.srt
+0.2,"Road Map",29,scene_0_2.txt,scene_0_2.srt
+1.1,"ERM và Ảo ảnh Accuracy Cao",73,scene_1_1.txt,scene_1_1.srt
+1.2,"Giải phẫu ERM: Tại sao nó lười?",106,scene_1_2.txt,scene_1_2.srt
+1.3,"Spurious Feature: Chính xác là gì?",74,scene_1_3.txt,scene_1_3.srt
+2.1,"Cấu trúc dữ liệu theo Group",58,scene_2_1.txt,scene_2_1.srt
+2.2,"Worst-Group Accuracy: Thước đo thực sự",56,scene_2_2.txt,scene_2_2.srt
+2.3,"Ba loại Distribution Shift",52,scene_2_3.txt,scene_2_3.srt
+3.1,"Structural Causal Model: Xây từng mũi tên",78,scene_3_1.txt,scene_3_1.srt
+3.2,"Distribution Shift phá vỡ liên kết ảo",47,scene_3_2.txt,scene_3_2.srt
+4.1,"IRM: Ý tưởng bất biến",59,scene_4_1.txt,scene_4_1.srt
+4.2,"Công thức IRM: Từ ràng buộc cứng đến Gradient Penalty",86,scene_4_2.txt,scene_4_2.srt
+4.3,"Trực quan: Gradient Vectors hội tụ",45,scene_4_3.txt,scene_4_3.srt
+4.4,"Giới hạn của IRM",44,scene_4_4.txt,scene_4_4.srt
+5.1,"Group DRO: Tối ưu hóa Worst-Case",61,scene_5_1.txt,scene_5_1.srt
+6.1,"JTT: Để ERM tự chỉ ra điểm yếu",76,scene_6_1.txt,scene_6_1.srt
+7.1,"Scale không giải quyết được vấn đề",44,scene_7_1.txt,scene_7_1.srt
+7.2,"CLIP và Spurious Correlations từ Web",54,scene_7_2.txt,scene_7_2.srt
+7.3,"In-Context Learning và Spurious Shortcuts trong LLMs",78,scene_7_3.txt,scene_7_3.srt
+7.4,"Reverse Scaling: Mô hình TO hơn = DỄ BỊ LỪA hơn",58,scene_7_4.txt,scene_7_4.srt
+7.5,"PfR: Dùng AI để chữa lỗi cho AI",68,scene_7_5.txt,scene_7_5.srt
+7.6,"CATO: Counterfactual Data bằng LLM",61,scene_7_6.txt,scene_7_6.srt
+8.1,"Benchmarks và Sự thật phũ phàng",63,scene_8_1.txt,scene_8_1.srt
+8.2,"Nghịch lý Model Selection",42,scene_8_2.txt,scene_8_2.srt
+8.3,"Best Practices: Flowchart thực tiễn",51,scene_8_3.txt,scene_8_3.srt
+9.1,"Tổng hợp hành trình",74,scene_9_1.txt,scene_9_1.srt
+9.2,"Open Problems & Credits",26,scene_9_2.txt,scene_9_2.srt

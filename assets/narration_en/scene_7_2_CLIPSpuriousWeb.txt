@@ -1,0 +1,7 @@
+CLIP represents a unique case.
+It is trained on four hundred million image-text pairs using contrastive learning.
+It achieves seventy-five percent worst-group accuracy on Waterbirds zero-shot.
+
+Why? Because web data is highly diverse.
+But CLIP still inherits web biases, strongly associating terms like doctor with male faces.
+With four hundred million examples, the model treats this bias as a true pattern.

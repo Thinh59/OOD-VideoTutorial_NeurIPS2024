@@ -1,0 +1,6 @@
+In standard learning, training and testing data come from the same distribution.
+Out-of-distribution generalization breaks this assumption.
+
+The training distribution, P train, is not equal to the test distribution, P test.
+
+The challenge? The classifier must perform well even after this shift occurs.

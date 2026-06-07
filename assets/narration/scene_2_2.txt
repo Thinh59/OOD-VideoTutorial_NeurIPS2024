@@ -1,0 +1,7 @@
+Nhìn vào hai mô hình. Model A có average accuracy 82%, trông hay hơn Model B với 76%. Theo ERM: chọn A.
+
+Nhưng nhìn kỹ hơn. Model A hoàn toàn thất bại ở hai nhóm thiểu số, chỉ 18 và 21%. Trong thực tế điều này nghĩa là những bệnh nhân không theo khuôn sẽ bị chẩn đoán sai gần như hoàn toàn.
+
+Model B có average thấp hơn, nhưng các nhóm đều được đối xử công bằng.
+
+Worst-Group Accuracy là chỉ số chúng ta thực sự cần quan tâm khi deploy AI vào thế giới thực. Và bây giờ, để hiểu sâu hơn tại sao ERM thất bại, chúng ta cần đi vào cấu trúc nhân quả của dữ liệu.

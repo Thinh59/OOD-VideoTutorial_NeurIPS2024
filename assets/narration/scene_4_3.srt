@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:05,000
+Hình dung trực quan.
+
+2
+00:00:05,000 --> 00:00:10,000
+Nếu Phi đang dùng spurious feature, đặc trưng đó hữu ích ở một số môi trường nhưng hại ở môi trường khác.
+
+3
+00:00:10,000 --> 00:00:15,000
+Mỗi môi trường muốn w dịch chuyển theo hướng khác nhau.
+
+4
+00:00:15,000 --> 00:00:20,000
+Ba vector gradient chỉ về ba hướng khác nhau, bất đồng.
+
+5
+00:00:20,000 --> 00:00:25,000
+Khi penalty lambda tăng, optimizer bị phạt nếu các gradient còn phân kỳ.
+
+6
+00:00:25,000 --> 00:00:30,000
+Nó buộc phải tìm Phi mà tất cả môi trường đồng thuận.
+
+7
+00:00:30,000 --> 00:00:35,000
+Spurious features bị loại khỏi Phi vì chúng là nguyên nhân của sự bất đồng.
+
+8
+00:00:35,000 --> 00:00:45,000
+Phần còn lại trong Phi chính là causal features.

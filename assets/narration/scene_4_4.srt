@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:07,000
+IRM có giới hạn lý thuyết quan trọng.
+
+2
+00:00:07,000 --> 00:00:14,000
+Nó chỉ hoạt động khi các môi trường đủ đa dạng để expose sự không nhất quán của spurious features.
+
+3
+00:00:14,000 --> 00:00:21,000
+Nếu chỉ có hai môi trường mà cả hai đều chứa cùng shortcut, IRM không có cách nào phát hiện.
+
+4
+00:00:21,000 --> 00:00:28,000
+Ngoài ra, IRMv1 rất nhạy với lựa chọn lambda và thường không ổn định khi training.
+
+5
+00:00:28,000 --> 00:00:35,000
+Nhiều nghiên cứu cho thấy ERM được tuning tốt đôi khi còn vượt trội hơn.
+
+6
+00:00:35,000 --> 00:00:44,000
+Vậy nếu không có đủ môi trường rõ ràng, chúng ta cần hướng tiếp cận khác.

@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:06,000
+CLIP được train trên 400 triệu cặp ảnh và văn bản từ internet.
+
+2
+00:00:06,000 --> 00:00:12,000
+Khả năng zero-shot đáng kinh ngạc. Nhưng internet phản ánh thế giới với tất cả bias của nó.
+
+3
+00:00:12,000 --> 00:00:18,000
+Khi văn bản bác sĩ xuất hiện trên web đi kèm ảnh người, phần lớn là nam.
+
+4
+00:00:18,000 --> 00:00:24,000
+CLIP học tương quan đó.
+
+5
+00:00:24,000 --> 00:00:30,000
+Nó không có lý do gì để nghĩ đây là spurious, vì với 400 triệu ví dụ, đây trông như một pattern thật.
+
+6
+00:00:30,000 --> 00:00:36,000
+Kết quả: các tác vụ downstream kế thừa bias từ CLIP.
+
+7
+00:00:36,000 --> 00:00:42,000
+Medical diagnosis, hiring tools, hay content moderation xây trên CLIP đều mang theo spurious correlations đã được học ở quy mô khổng lồ.
+
+8
+00:00:42,000 --> 00:00:54,000
+Scale consolidates spurious, không xóa nó.

@@ -1,0 +1,5 @@
+We evaluate robust algorithms on four standard benchmarks.
+First: Waterbirds. It controls bird and background correlations.
+Second: CelebA. The task is blonde hair, which strongly correlates with gender.
+Third: CivilComments. Toxicity detection, where demographic terms correlate with toxic labels.
+Fourth: Camelyon17. Tumor detection, where the scanner model shifts across hospitals.

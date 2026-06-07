@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:05,000
+Consider this. An AI is trained to predict diseases from electronic health records.
+
+2
+00:00:05,000 --> 00:00:10,000
+At Hospital A, it reaches ninety-five percent accuracy. Incredible, right?
+
+3
+00:00:10,000 --> 00:00:15,000
+But when we test it at Hospital B, the accuracy collapses to seventy-two percent.
+
+4
+00:00:15,000 --> 00:00:20,000
+Why? Let's look at the training data.
+
+5
+00:00:20,000 --> 00:00:25,000
+At Hospital A, a specific doctor wrote the word man for diabetes, and gentleman for arthritis.
+
+6
+00:00:25,000 --> 00:00:30,000
+The AI exploited this stylistic habit as a shortcut.
+
+7
+00:00:30,000 --> 00:00:35,000
+At Hospital B, new doctors did not share this habit.
+
+8
+00:00:35,000 --> 00:00:40,000
+The shortcut disappeared, and the model failed.
+
+9
+00:00:40,000 --> 00:00:46,000
+The AI didn't fail from lack of data. It failed because it learned the wrong signal.

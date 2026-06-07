@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:03,000
+We conclude with three open research directions.
+
+2
+00:00:03,000 --> 00:00:06,000
+Developing OOD theory for foundation models.
+
+3
+00:00:06,000 --> 00:00:09,000
+Resolving model selection without OOD validation.
+
+4
+00:00:09,000 --> 00:00:14,000
+And addressing robustness in multimodal systems. Thank you for watching.

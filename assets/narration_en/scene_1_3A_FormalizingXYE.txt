@@ -1,0 +1,1 @@
+In machine learning, we have X as input and Y as label. But we often forget E, the environment. Environment dictates how X and Y relate.

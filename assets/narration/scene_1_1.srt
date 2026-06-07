@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:07,000
+Hãy bắt đầu bằng ví dụ kinh điển trong tutorial.
+
+2
+00:00:07,000 --> 00:00:14,000
+Bạn xây dựng AI phân loại chim cánh cụt và lạc đà.
+
+3
+00:00:14,000 --> 00:00:21,000
+Tập dữ liệu huấn luyện: chim cánh cụt luôn đứng trên tuyết trắng, lạc đà luôn đứng trên cát vàng.
+
+4
+00:00:21,000 --> 00:00:28,000
+Trong không gian đặc trưng hai chiều, trục ngang là màu nền, trục dọc là hình dáng, dữ liệu chia thành hai cụm tách biệt hoàn hảo.
+
+5
+00:00:28,000 --> 00:00:35,000
+Thuật toán học và vẽ được một đường phân loại. Accuracy 98%. Tuyệt vời.
+
+6
+00:00:35,000 --> 00:00:42,000
+Nhưng chú ý kỹ đường này đang làm gì. Nó đi theo trục ngang, đọc màu nền.
+
+7
+00:00:42,000 --> 00:00:49,000
+Không phải trục dọc, không dựa vào hình dáng thực của con vật.
+
+8
+00:00:49,000 --> 00:00:56,000
+Khi một chú chim cánh cụt bị đặt trên cát vàng, đường phân loại không ngần ngại: đây là lạc đà.
+
+9
+00:00:56,000 --> 00:01:03,000
+Sai hoàn toàn. Điều gì đã xảy ra?
+
+10
+00:01:03,000 --> 00:01:13,000
+Để hiểu, chúng ta cần nhìn vào trái tim của mọi thuật toán học máy hiện đại.

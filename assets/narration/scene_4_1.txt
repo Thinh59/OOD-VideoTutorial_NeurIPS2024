@@ -1,0 +1,5 @@
+Bây giờ hãy đặt câu hỏi khác: điều gì sẽ xảy ra nếu chúng ta không gộp tất cả dữ liệu từ mọi môi trường lại rồi chạy ERM, mà thay vào đó nhìn các môi trường riêng lẻ?
+
+IRM, Invariant Risk Minimization, đặt ra một yêu cầu rất thú vị: tìm một cách biểu diễn dữ liệu, gọi là Phi, sao cho cùng một bộ phân loại tuyến tính w sẽ tối ưu ở tất cả các môi trường đồng thời.
+
+Nếu tồn tại một Phi như vậy, thì Phi phải loại bỏ hết spurious features vì chúng không nhất quán giữa các môi trường. Phi chỉ giữ lại đặc trưng causal, vốn bất biến. Nghe thanh lịch. Nhưng làm thế nào để tối ưu hóa điều này?

@@ -1,0 +1,979 @@
+1
+00:00:00,000 --> 00:00:01,106
+Consider this.
+
+2
+00:00:01,106 --> 00:00:06,483
+An AI is trained to predict diseases from electronic health records.
+
+3
+00:00:06,483 --> 00:00:10,832
+At Hospital A, it reaches ninety-five percent accuracy.
+
+4
+00:00:10,832 --> 00:00:12,255
+Incredible, right?
+
+5
+00:00:12,255 --> 00:00:18,660
+But when we test it at Hospital B, the accuracy collapses to seventy-two percent.
+
+6
+00:00:18,660 --> 00:00:18,976
+Why?
+
+7
+00:00:18,976 --> 00:00:21,507
+Let's look at the training data.
+
+8
+00:00:21,507 --> 00:00:28,939
+At Hospital A, a specific doctor wrote the word man for diabetes, and gentleman for arthritis.
+
+9
+00:00:28,939 --> 00:00:33,051
+The AI exploited this stylistic habit as a shortcut.
+
+10
+00:00:33,051 --> 00:00:37,162
+At Hospital B, new doctors did not share this habit.
+
+11
+00:00:37,162 --> 00:00:40,879
+The shortcut disappeared, and the model failed.
+
+12
+00:00:40,879 --> 00:00:43,804
+The AI didn't fail from lack of data.
+
+13
+00:00:43,804 --> 00:00:47,442
+It failed because it learned the wrong signal.
+
+14
+00:00:47,442 --> 00:00:50,994
+In this video, we trace eight key stops.
+
+15
+00:00:50,994 --> 00:00:54,725
+First: the intuition of shortcut learning.
+
+16
+00:00:54,725 --> 00:01:00,853
+Second: the mathematical formalization of out-of-distribution shifts.
+
+17
+00:01:00,853 --> 00:01:02,718
+Third: causal graphs.
+
+18
+00:01:02,718 --> 00:01:06,804
+Fourth: robust methods like IRM and Group DRO.
+
+19
+00:01:06,804 --> 00:01:13,642
+Finally, we cover benchmarks, foundation models, and how to use AI to fix AI.
+
+20
+00:01:13,642 --> 00:01:14,797
+Let us begin.
+
+21
+00:01:14,797 --> 00:01:20,025
+Suppose you train a classifier to distinguish penguins from camels.
+
+22
+00:01:20,025 --> 00:01:25,174
+In your dataset, all penguins are on snow, and camels are on sand.
+
+23
+00:01:25,174 --> 00:01:27,983
+The classes are perfectly separable.
+
+24
+00:01:27,983 --> 00:01:33,054
+The model easily achieves ninety-eight percent training accuracy.
+
+25
+00:01:33,054 --> 00:01:34,381
+But look closely.
+
+26
+00:01:34,381 --> 00:01:39,062
+The decision boundary only aligns with the background color.
+
+27
+00:01:39,062 --> 00:01:41,247
+It ignores the animal shape.
+
+28
+00:01:41,247 --> 00:01:46,084
+So, when we place a penguin on sand, the model predicts camel.
+
+29
+00:01:46,084 --> 00:01:47,957
+The prediction is wrong.
+
+30
+00:01:47,957 --> 00:01:50,376
+The model relied on a shortcut.
+
+31
+00:01:50,376 --> 00:01:54,136
+Empirical Risk Minimization, or ERM, is standard.
+
+32
+00:01:54,136 --> 00:01:58,742
+Its objective is simple: minimize the average training loss.
+
+33
+00:01:58,742 --> 00:02:00,353
+But here's the catch.
+
+34
+00:02:00,353 --> 00:02:01,274
+ERM is lazy.
+
+35
+00:02:01,274 --> 00:02:07,184
+It is indifferent to whether it learns semantic features or simple shortcuts.
+
+36
+00:02:07,184 --> 00:02:15,090
+From a gradient perspective, counting background pixels is easy, while learning shape features is hard.
+
+37
+00:02:15,090 --> 00:02:21,307
+Gradient descent takes the path of steepest descent, choosing the shortcut first.
+
+38
+00:02:21,307 --> 00:02:25,375
+We call these unstable backgrounds spurious features.
+
+39
+00:02:25,375 --> 00:02:28,075
+What exactly is a spurious feature?
+
+40
+00:02:28,075 --> 00:02:29,232
+Think about it.
+
+41
+00:02:29,232 --> 00:02:32,087
+A photographer travels to the Arctic.
+
+42
+00:02:32,087 --> 00:02:37,102
+The penguin is the cause, and the snowy background is the effect.
+
+43
+00:02:37,102 --> 00:02:41,499
+The causal arrow points from the label to the background.
+
+44
+00:02:41,499 --> 00:02:44,508
+But the AI reads this arrow in reverse.
+
+45
+00:02:44,508 --> 00:02:48,057
+It sees the background and infers the penguin.
+
+46
+00:02:48,057 --> 00:02:50,449
+This is anti-causal prediction.
+
+47
+00:02:50,449 --> 00:02:54,461
+When the environment shifts, this shortcut shatters.
+
+48
+00:02:54,461 --> 00:02:56,544
+Causal features are stable.
+
+49
+00:02:56,544 --> 00:02:58,859
+Spurious features are brittle.
+
+50
+00:02:58,859 --> 00:03:03,444
+In machine learning, we have X as input and Y as label.
+
+51
+00:03:03,444 --> 00:03:06,696
+But we often forget E, the environment.
+
+52
+00:03:06,696 --> 00:03:10,031
+Environment dictates how X and Y relate.
+
+53
+00:03:10,031 --> 00:03:13,424
+Standard ML assumes P-train equals P-test.
+
+54
+00:03:13,424 --> 00:03:15,524
+But OOD shift breaks this.
+
+55
+00:03:15,524 --> 00:03:20,209
+The training and test distributions are totally different.
+
+56
+00:03:20,209 --> 00:03:27,167
+Instead of one distribution, we train on a set of environments, hoping for stability in a new one.
+
+57
+00:03:27,167 --> 00:03:28,805
+Let's formalize this.
+
+58
+00:03:28,805 --> 00:03:33,407
+X is the input observation, like an image or clinical note.
+
+59
+00:03:33,407 --> 00:03:35,981
+Y is the target label to predict.
+
+60
+00:03:35,981 --> 00:03:40,349
+E is the environment or context that generated the data.
+
+61
+00:03:40,349 --> 00:03:43,859
+A training example is a triplet: X, Y, and E.
+
+62
+00:03:43,859 --> 00:03:50,332
+Environment labels are the key to separating stable signals from brittle shortcuts.
+
+63
+00:03:50,332 --> 00:03:56,346
+In standard learning, training and testing data come from the same distribution.
+
+64
+00:03:56,346 --> 00:04:00,706
+Out-of-distribution generalization breaks this assumption.
+
+65
+00:04:00,706 --> 00:04:06,870
+The training distribution, P train, is not equal to the test distribution, P test.
+
+66
+00:04:06,870 --> 00:04:07,922
+The challenge?
+
+67
+00:04:07,922 --> 00:04:12,583
+The classifier must perform well even after this shift occurs.
+
+68
+00:04:12,583 --> 00:04:17,030
+An environment e belongs to the set of possible contexts E.
+
+69
+00:04:17,030 --> 00:04:21,928
+Each environment induces its own distribution, P-e, over X and Y.
+
+70
+00:04:21,928 --> 00:04:25,998
+Think of different hospitals using different scanners.
+
+71
+00:04:25,998 --> 00:04:30,671
+The task is the same, but the data-generating contexts differ.
+
+72
+00:04:30,671 --> 00:04:34,213
+This is why environment labels are so valuable.
+
+73
+00:04:34,213 --> 00:04:41,356
+Rather than one train and one test distribution, we look at a family of distributions, script P.
+
+74
+00:04:41,356 --> 00:04:44,481
+Training exposes us to only a few members.
+
+75
+00:04:44,481 --> 00:04:48,573
+Deployment might sample from an entirely unseen member.
+
+76
+00:04:48,573 --> 00:04:51,921
+The goal is not to memorize one distribution.
+
+77
+00:04:51,921 --> 00:04:55,269
+It is to remain stable across the entire set.
+
+78
+00:04:55,269 --> 00:04:59,480
+Why does gradient descent consistently prefer shortcuts?
+
+79
+00:04:59,480 --> 00:05:04,142
+Consider the majority group, where background and label match.
+
+80
+00:05:04,142 --> 00:05:08,879
+This group represents ninety-five percent of the training data.
+
+81
+00:05:08,879 --> 00:05:11,887
+The minority group is only five percent.
+
+82
+00:05:11,887 --> 00:05:15,345
+For ERM, this minority is virtually invisible.
+
+83
+00:05:15,345 --> 00:05:18,804
+The average loss is dominated by the majority.
+
+84
+00:05:18,804 --> 00:05:24,669
+Geometrically, the max-margin boundary is pulled toward the majority geometry.
+
+85
+00:05:24,669 --> 00:05:28,128
+The minority is left with insufficient margin.
+
+86
+00:05:28,128 --> 00:05:31,737
+The invariant feature is present, but underused.
+
+87
+00:05:31,737 --> 00:05:38,561
+SGD is lured by the majority group, creating a max-margin boundary that skewers the minority.
+
+88
+00:05:38,561 --> 00:05:42,175
+The core of robust learning is risk aggregation.
+
+89
+00:05:42,175 --> 00:05:44,208
+ERM minimizes average risk.
+
+90
+00:05:44,208 --> 00:05:48,123
+Group DRO minimizes the worst-case risk over groups.
+
+91
+00:05:48,123 --> 00:05:51,888
+CVaR focuses on the average of the high-loss tail.
+
+92
+00:05:51,888 --> 00:05:57,987
+This choice of aggregation operator is the key difference between robust methods.
+
+93
+00:05:57,987 --> 00:06:06,210
+Different methods like ERM, DRO, and CVaR aggregate risk differently, but they all share the goal of robustness.
+
+94
+00:06:06,210 --> 00:06:11,012
+To measure this, we split the training distribution into groups.
+
+95
+00:06:11,012 --> 00:06:14,839
+We cross the label Y with the spurious attribute Z.
+
+96
+00:06:14,839 --> 00:06:19,266
+Cows on grass and camels on sand are large majority groups.
+
+97
+00:06:19,266 --> 00:06:23,693
+Cows on sand and camels on grass are small minority groups.
+
+98
+00:06:23,693 --> 00:06:26,695
+ERM averages the risk across all groups.
+
+99
+00:06:26,695 --> 00:06:31,272
+Because the majority dominates, the average risk remains low.
+
+100
+00:06:31,272 --> 00:06:35,699
+The model sacrifices the minority to minimize average loss.
+
+101
+00:06:35,699 --> 00:06:39,726
+To expose this failure, we measure worst-group accuracy.
+
+102
+00:06:39,726 --> 00:06:47,852
+A standard model might reach eighty-two percent average accuracy, but only eighteen percent worst-group accuracy.
+
+103
+00:06:47,852 --> 00:06:53,173
+In medicine, the worst-group accuracy represents the real deployment risk.
+
+104
+00:06:53,173 --> 00:06:56,912
+A model that is wrong on a minority group is unsafe.
+
+105
+00:06:56,912 --> 00:06:59,285
+We need stability for all groups.
+
+106
+00:06:59,285 --> 00:07:01,439
+Not all shifts are the same.
+
+107
+00:07:01,439 --> 00:07:05,671
+Covariate shift changes the input distribution, P of X.
+
+108
+00:07:05,671 --> 00:07:09,210
+Label shift changes class proportions, P of Y.
+
+109
+00:07:09,210 --> 00:07:15,135
+But spurious shift alters the correlation between the shortcut and the label.
+
+110
+00:07:15,135 --> 00:07:17,135
+This is the hardest shift.
+
+111
+00:07:17,135 --> 00:07:21,905
+The model's reliance on the shortcut actively leads it astray.
+
+112
+00:07:21,905 --> 00:07:24,939
+Let's build a Structural Causal Model.
+
+113
+00:07:24,939 --> 00:07:29,010
+The label Y determines the causal features, X-core.
+
+114
+00:07:29,010 --> 00:07:30,926
+This is the stable path.
+
+115
+00:07:30,926 --> 00:07:35,397
+The environment E determines the background, X-spurious.
+
+116
+00:07:35,397 --> 00:07:40,666
+During training, Y and E are correlated, creating a spurious link.
+
+117
+00:07:40,666 --> 00:07:42,981
+The model exploits this link.
+
+118
+00:07:42,981 --> 00:07:47,691
+But when the environment shifts, this correlation shatters.
+
+119
+00:07:47,691 --> 00:07:54,118
+When the environment shifts, the link between the label and the background is fractured.
+
+120
+00:07:54,118 --> 00:07:58,062
+The background changes, and shortcut predictions fail.
+
+121
+00:07:58,062 --> 00:08:00,838
+But the causal features are invariant.
+
+122
+00:08:00,838 --> 00:08:04,343
+A penguin still looks like a penguin on a beach.
+
+123
+00:08:04,343 --> 00:08:06,315
+Causal features are stable.
+
+124
+00:08:06,315 --> 00:08:08,507
+Spurious features are brittle.
+
+125
+00:08:08,507 --> 00:08:12,816
+We must force the model to rely only on invariant features.
+
+126
+00:08:12,816 --> 00:08:17,511
+When the environment shifts, only the causal model survives.
+
+127
+00:08:17,511 --> 00:08:20,329
+The spurious model completely fails.
+
+128
+00:08:20,329 --> 00:08:24,680
+The simplest way to balance groups is importance weighting.
+
+129
+00:08:24,680 --> 00:08:27,998
+We upweight rare groups in the loss function.
+
+130
+00:08:27,998 --> 00:08:29,620
+But there's a problem.
+
+131
+00:08:29,620 --> 00:08:35,151
+Modern networks easily interpolate all training points, reaching zero loss.
+
+132
+00:08:35,151 --> 00:08:37,954
+When loss is zero, gradients are zero.
+
+133
+00:08:37,954 --> 00:08:40,682
+Multiplying by weights has no effect.
+
+134
+00:08:40,682 --> 00:08:46,434
+The model simply memorizes the minority while using the shortcut for the rest.
+
+135
+00:08:46,434 --> 00:08:52,193
+To be robust, the optimal classifier must be the same across all environments.
+
+136
+00:08:52,193 --> 00:08:57,023
+Invariant Risk Minimization, or IRM, approaches this differently.
+
+137
+00:08:57,023 --> 00:09:03,787
+We seek a representation where the optimal classifier is identical across all environments.
+
+138
+00:09:03,787 --> 00:09:11,070
+If a representation relies on shortcuts, the optimal classifier must change as correlations shift.
+
+139
+00:09:11,070 --> 00:09:17,536
+If the classifier remains optimal everywhere, it must have discarded spurious features.
+
+140
+00:09:17,536 --> 00:09:19,692
+This is the core idea of IRM.
+
+141
+00:09:19,692 --> 00:09:25,530
+We project distorted environments into a shared invariant space where one rule works for all.
+
+142
+00:09:25,530 --> 00:09:29,859
+IRM translates this into a bi-level optimization problem.
+
+143
+00:09:29,859 --> 00:09:37,000
+We minimize the risk across all environments, subject to the classifier being optimal in each.
+
+144
+00:09:37,000 --> 00:09:41,253
+This prevents the model from exploiting local shortcuts.
+
+145
+00:09:41,253 --> 00:09:43,608
+But this constraint is NP-hard.
+
+146
+00:09:43,608 --> 00:09:46,191
+We need a practical approximation.
+
+147
+00:09:46,191 --> 00:09:49,699
+IRMv1 approximates this using a gradient penalty.
+
+148
+00:09:49,699 --> 00:09:53,710
+If the classifier is optimal, its gradient must be zero.
+
+149
+00:09:53,710 --> 00:09:59,581
+We add a penalty measuring the squared norm of the gradient at a dummy classifier.
+
+150
+00:09:59,581 --> 00:10:04,236
+A large penalty indicates the representation relies on shortcuts.
+
+151
+00:10:04,236 --> 00:10:10,895
+The optimizer is forced to find a representation where gradients from all environments agree.
+
+152
+00:10:10,895 --> 00:10:13,765
+IRM faces severe practical limits.
+
+153
+00:10:13,765 --> 00:10:18,070
+It requires multiple, clearly defined environments.
+
+154
+00:10:18,070 --> 00:10:23,894
+The gradient penalty is highly sensitive and makes training unstable.
+
+155
+00:10:23,894 --> 00:10:27,946
+In practice, standard ERM often outperforms IRM.
+
+156
+00:10:27,946 --> 00:10:32,166
+IRM is elegant in theory, but fragile in practice.
+
+157
+00:10:32,166 --> 00:10:37,569
+Because IRM requires diverse environments, NuRD takes a different approach.
+
+158
+00:10:37,569 --> 00:10:43,259
+Instead of searching for invariance, it directly filters out nuisance features.
+
+159
+00:10:43,259 --> 00:10:50,103
+The key condition: the label Y must be independent of the nuisance Z, given the representation.
+
+160
+00:10:50,103 --> 00:10:54,857
+This mathematically prevents the model from using Z as a shortcut.
+
+161
+00:10:54,857 --> 00:11:02,360
+NuRD uses a divergence penalty to force distributions to match perfectly, stripping away nuisance features.
+
+162
+00:11:02,360 --> 00:11:10,862
+To avoid memorization, we can undersample the majority class, or use a two-stage approach by freezing the feature extractor.
+
+163
+00:11:10,862 --> 00:11:15,506
+Group DRO modifies the objective with a single operator: max.
+
+164
+00:11:15,506 --> 00:11:20,531
+Standard ERM minimizes the average loss, ignoring minority groups.
+
+165
+00:11:20,531 --> 00:11:27,383
+Group DRO reframes this as a minimax game: minimize model parameters, maximize group loss.
+
+166
+00:11:27,383 --> 00:11:34,996
+The inner loop identifies the worst group, and the outer loop updates parameters to reduce its risk.
+
+167
+00:11:34,996 --> 00:11:40,706
+Weights dynamically shift, preventing the model from sacrificing any group.
+
+168
+00:11:40,706 --> 00:11:42,381
+But here is the catch.
+
+169
+00:11:42,381 --> 00:11:46,568
+Group DRO requires oracle group labels during training.
+
+170
+00:11:46,568 --> 00:11:52,583
+If we do not know these groups in advance, the max operator cannot target them.
+
+171
+00:11:52,583 --> 00:11:55,399
+This is a major practical limitation.
+
+172
+00:11:55,399 --> 00:11:59,810
+To filter out a nuisance feature, we must detect it.
+
+173
+00:11:59,810 --> 00:12:02,100
+We use Semantic Corruption.
+
+174
+00:12:02,100 --> 00:12:03,372
+Think about it.
+
+175
+00:12:03,372 --> 00:12:05,916
+In NLP, we shuffle word order.
+
+176
+00:12:05,916 --> 00:12:12,532
+If a classifier remains accurate on scrambled text, it is only counting words.
+
+177
+00:12:12,532 --> 00:12:15,670
+In CV, we apply random patch masking.
+
+178
+00:12:15,670 --> 00:12:21,353
+If a medical model still predicts, it is reading scanner artifacts.
+
+179
+00:12:21,353 --> 00:12:24,915
+Semantic corruption exposes our shortcuts.
+
+180
+00:12:24,915 --> 00:12:30,752
+Just Train Twice, or JTT, lets a standard model identify its own weaknesses.
+
+181
+00:12:30,752 --> 00:12:35,206
+In Stage One, we train an ERM model for only a few epochs.
+
+182
+00:12:35,206 --> 00:12:39,661
+It learns easy shortcuts, but doesn't memorize exceptions.
+
+183
+00:12:39,661 --> 00:12:44,960
+The mistakes it makes are minority examples where the shortcut fails.
+
+184
+00:12:44,960 --> 00:12:49,799
+In Stage Two, we upweight these mistakes and train a new model.
+
+185
+00:12:49,799 --> 00:12:56,634
+This simple process massively improves worst-group accuracy, without manual group labels.
+
+186
+00:12:56,634 --> 00:12:58,521
+Does scaling solve this?
+
+187
+00:12:58,521 --> 00:13:03,082
+If we look at worst-group accuracy, standard ERM plateaus.
+
+188
+00:13:03,082 --> 00:13:08,586
+Scaling improves average performance but does not eliminate shortcuts.
+
+189
+00:13:08,586 --> 00:13:15,741
+In fact, larger models have the capacity to learn more complex, high-dimensional shortcuts.
+
+190
+00:13:15,741 --> 00:13:17,785
+Scale alone is not enough.
+
+191
+00:13:17,785 --> 00:13:20,005
+CLIP represents a unique case.
+
+192
+00:13:20,005 --> 00:13:26,074
+It is trained on four hundred million image-text pairs using contrastive learning.
+
+193
+00:13:26,074 --> 00:13:31,846
+It achieves seventy-five percent worst-group accuracy on Waterbirds zero-shot.
+
+194
+00:13:31,846 --> 00:13:32,142
+Why?
+
+195
+00:13:32,142 --> 00:13:34,732
+Because web data is highly diverse.
+
+196
+00:13:34,732 --> 00:13:41,466
+But CLIP still inherits web biases, strongly associating terms like doctor with male faces.
+
+197
+00:13:41,466 --> 00:13:47,460
+With four hundred million examples, the model treats this bias as a true pattern.
+
+198
+00:13:47,460 --> 00:13:54,404
+In large language models, shortcuts emerge dynamically within the prompt during in-context learning.
+
+199
+00:13:54,404 --> 00:13:59,960
+If all positive examples contain the word movie, the model learns this shortcut.
+
+200
+00:13:59,960 --> 00:14:01,141
+Here's the catch.
+
+201
+00:14:01,141 --> 00:14:06,697
+Larger models are more likely to exploit this shortcut, showing reverse scaling.
+
+202
+00:14:06,697 --> 00:14:11,350
+They are highly sensitive to accidental correlations in the prompt.
+
+203
+00:14:11,350 --> 00:14:18,367
+Under complex spurious shifts, the linear relationship between ID and OOD accuracy breaks.
+
+204
+00:14:18,367 --> 00:14:23,747
+We see reverse scaling: larger models perform worse on OOD test sets.
+
+205
+00:14:23,747 --> 00:14:28,192
+Accuracy on the Line is a special case for simple shifts.
+
+206
+00:14:28,192 --> 00:14:30,921
+It is not a general law of scaling.
+
+207
+00:14:30,921 --> 00:14:38,600
+Prompting for Robustness, or PfR, uses a Vision-Language Model to generate group labels automatically.
+
+208
+00:14:38,600 --> 00:14:43,042
+We prompt the VLM to describe the background of each image.
+
+209
+00:14:43,042 --> 00:14:46,054
+This avoids expensive manual annotation.
+
+210
+00:14:46,054 --> 00:14:53,884
+Group DRO trained on these automated labels matches manual label performance, tripling the ERM baseline.
+
+211
+00:14:53,884 --> 00:14:55,841
+We are using AI to fix AI.
+
+212
+00:14:55,841 --> 00:14:59,664
+PfR automates annotation, but data scarcity remains.
+
+213
+00:14:59,664 --> 00:15:06,060
+CATO addresses this by using language models to generate synthetic counterfactual data.
+
+214
+00:15:06,060 --> 00:15:15,470
+We identify the spurious background and prompt a model to generate counterfactuals: a waterbird on land, or a landbird on water.
+
+215
+00:15:15,470 --> 00:15:20,469
+Training on this balanced dataset significantly improves robustness.
+
+216
+00:15:20,469 --> 00:15:25,395
+This completes our narrative: we use large models to fix shortcuts.
+
+217
+00:15:25,395 --> 00:15:30,570
+We evaluate robust algorithms on four standard benchmarks.
+
+218
+00:15:30,570 --> 00:15:32,176
+First: Waterbirds.
+
+219
+00:15:32,176 --> 00:15:36,191
+It controls bird and background correlations.
+
+220
+00:15:36,191 --> 00:15:37,530
+Second: CelebA.
+
+221
+00:15:37,530 --> 00:15:43,151
+The task is blonde hair, which strongly correlates with gender.
+
+222
+00:15:43,151 --> 00:15:45,025
+Third: CivilComments.
+
+223
+00:15:45,025 --> 00:15:51,449
+Toxicity detection, where demographic terms correlate with toxic labels.
+
+224
+00:15:51,449 --> 00:15:53,144
+Fourth: Camelyon17.
+
+225
+00:15:53,144 --> 00:15:58,944
+Tumor detection, where the scanner model shifts across hospitals.
+
+226
+00:15:58,944 --> 00:16:04,058
+This leads to a fundamental challenge: the Model Selection Paradox.
+
+227
+00:16:04,058 --> 00:16:08,333
+To select a robust model, we need an OOD validation set.
+
+228
+00:16:08,333 --> 00:16:11,539
+But if we have one, we should train on it.
+
+229
+00:16:11,539 --> 00:16:18,791
+Selecting models using in-distribution validation sets does not correlate with OOD performance.
+
+230
+00:16:18,791 --> 00:16:21,004
+This remains an open problem.
+
+231
+00:16:21,004 --> 00:16:23,957
+The practical checklist is simple.
+
+232
+00:16:23,957 --> 00:16:26,040
+Identify the shift type.
+
+233
+00:16:26,040 --> 00:16:28,472
+Report worst-group accuracy.
+
+234
+00:16:28,472 --> 00:16:30,121
+Tune ERM carefully.
+
+235
+00:16:30,121 --> 00:16:35,678
+Use Group DRO when group labels exist, and JTT when they do not.
+
+236
+00:16:35,678 --> 00:16:39,933
+For foundation models, tune the last layer first.
+
+237
+00:16:39,933 --> 00:16:43,146
+And always collect more diverse data.
+
+238
+00:16:43,146 --> 00:16:45,786
+Shortcuts still exist in modern AI.
+
+239
+00:16:45,786 --> 00:16:50,764
+Our goal is to redefine what's easy, achieving ultimate stability.
+
+240
+00:16:50,764 --> 00:16:57,587
+ERM, DRO, and Invariance form the robustness triangle, all pointing towards STABILITY.
+
+241
+00:16:57,587 --> 00:17:01,345
+We conclude with three open research directions.
+
+242
+00:17:01,345 --> 00:17:04,789
+Developing OOD theory for foundation models.
+
+243
+00:17:04,789 --> 00:17:08,625
+Resolving model selection without OOD validation.
+
+244
+00:17:08,625 --> 00:17:12,383
+And addressing robustness in multimodal systems.
+
+245
+00:17:12,383 --> 00:17:14,184
+Thank you for watching.

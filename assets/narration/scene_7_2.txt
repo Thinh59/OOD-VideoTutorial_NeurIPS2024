@@ -1,0 +1,5 @@
+CLIP được train trên 400 triệu cặp ảnh và văn bản từ internet. Khả năng zero-shot đáng kinh ngạc. Nhưng internet phản ánh thế giới với tất cả bias của nó.
+
+Khi văn bản bác sĩ xuất hiện trên web đi kèm ảnh người, phần lớn là nam. CLIP học tương quan đó. Nó không có lý do gì để nghĩ đây là spurious, vì với 400 triệu ví dụ, đây trông như một pattern thật.
+
+Kết quả: các tác vụ downstream kế thừa bias từ CLIP. Medical diagnosis, hiring tools, hay content moderation xây trên CLIP đều mang theo spurious correlations đã được học ở quy mô khổng lồ. Scale consolidates spurious, không xóa nó.

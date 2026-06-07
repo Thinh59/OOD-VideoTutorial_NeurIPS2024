@@ -1,0 +1,9 @@
+ERM, Empirical Risk Minimization, là thuật toán học máy tiêu chuẩn. Ý tưởng rất đơn giản: tìm bộ tham số theta để minimize sai số trung bình trên tập train.
+
+Nhưng chú ý điều này: ERM chỉ có một mục tiêu duy nhất, giảm con số Loss xuống. Nó không biết, không quan tâm, liệu sự giảm đó đến từ hiểu thật sự hay từ đường tắt.
+
+Hãy hình dung từ góc nhìn của Gradient Descent. Có hai con đường để dự đoán đúng nhãn chim cánh cụt: con đường thứ nhất, phân tích cấu trúc hình thái học, nhận dạng dáng đứng đặc trưng và tỉ lệ thân mình, tốn nhiều bước gradient, khó học. Con đường thứ hai, đếm xem nền nhiều pixel trắng hay vàng hơn, một phép tính đơn giản.
+
+Gradient Descent sẽ chọn con đường nào? Luôn luôn là con đường hai. Không phải vì nó thông minh xấu xa, mà đơn giản vì đó là chiều gradient giảm nhanh nhất.
+
+Chúng ta gọi những đặc trưng như màu nền đó là Spurious Features, đặc trưng ảo. Chúng trông giống tín hiệu hữu ích trong train data, nhưng thực ra chỉ là sự trùng hợp ngẫu nhiên của ngữ cảnh. Và đây không phải lỗi của thuật toán. ERM đang làm đúng những gì được yêu cầu. Vấn đề nằm ở cách chúng ta định nghĩa mục tiêu học.

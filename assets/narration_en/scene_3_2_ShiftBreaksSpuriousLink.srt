@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,000
+When the environment shifts, the link between the label and the background is fractured.
+
+2
+00:00:04,000 --> 00:00:08,000
+The background changes, and shortcut predictions fail.
+
+3
+00:00:08,000 --> 00:00:12,000
+But the causal features are invariant.
+
+4
+00:00:12,000 --> 00:00:16,000
+A penguin still looks like a penguin on a beach. Causal features are stable.
+
+5
+00:00:16,000 --> 00:00:20,000
+Spurious features are brittle.
+
+6
+00:00:20,000 --> 00:00:25,000
+We must force the model to rely only on invariant features.

@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:06,000
+Không phải mọi distribution shift đều giống nhau. Tutorial phân loại ba dạng chính.
+
+2
+00:00:06,000 --> 00:00:12,000
+Thứ nhất: Covariate Shift.
+
+3
+00:00:12,000 --> 00:00:18,000
+Phân phối đầu vào X thay đổi, nhưng mối quan hệ Y cho X vẫn nguyên.
+
+4
+00:00:18,000 --> 00:00:24,000
+Khó nhưng giải quyết được. Thứ hai: Label Shift. Tần suất của các class thay đổi.
+
+5
+00:00:24,000 --> 00:00:30,000
+Ít nguy hiểm hơn. Thứ ba, và nguy hiểm nhất: Spurious Shift.
+
+6
+00:00:30,000 --> 00:00:36,000
+Mối quan hệ giữa đặc trưng ảo và nhãn bị đảo ngược hoàn toàn.
+
+7
+00:00:36,000 --> 00:00:42,000
+Nếu trước đây bò thường ở đồng cỏ, nay tất cả bò đều ở sa mạc, mô hình dùng màu nền sẽ sai 100%.
+
+8
+00:00:42,000 --> 00:00:52,000
+Đây chính là loại shift mà cả phần tutorial này tập trung vào.

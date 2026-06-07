@@ -1,0 +1,5 @@
+Rather than one train and one test distribution, we look at a family of distributions, script P.
+
+Training exposes us to only a few members.
+Deployment might sample from an entirely unseen member.
+The goal is not to memorize one distribution. It is to remain stable across the entire set.

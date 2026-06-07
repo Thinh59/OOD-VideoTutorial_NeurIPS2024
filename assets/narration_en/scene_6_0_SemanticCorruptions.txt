@@ -1,0 +1,7 @@
+To filter out a nuisance feature, we must detect it.
+We use Semantic Corruption.
+
+Think about it.
+In NLP, we shuffle word order. If a classifier remains accurate on scrambled text, it is only counting words.
+In CV, we apply random patch masking. If a medical model still predicts, it is reading scanner artifacts.
+Semantic corruption exposes our shortcuts.

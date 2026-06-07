@@ -1,0 +1,6 @@
+PfR automates annotation, but data scarcity remains.
+CATO addresses this by using language models to generate synthetic counterfactual data.
+
+We identify the spurious background and prompt a model to generate counterfactuals: a waterbird on land, or a landbird on water.
+Training on this balanced dataset significantly improves robustness.
+This completes our narrative: we use large models to fix shortcuts.

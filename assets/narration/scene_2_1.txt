@@ -1,0 +1,7 @@
+Để nói chính xác về vấn đề này, chúng ta cần một ngôn ngữ toán học. Tutorial NeurIPS 2024 đề xuất nhìn dữ liệu qua lăng kính nhóm, Group.
+
+Mỗi nhóm được định nghĩa bởi sự kết hợp của nhãn Y và đặc trưng ảo. Trong bài toán bò và lạc đà: bốn nhóm. Bò trên cỏ. Bò trên cát. Lạc đà trên cỏ. Lạc đà trên cát.
+
+Trong thực tế, 90% dữ liệu là hai nhóm tự nhiên. Chỉ 10% là hai nhóm nghịch nhĩ. ERM tối ưu trung bình có trọng số, tự động ưu tiên 90% đó. Accuracy tổng thể 92%, nghe hay. Nhưng với nhóm bò trên cát? 18%.
+
+Chính vì vậy, chúng ta cần một chỉ số đánh giá mới.

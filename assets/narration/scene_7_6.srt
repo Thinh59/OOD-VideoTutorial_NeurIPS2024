@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:06,000
+PfR giải quyết vấn đề gán nhãn.
+
+2
+00:00:06,000 --> 00:00:12,000
+Nhưng còn một vấn đề khác: ngay cả khi biết nhóm nào là thiểu số, số lượng mẫu vẫn quá ít để train hiệu quả.
+
+3
+00:00:12,000 --> 00:00:18,000
+CATO giải quyết điều này bằng cách dùng LLM và suy luận nhân quả để sinh ra dữ liệu counterfactual.
+
+4
+00:00:18,000 --> 00:00:24,000
+Từ SCM đã xây dựng, ta biết spurious feature là phông nền.
+
+5
+00:00:24,000 --> 00:00:30,000
+Vậy CATO yêu cầu LLM: hãy tưởng tượng waterbird này đứng trên đất thay vì nước.
+
+6
+00:00:30,000 --> 00:00:36,000
+Mô tả lại ảnh đó.
+
+7
+00:00:36,000 --> 00:00:42,000
+LLM sinh ra các mô tả, hoặc thậm chí ảnh tổng hợp, của các trường hợp counterfactual.
+
+8
+00:00:42,000 --> 00:00:48,000
+Dataset mới giờ cân bằng hơn nhiều.
+
+9
+00:00:48,000 --> 00:01:01,000
+Đây là hướng kết hợp giữa nhân quả và generative AI - một trong những xu hướng nghiên cứu nóng nhất của năm 2024.

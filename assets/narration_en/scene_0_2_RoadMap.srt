@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+In this video, we trace eight key stops. First: the intuition of shortcut learning.
+
+2
+00:00:04,000 --> 00:00:08,000
+Second: the mathematical formalization of out-of-distribution shifts.
+
+3
+00:00:08,000 --> 00:00:12,000
+Third: causal graphs. Fourth: robust methods like IRM and Group DRO.
+
+4
+00:00:12,000 --> 00:00:16,000
+Finally, we cover benchmarks, foundation models, and how to use AI to fix AI.
+
+5
+00:00:16,000 --> 00:00:23,000
+Let us begin.

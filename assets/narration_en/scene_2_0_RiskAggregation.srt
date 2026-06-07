@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+The core of robust learning is risk aggregation. ERM minimizes average risk.
+
+2
+00:00:05,000 --> 00:00:10,000
+Group DRO minimizes the worst-case risk over groups.
+
+3
+00:00:10,000 --> 00:00:15,000
+CVaR focuses on the average of the high-loss tail.
+
+4
+00:00:15,000 --> 00:00:20,000
+This choice of aggregation operator is the key difference between robust methods.

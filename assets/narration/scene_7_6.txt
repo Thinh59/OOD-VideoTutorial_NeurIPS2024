@@ -1,0 +1,7 @@
+PfR giải quyết vấn đề gán nhãn. Nhưng còn một vấn đề khác: ngay cả khi biết nhóm nào là thiểu số, số lượng mẫu vẫn quá ít để train hiệu quả.
+
+CATO giải quyết điều này bằng cách dùng LLM và suy luận nhân quả để sinh ra dữ liệu counterfactual. Từ SCM đã xây dựng, ta biết spurious feature là phông nền. Vậy CATO yêu cầu LLM: hãy tưởng tượng waterbird này đứng trên đất thay vì nước. Mô tả lại ảnh đó.
+
+LLM sinh ra các mô tả, hoặc thậm chí ảnh tổng hợp, của các trường hợp counterfactual. Dataset mới giờ cân bằng hơn nhiều.
+
+Đây là hướng kết hợp giữa nhân quả và generative AI - một trong những xu hướng nghiên cứu nóng nhất của năm 2024.

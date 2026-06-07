@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:07,000
+Hãy xây dựng một mô hình nhân quả cho bài toán này, Structural Causal Model, hay SCM.
+
+2
+00:00:07,000 --> 00:00:14,000
+Bắt đầu từ những gì chúng ta biết chắc. Con vật Y là bò hay lạc đà.
+
+3
+00:00:14,000 --> 00:00:21,000
+Điều này quyết định hình dáng thể chất: bốn chân, sừng, tỉ lệ thân mình.
+
+4
+00:00:21,000 --> 00:00:28,000
+Đây là X_core, đặc trưng cốt lõi. Mũi tên nhân quả từ X_core đến Y.
+
+5
+00:00:28,000 --> 00:00:35,000
+Nhưng còn màu nền thì sao? Khi nhiếp ảnh gia đi chụp bò, họ đến đồng cỏ.
+
+6
+00:00:35,000 --> 00:00:42,000
+Đây là quyết định của môi trường E. Môi trường tạo ra X_spur, màu nền xanh.
+
+7
+00:00:42,000 --> 00:00:49,000
+Không phải bò trực tiếp quyết định màu nền.
+
+8
+00:00:49,000 --> 00:00:56,000
+Tuy nhiên, vì trong train data bò thường đi với E bằng đồng cỏ, có sự tương quan giữa Y và X_spur.
+
+9
+00:00:56,000 --> 00:01:03,000
+AI nhìn thấy tương quan này và học nó. Đây chính là bẫy. AI đang học ngược chiều nhân quả.
+
+10
+00:01:03,000 --> 00:01:10,000
+Khi E thay đổi, tương quan đó biến mất.
+
+11
+00:01:10,000 --> 00:01:18,000
+Chỉ có mũi tên nhân quả thật từ X_core đến Y là không đổi.

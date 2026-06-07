@@ -1,0 +1,9 @@
+IRM viết bài toán tối ưu bi-level: minimize tổng risk trên mọi môi trường, với ràng buộc rằng w phải là classifier tối ưu cho từng môi trường riêng lẻ. Ràng buộc này bảo đảm Phi trích xuất đặc trưng đủ bất biến để một w duy nhất làm việc được ở tất cả nơi.
+
+Vấn đề: bài toán này là NP-Hard. Không giải trực tiếp bằng Gradient Descent được.
+
+Đây là nơi một trick toán học đẹp xuất hiện. Nếu w bằng 1.0 là minimum của hàm loss, thì gradient của hàm loss tại w bằng 1.0 phải bằng 0. Đó là định nghĩa của minimum. Vậy thay vì ràng buộc cứng, ta đo mức độ vi phạm bằng độ lớn của gradient.
+
+Gradient lớn tại w bằng 1.0 nghĩa là w chưa phải minimum, Phi đang dùng shortcut. Gradient nhỏ nghĩa là Phi đã học đặc trưng bất biến.
+
+Đây là IRMv1. Khi lambda tăng, optimizer bị ép phải tìm Phi sao cho mọi môi trường đồng thuận. Spurious features bị loại vì chúng là nguyên nhân của sự bất đồng đó.

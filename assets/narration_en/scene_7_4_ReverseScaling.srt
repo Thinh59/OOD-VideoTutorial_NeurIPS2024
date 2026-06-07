@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+Under complex spurious shifts, the linear relationship between ID and OOD accuracy breaks.
+
+2
+00:00:05,000 --> 00:00:10,000
+We see reverse scaling: larger models perform worse on OOD test sets.
+
+3
+00:00:10,000 --> 00:00:15,000
+Accuracy on the Line is a special case for simple shifts.
+
+4
+00:00:15,000 --> 00:00:20,000
+It is not a general law of scaling.

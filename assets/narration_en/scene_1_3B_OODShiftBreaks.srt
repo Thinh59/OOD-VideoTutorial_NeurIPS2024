@@ -1,0 +1,7 @@
+1
+00:00:00,000 --> 00:00:05,000
+Standard ML assumes P-train equals P-test. But OOD shift breaks this.
+
+2
+00:00:05,000 --> 00:00:11,000
+The training and test distributions are totally different.

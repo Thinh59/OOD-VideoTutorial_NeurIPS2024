@@ -1,0 +1,5 @@
+The practical checklist is simple.
+Identify the shift type. Report worst-group accuracy. Tune ERM carefully.
+Use Group DRO when group labels exist, and JTT when they do not.
+For foundation models, tune the last layer first.
+And always collect more diverse data.

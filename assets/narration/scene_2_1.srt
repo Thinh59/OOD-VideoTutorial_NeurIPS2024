@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:07,000
+Để nói chính xác về vấn đề này, chúng ta cần một ngôn ngữ toán học.
+
+2
+00:00:07,000 --> 00:00:14,000
+Tutorial NeurIPS 2024 đề xuất nhìn dữ liệu qua lăng kính nhóm, Group.
+
+3
+00:00:14,000 --> 00:00:21,000
+Mỗi nhóm được định nghĩa bởi sự kết hợp của nhãn Y và đặc trưng ảo.
+
+4
+00:00:21,000 --> 00:00:28,000
+Trong bài toán bò và lạc đà: bốn nhóm. Bò trên cỏ. Bò trên cát. Lạc đà trên cỏ.
+
+5
+00:00:28,000 --> 00:00:35,000
+Lạc đà trên cát. Trong thực tế, 90% dữ liệu là hai nhóm tự nhiên.
+
+6
+00:00:35,000 --> 00:00:42,000
+Chỉ 10% là hai nhóm nghịch nhĩ. ERM tối ưu trung bình có trọng số, tự động ưu tiên 90% đó.
+
+7
+00:00:42,000 --> 00:00:49,000
+Accuracy tổng thể 92%, nghe hay. Nhưng với nhóm bò trên cát? 18%.
+
+8
+00:00:49,000 --> 00:00:58,000
+Chính vì vậy, chúng ta cần một chỉ số đánh giá mới.

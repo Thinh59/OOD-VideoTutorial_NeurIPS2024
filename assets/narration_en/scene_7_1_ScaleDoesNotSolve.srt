@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:04,000
+Does scaling solve this? If we look at worst-group accuracy, standard ERM plateaus.
+
+2
+00:00:04,000 --> 00:00:08,000
+Scaling improves average performance but does not eliminate shortcuts.
+
+3
+00:00:08,000 --> 00:00:12,000
+In fact, larger models have the capacity to learn more complex, high-dimensional shortcuts.
+
+4
+00:00:12,000 --> 00:00:19,000
+Scale alone is not enough.

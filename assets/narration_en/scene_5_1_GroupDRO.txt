@@ -1,0 +1,11 @@
+Group DRO modifies the objective with a single operator: max.
+Standard ERM minimizes the average loss, ignoring minority groups.
+Group DRO reframes this as a minimax game: minimize model parameters, maximize group loss.
+
+The inner loop identifies the worst group, and the outer loop updates parameters to reduce its risk.
+Weights dynamically shift, preventing the model from sacrificing any group.
+
+But here is the catch.
+Group DRO requires oracle group labels during training.
+If we do not know these groups in advance, the max operator cannot target them.
+This is a major practical limitation.

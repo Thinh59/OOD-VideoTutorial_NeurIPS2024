@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+Rather than one train and one test distribution, we look at a family of distributions, script P.
+
+2
+00:00:04,000 --> 00:00:08,000
+Training exposes us to only a few members.
+
+3
+00:00:08,000 --> 00:00:12,000
+Deployment might sample from an entirely unseen member.
+
+4
+00:00:12,000 --> 00:00:16,000
+The goal is not to memorize one distribution.
+
+5
+00:00:16,000 --> 00:00:23,000
+It is to remain stable across the entire set.

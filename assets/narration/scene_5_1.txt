@@ -1,0 +1,7 @@
+Group DRO thay đổi mục tiêu tối ưu bằng một từ: max.
+
+ERM minimize trung bình có trọng số của loss trên các nhóm. Nhóm nhỏ có trọng số nhỏ, tự động bị bỏ qua. DRO thay đổi luật chơi: nó tìm nhóm đang tệ nhất, worst-case group, và minimize loss của nhóm đó.
+
+Hãy hình dung loss landscape như địa hình nhìn từ trên. ERM tìm thung lũng thấp nhất trung bình, lăn qua góc tối tăm nơi nhóm thiểu số đang vật lộn. DRO liên tục cập nhật trọng số: nhóm nào có loss cao thì upweight. Optimizer phải chú ý đến nhóm đó.
+
+Group DRO rất mạnh khi có nhãn nhóm. Nhưng gán nhãn nhóm rất tốn kém trong thực tế. Và đây là lúc JTT xuất hiện.

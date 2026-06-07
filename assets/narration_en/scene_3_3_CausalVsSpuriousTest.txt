@@ -1,0 +1,1 @@
+When the environment shifts, only the causal model survives. The spurious model completely fails.

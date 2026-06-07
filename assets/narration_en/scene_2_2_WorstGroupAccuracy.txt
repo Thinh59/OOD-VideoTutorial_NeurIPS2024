@@ -1,0 +1,6 @@
+To expose this failure, we measure worst-group accuracy.
+
+A standard model might reach eighty-two percent average accuracy, but only eighteen percent worst-group accuracy.
+In medicine, the worst-group accuracy represents the real deployment risk.
+A model that is wrong on a minority group is unsafe.
+We need stability for all groups.

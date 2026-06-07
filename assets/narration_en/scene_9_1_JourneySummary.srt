@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+We have traveled a long path.
+
+2
+00:00:04,000 --> 00:00:08,000
+From ERM limitations to causal models and foundation model robustness.
+
+3
+00:00:08,000 --> 00:00:12,000
+This is the key idea.
+
+4
+00:00:12,000 --> 00:00:16,000
+Robust AI is not about predicting perfectly in every new environment.
+
+5
+00:00:16,000 --> 00:00:22,000
+It is about identifying the core causal features and relying on them consistently, regardless of context.

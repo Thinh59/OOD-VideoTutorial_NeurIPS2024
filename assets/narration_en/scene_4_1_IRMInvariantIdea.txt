@@ -1,0 +1,6 @@
+Invariant Risk Minimization, or IRM, approaches this differently.
+We seek a representation where the optimal classifier is identical across all environments.
+
+If a representation relies on shortcuts, the optimal classifier must change as correlations shift.
+If the classifier remains optimal everywhere, it must have discarded spurious features.
+This is the core idea of IRM.

@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+An environment e belongs to the set of possible contexts E.
+
+2
+00:00:04,000 --> 00:00:08,000
+Each environment induces its own distribution, P-e, over X and Y.
+
+3
+00:00:08,000 --> 00:00:12,000
+Think of different hospitals using different scanners.
+
+4
+00:00:12,000 --> 00:00:16,000
+The task is the same, but the data-generating contexts differ.
+
+5
+00:00:16,000 --> 00:00:22,000
+This is why environment labels are so valuable.

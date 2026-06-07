@@ -1,0 +1,3 @@
+IRM có giới hạn lý thuyết quan trọng. Nó chỉ hoạt động khi các môi trường đủ đa dạng để expose sự không nhất quán của spurious features. Nếu chỉ có hai môi trường mà cả hai đều chứa cùng shortcut, IRM không có cách nào phát hiện.
+
+Ngoài ra, IRMv1 rất nhạy với lựa chọn lambda và thường không ổn định khi training. Nhiều nghiên cứu cho thấy ERM được tuning tốt đôi khi còn vượt trội hơn. Vậy nếu không có đủ môi trường rõ ràng, chúng ta cần hướng tiếp cận khác.

@@ -1,0 +1,3 @@
+1
+00:00:00,000 --> 00:00:08,000
+We project distorted environments into a shared invariant space where one rule works for all.

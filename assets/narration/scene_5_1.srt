@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:06,000
+Group DRO thay đổi mục tiêu tối ưu bằng một từ: max.
+
+2
+00:00:06,000 --> 00:00:12,000
+ERM minimize trung bình có trọng số của loss trên các nhóm.
+
+3
+00:00:12,000 --> 00:00:18,000
+Nhóm nhỏ có trọng số nhỏ, tự động bị bỏ qua.
+
+4
+00:00:18,000 --> 00:00:24,000
+DRO thay đổi luật chơi: nó tìm nhóm đang tệ nhất, worst-case group, và minimize loss của nhóm đó.
+
+5
+00:00:24,000 --> 00:00:30,000
+Hãy hình dung loss landscape như địa hình nhìn từ trên.
+
+6
+00:00:30,000 --> 00:00:36,000
+ERM tìm thung lũng thấp nhất trung bình, lăn qua góc tối tăm nơi nhóm thiểu số đang vật lộn.
+
+7
+00:00:36,000 --> 00:00:42,000
+DRO liên tục cập nhật trọng số: nhóm nào có loss cao thì upweight.
+
+8
+00:00:42,000 --> 00:00:48,000
+Optimizer phải chú ý đến nhóm đó. Group DRO rất mạnh khi có nhãn nhóm.
+
+9
+00:00:48,000 --> 00:01:01,000
+Nhưng gán nhãn nhóm rất tốn kém trong thực tế. Và đây là lúc JTT xuất hiện.

@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:06,000
+JTT, Just Train Twice, có câu trả lời thanh lịch: hãy để ERM tự chỉ ra.
+
+2
+00:00:06,000 --> 00:00:12,000
+Bước 1: Train một mô hình ERM nhỏ trong vài epochs, đủ để nó học shortcuts, nhưng chưa memorize.
+
+3
+00:00:12,000 --> 00:00:18,000
+Nhìn vào những điểm mà mô hình này dự đoán sai. Tại sao những điểm bị sai lại quan trọng?
+
+4
+00:00:18,000 --> 00:00:24,000
+Vì mô hình ERM học shortcuts ngay lập tức.
+
+5
+00:00:24,000 --> 00:00:30,000
+Điểm nào thuộc nhóm đa số, shortcut hoạt động, dự đoán đúng.
+
+6
+00:00:30,000 --> 00:00:36,000
+Điểm nào thuộc nhóm thiểu số, shortcut chỉ sai hướng, dự đoán sai.
+
+7
+00:00:36,000 --> 00:00:42,000
+Các điểm bị sai chính xác là những điểm mà shortcut không giúp ích được.
+
+8
+00:00:42,000 --> 00:00:48,000
+Bước 2: Gom những điểm sai đó lại, nhân bản chúng lên K lần, tạo dataset mới nơi thiểu số được đại diện đầy đủ.
+
+9
+00:00:48,000 --> 00:00:54,000
+Train mô hình thứ hai trên dataset này.
+
+10
+00:00:54,000 --> 00:01:00,000
+Kết quả: Worst-group accuracy tăng từ 32% lên 71%, mà không cần một nhãn nhóm thủ công nào.
+
+11
+00:01:00,000 --> 00:01:16,000
+ERM đã tự lộ ra điểm yếu của chính mình.

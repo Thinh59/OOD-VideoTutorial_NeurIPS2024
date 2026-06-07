@@ -132,7 +132,15 @@ class DistributionSet(OODScene):
         test = labeled_box("unseen p_test", 2.2, 0.64, RED, 18).move_to(RIGHT * 4.7 + DOWN * 1.75)
         self.play(FadeIn(test, shift=LEFT * 0.1), GrowArrow(Arrow(hull.get_right(), test.get_left(), color=RED, buff=0.08)), run_time=1.0)
         self.play(FadeIn(note, shift=UP * 0.1), Flash(test, color=RED), run_time=0.9)
-        self.wait(13.3)
+        # Motion fillers: cycle through blobs and key objects
+        for blob in blobs:
+            self.play(Indicate(blob[0], color=blob[0].get_color(), scale_factor=1.08), run_time=0.45)
+        self.play(Circumscribe(test, color=RED), run_time=0.5)
+        for _ in range(2):
+            self.play(Indicate(formula, color=GOLD), run_time=0.5)
+            self.play(Circumscribe(hull, color=GOLD), run_time=0.5)
+            self.play(Indicate(note, color=RED), run_time=0.5)
+        self.wait(8.06)
 
 
 class RiskAggregation(OODScene):
@@ -211,7 +219,11 @@ class GroupStructure(OODScene):
         cover = Rectangle(width=14, height=8, color=BLACK, stroke_width=0).set_fill(BLACK, 0.72)
         reveal = Text("minority failure", font_size=44, color=GOLD, weight=BOLD).move_to(ORIGIN)
         self.play(FadeIn(cover), FadeIn(reveal, scale=1.05), run_time=1.0)
-        self.wait(13.9)
+        # Motion fillers: pulse "minority failure" and the worst bar
+        for _ in range(4):
+            self.play(Indicate(reveal, color=GOLD, scale_factor=1.07), run_time=0.6)
+            self.play(Flash(reveal.get_center(), color=GOLD, line_length=0.3, num_lines=8), run_time=0.5)
+        self.wait(9.39)
 
 
 class WorstGroupAccuracy(OODScene):
@@ -245,7 +257,14 @@ class WorstGroupAccuracy(OODScene):
 
         weak = Text("weakest group = deployment risk", font_size=34, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.45)
         self.play(FadeIn(weak, shift=UP), run_time=0.8)
-        self.wait(13.27)
+        # Motion fillers: walk through each group bar highlighting the worst ones
+        for _ in range(3):
+            self.play(Indicate(erm[2], color=RED, scale_factor=1.08), run_time=0.5)
+            self.play(Indicate(erm[3], color=RED, scale_factor=1.08), run_time=0.5)
+            self.play(Indicate(weak, color=GOLD), run_time=0.4)
+            self.play(Circumscribe(floor_erm, color=RED), run_time=0.4)
+            self.play(Indicate(robust[2], color=GREEN_D, scale_factor=1.08), run_time=0.4)
+        self.wait(6.46)
 
 
 class DistributionShiftTypes(OODScene):
@@ -287,3 +306,52 @@ class DistributionShiftTypes(OODScene):
         focus = Text("shortcut relation flips", font_size=34, color=RED, weight=BOLD).to_edge(DOWN, buff=0.45)
         self.play(FadeIn(focus, shift=UP), run_time=0.8)
         self.wait(12.0)
+
+
+class RiskAggregationFamilies(OODScene):
+    def construct(self):
+        title = Text("Risk Aggregation Families", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # Đồ thị phân phối rủi ro hình chuông
+        ax = Axes(x_range=[0, 10, 2], y_range=[0, 1, 0.2], x_length=6, y_length=2.5, axis_config={"include_ticks": False, "color": GRAY_B}).shift(DOWN * 1.2 + LEFT * 2.0)
+        curve = ax.plot(lambda x: math.exp(-0.5 * (x - 4)**2) * 0.8, color=BLUE_D, stroke_width=4)
+        self.play(Create(ax), Create(curve), run_time=1.2)
+        
+        # 4 công thức xuất hiện lần lượt
+        formulas = VGroup(
+            MathTex(r"\text{ERM: } \min \mathbb{E}[L]", font_size=30, color=BLUE_D),
+            MathTex(r"\text{Group DRO: } \min \max_g \mathbb{E}[L_g]", font_size=30, color=RED),
+            MathTex(r"\text{CVaR: } \min \mathbb{E}[L \mid L > \tau]", font_size=30, color=ORANGE),
+            MathTex(r"\text{IRM: } \min \mathbb{E}[L] + \lambda \text{Penalty}", font_size=30, color=GREEN_D),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.25).shift(UP * 1.2 + RIGHT * 2.0)
+        
+        # Annotations trên đồ thị
+        area = ax.get_area(curve, x_range=[6.5, 10], color=ORANGE, opacity=0.5)
+        annots = VGroup(
+            Dot(ax.c2p(4, 0.8), color=BLUE_D),
+            Line(ax.c2p(7.5, 0), ax.c2p(7.5, 0.4), color=RED, stroke_width=3),
+            area,
+            Text("Invariance", font_size=20, color=GREEN_D).next_to(ax, DOWN)
+        )
+        
+        for i in range(4):
+            self.play(FadeIn(formulas[i], shift=LEFT * 0.2), run_time=0.6)
+            if i == 0:
+                self.play(FadeIn(annots[0]), run_time=0.5)
+            elif i == 1:
+                self.play(Create(annots[1]), run_time=0.5)
+            elif i == 2:
+                self.play(FadeIn(annots[2]), run_time=0.5)
+            elif i == 3:
+                self.play(FadeIn(annots[3]), run_time=0.5)
+            self.wait(1.0)
+            
+        aha = Text("Different families, same goal: Robustness", font_size=30, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.2)
+        self.play(FadeIn(aha, shift=UP * 0.1), run_time=0.8)
+        
+        for _ in range(2):
+            self.play(Indicate(aha, color=GOLD), run_time=0.6)
+            self.play(Circumscribe(formulas, color=GOLD), run_time=0.8)
+            
+        self.active_wait(VGroup(ax, formulas, aha), 1.0, GOLD)

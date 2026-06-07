@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:03,000
+IRM faces severe practical limits.
+
+2
+00:00:03,000 --> 00:00:06,000
+It requires multiple, clearly defined environments.
+
+3
+00:00:06,000 --> 00:00:09,000
+The gradient penalty is highly sensitive and makes training unstable.
+
+4
+00:00:09,000 --> 00:00:12,000
+In practice, standard ERM often outperforms IRM.
+
+5
+00:00:12,000 --> 00:00:17,000
+IRM is elegant in theory, but fragile in practice.

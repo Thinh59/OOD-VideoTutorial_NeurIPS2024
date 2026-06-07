@@ -1,0 +1,7 @@
+Không phải mọi distribution shift đều giống nhau. Tutorial phân loại ba dạng chính.
+
+Thứ nhất: Covariate Shift. Phân phối đầu vào X thay đổi, nhưng mối quan hệ Y cho X vẫn nguyên. Khó nhưng giải quyết được.
+
+Thứ hai: Label Shift. Tần suất của các class thay đổi. Ít nguy hiểm hơn.
+
+Thứ ba, và nguy hiểm nhất: Spurious Shift. Mối quan hệ giữa đặc trưng ảo và nhãn bị đảo ngược hoàn toàn. Nếu trước đây bò thường ở đồng cỏ, nay tất cả bò đều ở sa mạc, mô hình dùng màu nền sẽ sai 100%. Đây chính là loại shift mà cả phần tutorial này tập trung vào.

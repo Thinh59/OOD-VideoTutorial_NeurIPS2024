@@ -1,0 +1,6 @@
+This leads to a fundamental challenge: the Model Selection Paradox.
+To select a robust model, we need an OOD validation set.
+But if we have one, we should train on it.
+
+Selecting models using in-distribution validation sets does not correlate with OOD performance.
+This remains an open problem.

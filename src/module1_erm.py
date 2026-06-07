@@ -56,13 +56,20 @@ class ERMAccuracyIllusion(OODScene):
 
         verdict = Text("wrong feature", font_size=34, color=GOLD, weight=BOLD).to_corner(DL, buff=0.35)
         self.play(FadeIn(verdict, shift=UP), Circumscribe(background_rule, color=RED), run_time=1.2)
-        bg_label = Text("background shortcut", font_size=22, color=RED).next_to(background_rule.get_top(), RIGHT, buff=0.15).shift(DOWN * 0.45)
-        shape_label = Text("animal shape (causal)", font_size=22, color=BLUE_D).next_to(shape_rule.get_left(), UP, buff=0.15).shift(RIGHT * 0.4)
+        # Fix labels: bg_label anchored to bottom-right of axes area, shape_label to corner to avoid overlap
+        bg_label = Text("background shortcut", font_size=18, color=RED).to_corner(UR, buff=0.55).shift(DOWN * 0.8)
+        shape_label = Text("animal shape (causal)", font_size=18, color=BLUE_D).to_corner(UL, buff=0.55).shift(DOWN * 0.8)
         self.play(FadeIn(bg_label, shift=LEFT * 0.1), FadeIn(shape_label, shift=DOWN * 0.1), run_time=0.8)
         self.play(Indicate(bg_label, color=RED), background_rule.animate.set_stroke(width=11), run_time=0.9)
         self.play(Indicate(shape_label, color=BLUE_D), shape_rule.animate.set_opacity(0.25), run_time=0.9)
         self.play(Flash(cross, color=RED), run_time=0.7)
-        self.wait(9.78)
+        # Motion fillers: cycle through key objects so audio stays in sync
+        for _ in range(3):
+            self.play(Indicate(bg_label, color=RED, scale_factor=1.08), run_time=0.6)
+            self.play(Indicate(verdict, color=GOLD, scale_factor=1.06), run_time=0.6)
+            self.play(Circumscribe(background_rule, color=RED), run_time=0.5)
+            self.play(Indicate(shape_label, color=BLUE_D, scale_factor=1.08), run_time=0.5)
+        self.wait(3.39)
 
 
 class ERMAnatomy(OODScene):
@@ -124,7 +131,12 @@ class ERMAnatomy(OODScene):
         shortcut_box = SurroundingRectangle(shortcut, color=RED, buff=0.12)
         self.play(Create(shortcut_box), run_time=0.6)
         self.play(FadeOut(shortcut_box), red_curve.animate.set_stroke(width=7), run_time=0.7)
-        self.wait(9.07)
+        # Motion fillers: keep visual alive while audio explains gradient descent dynamics
+        for _ in range(3):
+            self.play(Indicate(red_curve, color=RED, scale_factor=1.05), run_time=0.6)
+            self.play(Indicate(blue_curve, color=BLUE_D, scale_factor=1.05), run_time=0.5)
+            self.play(Indicate(shortcut, color=RED), run_time=0.5)
+        self.wait(4.4)
 
 
 class SpuriousDefinition(OODScene):
@@ -221,6 +233,121 @@ class SpuriousDefinition(OODScene):
             
         self.play(Indicate(stable, color=BLUE_D), true_1.animate.set_stroke(width=9), true_2.animate.set_stroke(width=9), run_time=0.9)
         self.wait(12.02)
+
+
+class FormalizingXYE(OODScene):
+    def construct(self):
+        title = Text("Variables: X, Y, E", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN*0.2), run_time=0.6)
+        
+        # Beat 1: X xuất hiện
+        box_x = labeled_box("X: Input", 2.5, 0.75, BLUE_D, 22).shift(LEFT*3.5 + UP*0.5)
+        icon_x = Text("🏥 clinical note / image", font_size=16, color=GRAY_B).next_to(box_x, DOWN, buff=0.12)
+        self.play(FadeIn(box_x, shift=RIGHT*0.2), FadeIn(icon_x), run_time=0.8)
+        self.wait(1.5)
+        
+        # Beat 2: Y xuất hiện  
+        box_y = labeled_box("Y: Label", 2.5, 0.75, GREEN_D, 22).shift(RIGHT*3.5 + UP*0.5)
+        icon_y = Text("✓ Diabetes / Arthritis", font_size=16, color=GRAY_B).next_to(box_y, DOWN, buff=0.12)
+        self.play(FadeIn(box_y, shift=LEFT*0.2), FadeIn(icon_y), run_time=0.8)
+        self.wait(1.5)
+        
+        # Beat 3: E xuất hiện (từ trên xuống, tỏa sáng)
+        box_e = labeled_box("E: Environment", 3.2, 0.75, ORANGE, 22).shift(UP*2.5)
+        icon_e = Text("Hospital A   |   Hospital B", font_size=16, color=GRAY_B).next_to(box_e, DOWN, buff=0.12)
+        self.play(FadeIn(box_e, shift=DOWN*0.3), FadeIn(icon_e), run_time=0.8)
+        self.play(Indicate(box_e, color=ORANGE, scale_factor=1.08), run_time=0.6)
+        self.wait(1.5)
+        
+        # Beat 4: Mũi tên nối + triplet
+        arr_ex = Arrow(box_e.get_bottom(), box_x.get_top(), color=ORANGE, buff=0.1, stroke_width=4)
+        arr_ey = Arrow(box_e.get_bottom(), box_y.get_top(), color=ORANGE, buff=0.1, stroke_width=4)
+        self.play(GrowArrow(arr_ex), GrowArrow(arr_ey), run_time=0.8)
+        
+        triplet = MathTex(r"D = \{(x_i, y_i, e_i)\}", font_size=52, color=GOLD).to_edge(DOWN, buff=0.45)
+        self.play(Write(triplet), run_time=0.9)
+        self.play(Circumscribe(triplet, color=GOLD), run_time=0.7)
+        self.wait(1.0)
+        
+        # Motion fillers
+        for _ in range(2):
+            self.play(Indicate(box_x, color=BLUE_D), run_time=0.5)
+            self.play(Indicate(box_y, color=GREEN_D), run_time=0.5)
+            self.play(Indicate(box_e, color=ORANGE), run_time=0.5)
+        self.active_wait(VGroup(box_x, box_y, box_e, triplet), 1.0, GOLD)
+
+
+class OODShiftBreaks(OODScene):
+    def construct(self):
+        # Beat 1: Giả định cổ điển
+        eq_text = MathTex(r"P_{\mathrm{train}} = P_{\mathrm{test}}", font_size=54, color=WHITE).shift(UP*1.2)
+        assume_label = Text("Standard ML Assumption", font_size=22, color=GRAY_B).next_to(eq_text, DOWN, buff=0.2)
+        self.play(Write(eq_text), FadeIn(assume_label), run_time=1.0)
+        self.wait(1.8)
+        
+        # Beat 2: Đập vỡ dấu =
+        neq = MathTex(r"P_{\mathrm{train}} \ne P_{\mathrm{test}}", font_size=54, color=RED).shift(UP*1.2)
+        crack = Line(eq_text.get_left()+DOWN*0.5, eq_text.get_right()+UP*0.5, color=RED, stroke_width=6)
+        ood_label = Text("OOD Shift", font_size=30, color=RED, weight=BOLD).next_to(eq_text, DOWN, buff=0.2)
+        self.play(Create(crack), run_time=0.4)
+        self.play(Transform(eq_text, neq), Transform(assume_label, ood_label), run_time=0.6)
+        self.play(Flash(eq_text.get_center(), color=RED, num_lines=8), run_time=0.5)
+        self.wait(1.0)
+        
+        # Beat 3: 2 đám mây phân phối
+        ax_l = Axes(x_range=[-3,3], y_range=[0,1], x_length=3.5, y_length=1.8,
+                    axis_config={"include_ticks": False, "color": GRAY_B}).shift(LEFT*3.2 + DOWN*1.0)
+        ax_r = ax_l.copy().shift(RIGHT*6.4)
+        curve_l = ax_l.plot(lambda x: math.exp(-x*x), color=BLUE_D, stroke_width=4)
+        curve_r = ax_r.plot(lambda x: math.exp(-0.4*(x-1.5)**2)*0.7, color=GREEN_D, stroke_width=4)
+        lab_l = Text("P_e1\n(Hospital A)", font_size=17, color=BLUE_D).next_to(ax_l, DOWN, buff=0.1)
+        lab_r = Text("P_e2\n(Hospital B)", font_size=17, color=GREEN_D).next_to(ax_r, DOWN, buff=0.1)
+        self.play(Create(ax_l), Create(ax_r), run_time=0.6)
+        self.play(Create(curve_l), Create(curve_r), FadeIn(lab_l), FadeIn(lab_r), run_time=1.0)
+        self.play(Indicate(curve_r, color=GREEN_D), run_time=0.7)
+        
+        # Motion fillers
+        for _ in range(3):
+            self.play(Indicate(eq_text, color=RED), run_time=0.6)
+            self.play(Indicate(curve_r, color=GREEN_D), run_time=0.6)
+        self.active_wait(VGroup(eq_text, curve_l, curve_r), 1.0, RED)
+
+
+class DistributionSetFamily(OODScene):
+    def construct(self):
+        title = Text("Distribution Set", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+
+        formula = MathTex(r"\mathcal{P}=\{p_1,p_2,p_3,\ldots\}", font_size=58, color=GOLD).shift(UP * 1.8)
+        self.play(Write(formula), run_time=1.0)
+        
+        points = [LEFT * 3.9 + DOWN * 0.25, LEFT * 1.35 + UP * 0.05, RIGHT * 1.25 + DOWN * 0.35, RIGHT * 3.85 + UP * 0.15]
+        blobs = VGroup()
+        for i, (p, col) in enumerate(zip(points, [BLUE_D, GREEN_D, YELLOW_D, PURPLE]), start=1):
+            ellipse = Ellipse(width=1.7, height=1.0, color=col).set_fill(col, 0.14).move_to(p)
+            txt = MathTex(fr"p_{i}", font_size=34, color=col).move_to(ellipse)
+            dots = dot_cloud(12, p + DOWN * 0.6, spread=(0.38, 0.18), color=col, seed=40 + i)
+            blobs.add(VGroup(ellipse, txt, dots))
+        self.play(LaggedStart(*[FadeIn(b, scale=0.88) for b in blobs], lag_ratio=0.16), run_time=1.5)
+        
+        hull = SurroundingRectangle(blobs, color=GOLD, buff=0.32, corner_radius=0.18)
+        self.play(Create(hull), run_time=0.9)
+        self.wait(1.0)
+        
+        note = Text("train on a few, deploy on another", font_size=30, color=RED, weight=BOLD).to_edge(DOWN, buff=0.42)
+        test = labeled_box("unseen p_test", 2.2, 0.64, RED, 18).move_to(RIGHT * 4.7 + DOWN * 1.75)
+        self.play(FadeIn(test, shift=LEFT * 0.1), GrowArrow(Arrow(hull.get_right(), test.get_left(), color=RED, buff=0.08)), run_time=1.0)
+        self.play(FadeIn(note, shift=UP * 0.1), Flash(test, color=RED), run_time=0.9)
+        
+        stability = Text("STABILITY", font_size=40, color=GOLD, weight=BOLD).move_to(ORIGIN)
+        cover = Rectangle(width=14, height=8, color=BLACK, stroke_width=0).set_fill(BLACK, 0.8)
+        self.play(FadeIn(cover), FadeIn(stability, scale=1.5), run_time=1.0)
+        self.play(Flash(stability.get_center(), color=GOLD, num_lines=12, line_length=0.4), run_time=0.8)
+        
+        for _ in range(3):
+            self.play(Indicate(stability, color=GOLD, scale_factor=1.08), run_time=0.6)
+            self.play(Flash(stability.get_center(), color=GOLD, num_lines=8, line_length=0.3), run_time=0.5)
+        self.active_wait(VGroup(stability), 1.0, GOLD)
 
 
 class GeometryInductiveBias(OODScene):
@@ -371,4 +498,68 @@ class GeometryInductiveBias(OODScene):
         conclusion_f = Text("Intervene in objective function", font_size=24, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.35)
         self.play(FadeIn(conclusion_f, shift=UP * 0.1), run_time=0.5)
         self.play(Circumscribe(conclusion_f, color=GOLD), run_time=0.5)
-        self.wait(11.88)
+        # Motion fillers: keep visual alive while audio explains geometric skew
+        for _ in range(4):
+            self.play(Indicate(dot_maj, color=GREEN_D, scale_factor=1.2), run_time=0.5)
+            self.play(Indicate(dot_min, color=RED, scale_factor=1.2), run_time=0.5)
+            self.play(Indicate(boundary_f, color=GOLD), run_time=0.4)
+            self.play(Indicate(conclusion_f, color=GOLD), run_time=0.4)
+        self.wait(5.18)
+
+
+class GeometricSkewMaxMargin(OODScene):
+    def construct(self):
+        title = Text("Geometric Skew & Max-Margin", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # 2D plane
+        plane, axes = make_axes_plane(r"\phi^*\ (invariant)", r"\psi^*\ (spurious)")
+        plane.scale(0.8).shift(DOWN * 0.3)
+        self.play(Create(plane), run_time=1.0)
+        
+        # Cụm điểm majority (lớn, góc 45 độ)
+        majority = dot_cloud(30, axes.c2p(5.0, 5.0), spread=(1.5, 1.5), color=GREEN_D, seed=1)
+        maj_lbl = Text("Majority", font_size=20, color=GREEN_D, weight=BOLD).next_to(majority, UP)
+        
+        # Cụm điểm minority (nhỏ)
+        minority = dot_cloud(5, axes.c2p(2.0, -2.0), spread=(0.5, 0.5), color=ORANGE, seed=2)
+        min_lbl = Text("Minority", font_size=20, color=ORANGE, weight=BOLD).next_to(minority, DOWN)
+        
+        self.play(FadeIn(majority), FadeIn(maj_lbl), run_time=0.8)
+        self.play(FadeIn(minority), FadeIn(min_lbl), run_time=0.8)
+        self.wait(1.5)
+        
+        # Ranh giới ban đầu
+        boundary = Line(axes.c2p(-3, 6), axes.c2p(6, -3), color=GRAY_B, stroke_width=4)
+        boundary_lbl = Text("Ideal Boundary", font_size=18, color=GRAY_B).next_to(boundary.get_end(), RIGHT)
+        self.play(Create(boundary), FadeIn(boundary_lbl), run_time=0.8)
+        self.wait(1.0)
+        
+        # Ranh giới bị hút về majority
+        skewed_boundary = Line(axes.c2p(-2, 7), axes.c2p(7, 2), color=RED, stroke_width=6)
+        skewed_lbl = Text("Skewed by SGD", font_size=18, color=RED, weight=BOLD).next_to(skewed_boundary.get_end(), RIGHT)
+        
+        self.play(
+            Transform(boundary, skewed_boundary),
+            Transform(boundary_lbl, skewed_lbl),
+            run_time=1.2
+        )
+        self.play(Flash(boundary, color=RED), run_time=0.6)
+        
+        # Các điểm minority bị đâm xuyên đổi màu đỏ
+        cross_anim = []
+        for dot in minority:
+            cross_anim.append(dot.animate.set_color(RED))
+        self.play(*cross_anim, run_time=0.8)
+        
+        # Kết luận
+        conclusion = Text("Max-margin bias hurts minority groups!", font_size=26, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.3)
+        self.play(FadeIn(conclusion, shift=UP * 0.1), run_time=0.8)
+        
+        # Motion fillers
+        for _ in range(3):
+            self.play(Indicate(boundary, color=RED), run_time=0.6)
+            self.play(Circumscribe(minority, color=RED), run_time=0.6)
+            self.play(Indicate(conclusion, color=GOLD), run_time=0.5)
+        
+        self.active_wait(VGroup(boundary, minority, conclusion), 1.0, GOLD)

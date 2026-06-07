@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:11,000
+Bây giờ hãy đặt câu hỏi khác: điều gì sẽ xảy ra nếu chúng ta không gộp tất cả dữ liệu từ mọi môi trường lại rồi chạy ERM, mà thay vào đó nhìn các môi trường riêng lẻ?
+
+2
+00:00:11,000 --> 00:00:22,000
+IRM, Invariant Risk Minimization, đặt ra một yêu cầu rất thú vị: tìm một cách biểu diễn dữ liệu, gọi là Phi, sao cho cùng một bộ phân loại tuyến tính w sẽ tối ưu ở tất cả các môi trường đồng thời.
+
+3
+00:00:22,000 --> 00:00:33,000
+Nếu tồn tại một Phi như vậy, thì Phi phải loại bỏ hết spurious features vì chúng không nhất quán giữa các môi trường.
+
+4
+00:00:33,000 --> 00:00:44,000
+Phi chỉ giữ lại đặc trưng causal, vốn bất biến. Nghe thanh lịch.
+
+5
+00:00:44,000 --> 00:00:59,000
+Nhưng làm thế nào để tối ưu hóa điều này?

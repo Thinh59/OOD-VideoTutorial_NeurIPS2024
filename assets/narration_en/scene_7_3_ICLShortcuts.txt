@@ -1,0 +1,6 @@
+In large language models, shortcuts emerge dynamically within the prompt during in-context learning.
+If all positive examples contain the word movie, the model learns this shortcut.
+
+Here's the catch.
+Larger models are more likely to exploit this shortcut, showing reverse scaling.
+They are highly sensitive to accidental correlations in the prompt.

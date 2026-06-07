@@ -1,0 +1,6 @@
+We have traveled a long path.
+From ERM limitations to causal models and foundation model robustness.
+
+This is the key idea.
+Robust AI is not about predicting perfectly in every new environment.
+It is about identifying the core causal features and relying on them consistently, regardless of context.

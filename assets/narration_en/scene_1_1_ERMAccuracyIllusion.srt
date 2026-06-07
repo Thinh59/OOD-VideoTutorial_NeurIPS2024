@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:04,000
+Suppose you train a classifier to distinguish penguins from camels.
+
+2
+00:00:04,000 --> 00:00:08,000
+In your dataset, all penguins are on snow, and camels are on sand.
+
+3
+00:00:08,000 --> 00:00:12,000
+The classes are perfectly separable.
+
+4
+00:00:12,000 --> 00:00:16,000
+The model easily achieves ninety-eight percent training accuracy. But look closely.
+
+5
+00:00:16,000 --> 00:00:20,000
+The decision boundary only aligns with the background color.
+
+6
+00:00:20,000 --> 00:00:24,000
+It ignores the animal shape.
+
+7
+00:00:24,000 --> 00:00:28,000
+So, when we place a penguin on sand, the model predicts camel.
+
+8
+00:00:28,000 --> 00:00:33,000
+The prediction is wrong. The model relied on a shortcut.

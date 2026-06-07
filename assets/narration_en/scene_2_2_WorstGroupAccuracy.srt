@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+To expose this failure, we measure worst-group accuracy.
+
+2
+00:00:04,000 --> 00:00:08,000
+A standard model might reach eighty-two percent average accuracy, but only eighteen percent worst-group accuracy.
+
+3
+00:00:08,000 --> 00:00:12,000
+In medicine, the worst-group accuracy represents the real deployment risk.
+
+4
+00:00:12,000 --> 00:00:16,000
+A model that is wrong on a minority group is unsafe.
+
+5
+00:00:16,000 --> 00:00:24,000
+We need stability for all groups.

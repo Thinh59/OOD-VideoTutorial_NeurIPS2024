@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:04,000
+What exactly is a spurious feature? Think about it.
+
+2
+00:00:04,000 --> 00:00:08,000
+A photographer travels to the Arctic.
+
+3
+00:00:08,000 --> 00:00:12,000
+The penguin is the cause, and the snowy background is the effect.
+
+4
+00:00:12,000 --> 00:00:16,000
+The causal arrow points from the label to the background.
+
+5
+00:00:16,000 --> 00:00:20,000
+But the AI reads this arrow in reverse.
+
+6
+00:00:20,000 --> 00:00:24,000
+It sees the background and infers the penguin. This is anti-causal prediction.
+
+7
+00:00:24,000 --> 00:00:28,000
+When the environment shifts, this shortcut shatters. Causal features are stable.
+
+8
+00:00:28,000 --> 00:00:32,000
+Spurious features are brittle.

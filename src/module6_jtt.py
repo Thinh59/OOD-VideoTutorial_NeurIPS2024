@@ -19,31 +19,40 @@ class JTT(OODScene):
             Arrow(step2[0].get_right(), step3[0].get_left(), buff=0.12, color=GOLD)
         )
         self.play(FadeIn(step1), FadeIn(step2), FadeIn(step3), LaggedStart(*[GrowArrow(a) for a in arrows], lag_ratio=0.2))
-        self.wait(0.2)
+        self.wait(2.5)
+        
         dots = VGroup(*[Dot(LEFT * 4 + DOWN * 1 + RIGHT * (i % 8) * 0.25 + UP * (i // 8) * 0.25, color=RED if i in [3, 5, 12, 17] else BLUE_D) for i in range(24)])
         bucket = RoundedRectangle(width=2.4, height=2.0, corner_radius=0.12, color=GOLD).set_fill(GOLD, 0.12).shift(DOWN * 1.2)
         self.play(FadeIn(dots), Create(bucket))
+        self.wait(1.5)
+        
         wrong = [dots[i] for i in [3, 5, 12, 17]]
         self.play(*[d.animate.move_to(bucket.get_center() + RIGHT * (j - 1.5) * 0.35) for j, d in enumerate(wrong)], run_time=0.6)
         self.play(Flash(bucket, color=GOLD))
         copies = VGroup(*[d.copy().set_color(GOLD) for d in wrong])
-        self.play(LaggedStart(*[c.animate.shift(RIGHT * 2.2 + UP * (i - 1.5) * 0.18) for i, c in enumerate(copies)], lag_ratio=0.1), run_time=0.5)
-        k = Text("K copies", font_size=28, color=GOLD).next_to(bucket, RIGHT, buff=0.35)
+        copies_target = VGroup(*[Dot(color=GOLD) for _ in wrong]).arrange(UP, buff=0.15).shift(bucket.get_center() + RIGHT * 2.6)
+        self.play(Transform(copies, copies_target), run_time=0.5)
+        k = Text("K copies", font_size=28, color=GOLD).next_to(copies, RIGHT, buff=0.35)
         self.play(FadeIn(k, shift=LEFT * 0.1), Indicate(step3[0], color=GREEN_D), run_time=0.5)
+        self.wait(2.0)
+        
         after = bar("worst group", 0.71, GREEN_D, width=3.0).scale(0.75).to_edge(DOWN, buff=0.35)
         before = bar("ERM", 0.32, RED, width=3.0).scale(0.75).next_to(after, UP, buff=0.18)
         self.play(FadeIn(before, shift=UP * 0.1), run_time=0.3)
         self.play(FadeIn(after, shift=UP * 0.1), run_time=0.35)
         self.play(Circumscribe(after, color=GREEN_D), run_time=0.4)
+        self.wait(2.0)
         
         # Fade out step diagram to transition to dataset walkthrough
+        self.wait(2.0)
         self.play(
             FadeOut(VGroup(step1, step2, step3, arrows, dots, bucket, copies, k, before, after, q)),
             run_time=0.5
         )
+        self.wait(0.5)
         
         # Concrete dataset visualization
-        db_title = Text("Stage 1: Identify ERM Weaknesses", font_size=24, color=WHITE).shift(UP * 1.1)
+        db_title = Text("Stage 1: Identify ERM Weaknesses", font_size=24, color=WHITE).shift(UP * 2.4)
         self.play(FadeIn(db_title), run_time=0.4)
         
         # Draw 4 sample cards representing majority and minority
@@ -67,13 +76,13 @@ class JTT(OODScene):
         )
         
         self.play(LaggedStart(*[FadeIn(c, scale=0.85) for c in cards], lag_ratio=0.12), run_time=0.5)
-        self.wait(0.1)
+        self.wait(2.0)
         
         # Highlight why the minority is wrong
         explanation = Text("Minority cards are misclassified because the shortcut points in the wrong direction!", font_size=20, color=GOLD).shift(DOWN * 1.8)
         self.play(FadeIn(explanation, shift=UP * 0.1), run_time=0.3)
         self.play(Circumscribe(cards[2], color=RED), Circumscribe(cards[3], color=RED), run_time=0.4)
-        self.wait(0.1)
+        self.wait(2.0)
         
         # Show that these mistakes are a natural proxy for the minority group
         proxy_title = Text("Mistakes = Natural Proxy for Minority Groups", font_size=22, color=GOLD).move_to(db_title.get_center())
@@ -86,7 +95,7 @@ class JTT(OODScene):
             cards[3].animate.scale(1.15).shift(RIGHT * 0.8),
             run_time=0.5
         )
-        self.wait(0.1)
+        self.wait(1.5)
         
         # Stage 2: Upweighting
         s2_title = Text("Stage 2: Upweight Mistakes (K = 20)", font_size=24, color=WHITE).move_to(db_title.get_center())
@@ -95,6 +104,7 @@ class JTT(OODScene):
             FadeOut(cards[0]), FadeOut(cards[1]),
             run_time=0.5
         )
+        self.wait(0.2)
         
         # Draw the copies multiplication visual
         copies_grid_left = VGroup(*[cards[2][0:3].copy().move_to(ORIGIN).scale(0.35) for _ in range(9)]).arrange_in_grid(3, 3, buff=0.08).shift(LEFT * 2.5 + DOWN * 0.3)
@@ -107,12 +117,12 @@ class JTT(OODScene):
             run_time=0.7
         )
         self.play(Flash(copies_grid_left, color=GOLD), Flash(copies_grid_right, color=GOLD), run_time=0.3)
-        self.wait(0.1)
+        self.wait(2.5)
         
         # Retrain on balanced data
         retrain_lbl = Text("Retraining forces the model to ignore the shortcut", font_size=20, color=GREEN_D).shift(DOWN * 2.1)
         self.play(FadeIn(retrain_lbl, shift=UP * 0.1), run_time=0.3)
-        self.wait(0.1)
+        self.wait(2.5)
         
         # Show results
         self.play(FadeOut(VGroup(db_title, copies_grid_left, copies_grid_right, retrain_lbl)), run_time=0.5)
@@ -125,16 +135,22 @@ class JTT(OODScene):
         
         self.play(FadeIn(before, shift=UP * 0.1), run_time=0.5)
         self.play(Indicate(before, color=RED), run_time=0.3)
-        self.wait(0.1)
+        self.wait(2.0)
         self.play(FadeIn(after, shift=UP * 0.1), run_time=0.3)
         self.play(Circumscribe(after, color=GREEN_D), run_time=0.3)
-        self.wait(0.1)
+        self.wait(1.5)
         
         # Concluding tag
         final_tag = Text("Robustness achieved without manual group labels!", font_size=22, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.3)
         self.play(FadeIn(final_tag, shift=UP * 0.1), run_time=0.3)
         self.play(Circumscribe(final_tag, color=GOLD), run_time=0.3)
-        self.wait(15.63)
+        # Motion fillers: cycle through result bars and final tag
+        for _ in range(2):
+            self.play(Indicate(after, color=GREEN_D, scale_factor=1.06), run_time=0.5)
+            self.play(Indicate(before, color=RED, scale_factor=1.06), run_time=0.5)
+            self.play(Indicate(final_tag, color=GOLD), run_time=0.4)
+        self.active_wait(VGroup(after, before, final_tag), 1.0, GOLD)
+        self.wait(1.0)
 
 
 class SemanticCorruptions(OODScene):
@@ -251,7 +267,10 @@ class SemanticCorruptions(OODScene):
         final_verdict = Text("Semantic corruption exposes brittle spurious shortcuts.", font_size=22, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.3)
         self.play(FadeIn(final_verdict, shift=UP * 0.1), run_time=0.5)
         self.play(Circumscribe(final_verdict, color=GOLD), run_time=0.5)
-        
-        # Hold side-by-side visualization
+        # Motion fillers: alternate between NLP card and CV card highlights
+        for _ in range(3):
+            self.play(Indicate(left_group[0], color=BLUE_D, scale_factor=1.04), run_time=0.5)
+            self.play(Indicate(right_group[0], color=GREEN_D, scale_factor=1.04), run_time=0.5)
+            self.play(Indicate(final_verdict, color=GOLD), run_time=0.4)
         self.active_wait(VGroup(left_group, right_group, final_verdict), 1.0, GOLD)
-        self.wait(12.73)
+        self.wait(8.73)

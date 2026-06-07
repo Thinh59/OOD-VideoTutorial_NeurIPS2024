@@ -253,9 +253,14 @@ class CLIPSpuriousWeb(OODScene):
         self.play(FadeIn(bias_loop[0], shift=UP * 0.1), run_time=0.3)
         self.play(GrowArrow(loop_arrows[0]), FadeIn(bias_loop[1], shift=UP * 0.1), run_time=0.3)
         self.play(GrowArrow(loop_arrows[1]), FadeIn(bias_loop[2], shift=UP * 0.1), run_time=0.3)
-        
+        # Motion fillers: cycle through bias loop boxes
+        for _ in range(3):
+            self.play(Indicate(bias_loop[0], color=PURPLE, scale_factor=1.08), run_time=0.5)
+            self.play(Indicate(bias_loop[1], color=ORANGE, scale_factor=1.08), run_time=0.4)
+            self.play(Indicate(bias_loop[2], color=RED, scale_factor=1.08), run_time=0.4)
+            self.play(Indicate(final_tag, color=RED), run_time=0.4)
         self.active_wait(VGroup(bias_loop, final_tag), 1.0, RED)
-        self.wait(1.87)
+        self.wait(1.0)
 
 
 class ICLShortcuts(OODScene):
@@ -553,13 +558,16 @@ class CATO(OODScene):
         t2 = Text("balanced", font_size=20).move_to(pie2)
         
         self.play(FadeIn(steps[0], shift=RIGHT * 0.1), FadeIn(bird_water, scale=0.9), run_time=0.5)
+        self.wait(2.0)
         self.play(FadeIn(steps[1], shift=RIGHT * 0.1), GrowArrow(arrow), TransformFromCopy(bird_water, bird_land), run_time=0.6)
         self.play(FadeIn(prompt, shift=DOWN * 0.1), run_time=0.4)
-        self.wait(1.5)
+        self.wait(2.0)
         
         self.play(FadeIn(VGroup(pie1, t1), scale=0.9), run_time=0.4)
+        self.wait(1.5)
         self.play(FadeIn(steps[2], shift=RIGHT * 0.1), Transform(VGroup(pie1, t1), VGroup(pie2, t2)), run_time=0.6)
         self.play(Flash(pie2, color=GREEN_D), Indicate(steps[2], color=GREEN_D), run_time=0.5)
+        self.wait(2.0)
         
         samples = VGroup(*[bird_land.copy().move_to(ORIGIN).scale(0.45) for _ in range(6)]).arrange_in_grid(2, 3, buff=0.12).next_to(bird_land, DOWN, buff=0.3)
         self.play(LaggedStart(*[FadeIn(s, scale=0.8) for s in samples], lag_ratio=0.08), run_time=0.5)
@@ -567,12 +575,12 @@ class CATO(OODScene):
         aug = Text("counterfactual minority samples", font_size=20, color=PURPLE).next_to(samples, DOWN, buff=0.15)
         self.play(FadeIn(aug, shift=UP * 0.1), run_time=0.4)
         self.play(Circumscribe(samples, color=PURPLE), run_time=0.5)
-        self.wait(2.2)
+        self.wait(2.5)
         
         final = Text("causal augmentation balances the rare groups", font_size=22, color=GREEN_D).to_edge(DOWN, buff=0.2)
         self.play(FadeIn(final, shift=UP * 0.1), run_time=0.4)
         self.play(Circumscribe(final, color=GREEN_D), run_time=0.4)
-        self.wait(1.8)
+        self.wait(2.5)
         
         # --- STEP 2: Scarcity Problem ---
         self.play(
@@ -587,9 +595,10 @@ class CATO(OODScene):
         min_samples = bar("Minority Group", 0.05, RED, width=5.0).scale(0.85).next_to(maj_samples, DOWN, buff=0.25)
         
         self.play(FadeIn(maj_samples), run_time=0.5)
+        self.wait(1.5)
         self.play(FadeIn(min_samples), run_time=0.5)
         self.play(Circumscribe(min_samples, color=RED), run_time=0.5)
-        self.wait(2.2)
+        self.wait(3.0)
         
         # --- STEP 3: Causal Graph Intervention (Spread nodes by 3.0 units to prevent overlaps!) ---
         self.play(FadeOut(VGroup(scarcity_title, maj_samples, min_samples)), run_time=0.5)
@@ -611,12 +620,12 @@ class CATO(OODScene):
             FadeIn(VGroup(y_node, core_node, env_node, spur_node, a1_node, a2_node, a3_node)),
             run_time=0.8
         )
-        self.wait(1.5)
+        self.wait(2.5)
         
         scissors = Text("✂", font_size=36, color=RED).move_to(a3_node.get_center())
         self.play(FadeIn(scissors, scale=1.2), run_time=0.3)
         self.play(FadeOut(a3_node), FadeOut(scissors), Flash(a3_node.get_center(), color=RED), run_time=0.5)
-        self.wait(2.2)
+        self.wait(3.0)
         
         # --- STEP 4: Generative Counterfactual Synthesis (Prevent prompt overflow!) ---
         self.play(FadeOut(VGroup(scm_title, y_node, core_node, env_node, spur_node, a1_node, a2_node)), run_time=0.5)
@@ -632,9 +641,10 @@ class CATO(OODScene):
         ]).arrange(RIGHT, buff=0.25).shift(DOWN * 0.8)
         
         self.play(FadeIn(prompt_input, shift=DOWN * 0.1), run_time=0.5)
+        self.wait(1.5)
         self.play(LaggedStart(*[FadeIn(s, scale=0.8) for s in synth_grid], lag_ratio=0.15), run_time=0.8)
         self.play(Flash(synth_grid, color=YELLOW_D), run_time=0.5)
-        self.wait(2.5)
+        self.wait(3.0)
         
         # --- STEP 5: Final Narrative Arc summary (NO empty screen during final wait!) ---
         self.play(FadeOut(VGroup(gen_title, prompt_input, synth_grid)), run_time=0.5)
@@ -650,8 +660,10 @@ class CATO(OODScene):
             Text("5. Robustness!", font_size=22, color=GOLD, weight=BOLD),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.25).shift(LEFT * 1.5 + DOWN * 0.2)
         
-        self.play(LaggedStart(*[FadeIn(st, shift=RIGHT * 0.1) for st in steps_flow], lag_ratio=0.2), run_time=1.0)
-        self.play(Circumscribe(steps_flow[-1], color=GOLD), run_time=0.4)
+        for i, st in enumerate(steps_flow):
+            self.play(FadeIn(st, shift=RIGHT * 0.1), run_time=0.5)
+            if i == 4:
+                self.play(Circumscribe(st, color=GOLD), run_time=0.4)
+            self.wait(1.0)
         
         self.active_wait(VGroup(steps_flow, arc_title), 1.0, GOLD)
-        self.wait(1.0)

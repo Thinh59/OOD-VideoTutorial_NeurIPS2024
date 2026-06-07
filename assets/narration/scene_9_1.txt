@@ -1,0 +1,13 @@
+Chúng ta đã đi một hành trình dài.
+
+Bắt đầu từ một câu hỏi đơn giản: tại sao AI học những thứ sai? ERM và shortcut learning.
+
+Rồi nhìn qua lăng kính nhân quả: spurious features tồn tại vì AI học tương quan thay vì nhân quả, và tương quan đó bị phá vỡ khi môi trường thay đổi.
+
+Ba phương pháp, IRM, Group DRO, JTT, cố gắng buộc AI học causal features bằng những cách khác nhau: qua invariance của gradient, qua tối ưu worst-case, qua self-identification của thiểu số.
+
+Và trong thời đại foundation models, vấn đề không biến mất. Nó chỉ thay đổi hình dạng và quy mô.
+
+Tất cả dẫn về một từ: Stability. Một AI ổn định không phải là AI không bao giờ gặp phân phối mới. Mà là AI biết điều gì thực sự quan trọng, và giữ vững niềm tin đó dù hoàn cảnh thay đổi.
+
+Đây là ranh giới tiếp theo.

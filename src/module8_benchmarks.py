@@ -111,7 +111,7 @@ class BenchmarksReality(OODScene):
         self.play(FadeIn(warning, shift=UP * 0.1), run_time=0.5)
         self.play(Circumscribe(VGroup(grid, row_labels, col_labels), color=ORANGE), run_time=0.5)
         
-        self.wait(8.78)
+        self.wait(9.21)
 
 
 class ModelSelectionParadox(OODScene):
@@ -262,4 +262,4 @@ class BestPractices(OODScene):
         self.play(Flash(report.get_center(), color=GOLD), run_time=0.4)
         
         self.active_wait(VGroup(diversity, report, bars), 1.0, GOLD)
-        self.wait(8.87)
+        self.wait(9.39)

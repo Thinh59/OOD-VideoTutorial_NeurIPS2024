@@ -1,0 +1,9 @@
+Trong thế giới Large Language Models, spurious shortcuts xuất hiện ở một nơi bất ngờ: ngay trong cái prompt mà bạn viết.
+
+In-Context Learning, hay ICL, là khả năng LLM học từ một vài ví dụ được cung cấp trực tiếp trong prompt. Nhìn qua thì tuyệt vời. Nhưng slides của tutorial chỉ ra một vấn đề tinh vi.
+
+Trong prompt này, tất cả ba ví dụ Positive đều chứa từ 'movie'. LLM không học được rằng câu văn tích cực thì nhãn là Positive. Nó học được điều đơn giản hơn: 'movie' xuất hiện trong prompt thì nhãn là Positive.
+
+Khi gặp một câu không liên quan đến phim nhưng cũng là Positive, hay ngược lại, LLM sai. Đây là spurious correlation được tạo ra bởi chính người viết prompt, không phải bởi dữ liệu train.
+
+Và đây là điểm đặc biệt nguy hiểm của ICL shortcuts: chúng vô hình. Bạn không thể kiểm tra 'model weights' vì shortcuts nằm trong ngữ cảnh, thay đổi theo từng lần gọi.

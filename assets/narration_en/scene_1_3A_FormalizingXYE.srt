@@ -1,0 +1,7 @@
+1
+00:00:00,000 --> 00:00:06,000
+In machine learning, we have X as input and Y as label.
+
+2
+00:00:06,000 --> 00:00:13,000
+But we often forget E, the environment. Environment dictates how X and Y relate.

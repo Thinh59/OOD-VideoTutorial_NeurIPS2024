@@ -1,0 +1,7 @@
+Let's formalize this.
+X is the input observation, like an image or clinical note.
+Y is the target label to predict.
+E is the environment or context that generated the data.
+
+A training example is a triplet: X, Y, and E.
+Environment labels are the key to separating stable signals from brittle shortcuts.

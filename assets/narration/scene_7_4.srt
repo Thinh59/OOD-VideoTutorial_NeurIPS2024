@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:06,000
+Đây là phát hiện gây sốc nhất trong phần Foundation Models của tutorial: Reverse Scaling.
+
+2
+00:00:06,000 --> 00:00:12,000
+Thông thường chúng ta kỳ vọng mô hình lớn hơn sẽ mạnh hơn, robust hơn với shortcuts.
+
+3
+00:00:12,000 --> 00:00:18,000
+Nhưng với ICL spurious correlations, điều ngược lại xảy ra.
+
+4
+00:00:18,000 --> 00:00:24,000
+Mô hình 13 tỉ tham số bị ảnh hưởng bởi shortcut 'movie' trong prompt nhiều hơn mô hình 2.7 tỉ tham số.
+
+5
+00:00:24,000 --> 00:00:30,000
+Tại sao?
+
+6
+00:00:30,000 --> 00:00:36,000
+Vì mô hình lớn hơn rất giỏi trong việc đọc ngữ cảnh và nắm bắt pattern trong prompt.
+
+7
+00:00:36,000 --> 00:00:42,000
+Đây chính là khả năng tạo nên ICL.
+
+8
+00:00:42,000 --> 00:00:48,000
+Nhưng nó cũng có nghĩa là mô hình lớn hơn 'quá nhạy' với mọi pattern, kể cả pattern không liên quan đến task thực sự.
+
+9
+00:00:48,000 --> 00:00:58,000
+Scale không phải là thuốc chữa bách bệnh.

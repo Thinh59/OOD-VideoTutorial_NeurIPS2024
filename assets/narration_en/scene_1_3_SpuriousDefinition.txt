@@ -1,0 +1,10 @@
+What exactly is a spurious feature?
+
+Think about it.
+A photographer travels to the Arctic. The penguin is the cause, and the snowy background is the effect.
+The causal arrow points from the label to the background.
+But the AI reads this arrow in reverse. It sees the background and infers the penguin.
+
+This is anti-causal prediction.
+When the environment shifts, this shortcut shatters.
+Causal features are stable. Spurious features are brittle.

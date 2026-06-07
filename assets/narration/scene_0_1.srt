@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:07,000
+Hãy bắt đầu với một ví dụ thực tế.
+
+2
+00:00:07,000 --> 00:00:14,000
+Một AI được huấn luyện để dự đoán bệnh từ hồ sơ bệnh án điện tử.
+
+3
+00:00:14,000 --> 00:00:21,000
+Tại Bệnh viện A, nó đạt 95% - ấn tượng.
+
+4
+00:00:21,000 --> 00:00:28,000
+Nhưng khi chuyển sang Bệnh viện B, accuracy rớt xuống 72%. Điều gì đã xảy ra?
+
+5
+00:00:28,000 --> 00:00:35,000
+Nhìn kỹ vào dữ liệu huấn luyện.
+
+6
+00:00:35,000 --> 00:00:42,000
+Tại Viện A, một bác sĩ cụ thể có thói quen: ông ta viết 'man' khi ghi hồ sơ bệnh nhân tiểu đường, và 'gentleman' khi ghi bệnh nhân viêm khớp.
+
+7
+00:00:42,000 --> 00:00:49,000
+Hai từ đồng nghĩa - nhưng AI đã học được sự phân biệt này và dùng nó như một đường tắt.
+
+8
+00:00:49,000 --> 00:00:56,000
+Khi sang Viện B, bác sĩ mới không có thói quen đó. Shortcut biến mất. Mô hình sụp đổ.
+
+9
+00:00:56,000 --> 00:01:03,000
+Đây chính là vấn đề trọng tâm của tutorial này.
+
+10
+00:01:03,000 --> 00:01:10,000
+Không phải AI thiếu dữ liệu hay thiếu tham số. Mà là AI đang học sai thứ.

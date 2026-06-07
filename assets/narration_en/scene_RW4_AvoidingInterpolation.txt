@@ -1,0 +1,1 @@
+To avoid memorization, we can undersample the majority class, or use a two-stage approach by freezing the feature extractor.

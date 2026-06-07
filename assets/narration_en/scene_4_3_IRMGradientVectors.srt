@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:05,000
+IRMv1 approximates this using a gradient penalty.
+
+2
+00:00:05,000 --> 00:00:10,000
+If the classifier is optimal, its gradient must be zero.
+
+3
+00:00:10,000 --> 00:00:15,000
+We add a penalty measuring the squared norm of the gradient at a dummy classifier.
+
+4
+00:00:15,000 --> 00:00:20,000
+A large penalty indicates the representation relies on shortcuts.
+
+5
+00:00:20,000 --> 00:00:25,000
+The optimizer is forced to find a representation where gradients from all environments agree.

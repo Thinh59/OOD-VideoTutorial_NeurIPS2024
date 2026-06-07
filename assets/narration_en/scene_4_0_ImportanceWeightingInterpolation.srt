@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:05,000
+The simplest way to balance groups is importance weighting.
+
+2
+00:00:05,000 --> 00:00:10,000
+We upweight rare groups in the loss function. But there's a problem.
+
+3
+00:00:10,000 --> 00:00:15,000
+Modern networks easily interpolate all training points, reaching zero loss.
+
+4
+00:00:15,000 --> 00:00:20,000
+When loss is zero, gradients are zero. Multiplying by weights has no effect.
+
+5
+00:00:20,000 --> 00:00:26,000
+The model simply memorizes the minority while using the shortcut for the rest.

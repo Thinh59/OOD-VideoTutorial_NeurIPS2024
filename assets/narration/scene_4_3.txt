@@ -1,0 +1,3 @@
+Hình dung trực quan. Nếu Phi đang dùng spurious feature, đặc trưng đó hữu ích ở một số môi trường nhưng hại ở môi trường khác. Mỗi môi trường muốn w dịch chuyển theo hướng khác nhau. Ba vector gradient chỉ về ba hướng khác nhau, bất đồng.
+
+Khi penalty lambda tăng, optimizer bị phạt nếu các gradient còn phân kỳ. Nó buộc phải tìm Phi mà tất cả môi trường đồng thuận. Spurious features bị loại khỏi Phi vì chúng là nguyên nhân của sự bất đồng. Phần còn lại trong Phi chính là causal features.

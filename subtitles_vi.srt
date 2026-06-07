@@ -1,0 +1,1455 @@
+1
+00:00:00,000 --> 00:00:02,330
+Hãy bắt đầu với một ví dụ thực tế.
+
+2
+00:00:02,330 --> 00:00:06,718
+Một AI được huấn luyện để dự đoán bệnh từ hồ sơ bệnh án điện tử.
+
+3
+00:00:06,718 --> 00:00:10,009
+Tại Bệnh viện A, nó đạt 95 phần trăm — ấn tượng.
+
+4
+00:00:10,009 --> 00:00:14,602
+Nhưng khi chuyển sang Bệnh viện B, accuracy rớt xuống 72 phần trăm.
+
+5
+00:00:14,602 --> 00:00:15,836
+Điều gì đã xảy ra?
+
+6
+00:00:15,836 --> 00:00:17,962
+Nhìn kỹ vào dữ liệu huấn luyện.
+
+7
+00:00:17,962 --> 00:00:27,628
+Tại Viện A, một bác sĩ cụ thể có thói quen: ông ta viết 'man' khi ghi hồ sơ bệnh nhân tiểu đường, và 'gentleman' khi ghi bệnh nhân viêm khớp.
+
+8
+00:00:27,628 --> 00:00:33,593
+Hai từ đồng nghĩa — nhưng AI đã học được sự phân biệt này và dùng nó như một đường tắt.
+
+9
+00:00:33,593 --> 00:00:37,021
+Khi sang Viện B, bác sĩ mới không có thói quen đó.
+
+10
+00:00:37,021 --> 00:00:38,255
+Shortcut biến mất.
+
+11
+00:00:38,255 --> 00:00:39,283
+Mô hình sụp đổ.
+
+12
+00:00:39,283 --> 00:00:42,505
+Đây chính là vấn đề trọng tâm của tutorial này.
+
+13
+00:00:42,505 --> 00:00:45,659
+Không phải AI thiếu dữ liệu hay thiếu tham số.
+
+14
+00:00:45,659 --> 00:00:47,442
+Mà là AI đang học sai thứ.
+
+15
+00:00:47,442 --> 00:00:50,466
+Trong video này chúng ta sẽ đi qua tám chặng.
+
+16
+00:00:50,466 --> 00:01:10,563
+Bắt đầu bằng trực giác về vấn đề, sau đó hình thức hóa bằng toán học, định nghĩa risk và cách đo lường robustness, nhìn qua lăng kính nhân quả, khám phá các phương pháp giải quyết từ reweighting đến IRM và DRO, đánh giá thực tế qua benchmark, rồi xem foundation models thay đổi bài toán như thế nào.
+
+17
+00:01:10,563 --> 00:01:14,259
+Và cuối cùng, liệu AI có thể tự sửa lỗi của chính mình.
+
+18
+00:01:14,259 --> 00:01:14,797
+Đi thôi.
+
+19
+00:01:14,797 --> 00:01:17,373
+Hãy bắt đầu bằng ví dụ kinh điển trong tutorial.
+
+20
+00:01:17,373 --> 00:01:20,056
+Bạn xây dựng AI phân loại chim cánh cụt và lạc đà.
+
+21
+00:01:20,056 --> 00:01:25,261
+Tập dữ liệu huấn luyện: chim cánh cụt luôn đứng trên tuyết trắng, lạc đà luôn đứng trên cát vàng.
+
+22
+00:01:25,261 --> 00:01:29,769
+Trong không gian đặc trưng hai chiều, dữ liệu chia thành hai cụm tách biệt hoàn hảo.
+
+23
+00:01:29,769 --> 00:01:32,238
+Thuật toán học và vẽ được một đường phân loại.
+
+24
+00:01:32,238 --> 00:01:33,418
+Accuracy 98 phần trăm.
+
+25
+00:01:33,418 --> 00:01:33,955
+Tuyệt vời.
+
+26
+00:01:33,955 --> 00:01:35,940
+Nhưng chú ý kỹ đường này đang làm gì.
+
+27
+00:01:35,940 --> 00:01:37,872
+Nó đi theo trục ngang — đọc màu nền.
+
+28
+00:01:37,872 --> 00:01:40,019
+Không phải trục dọc — hình dáng con vật.
+
+29
+00:01:40,019 --> 00:01:45,117
+Khi một chú chim cánh cụt bị đặt trên cát vàng, đường phân loại không ngần ngại: đây là lạc đà.
+
+30
+00:01:45,117 --> 00:01:45,868
+Sai hoàn toàn.
+
+31
+00:01:45,868 --> 00:01:50,376
+Để hiểu tại sao, chúng ta cần nhìn vào trái tim của mọi thuật toán học máy hiện đại.
+
+32
+00:01:50,376 --> 00:01:53,201
+ERM, Empirical Risk Minimization, là thuật toán học máy tiêu chuẩn.
+
+33
+00:01:53,201 --> 00:01:56,743
+Ý tưởng đơn giản: tìm bộ tham số theta để minimize sai số trung bình trên tập train.
+
+34
+00:01:56,743 --> 00:01:59,189
+Nhưng chú ý: ERM chỉ có một mục tiêu duy nhất — giảm Loss.
+
+35
+00:01:59,189 --> 00:02:02,731
+Nó không biết, không quan tâm, liệu sự giảm đó đến từ hiểu thật sự hay từ đường tắt.
+
+36
+00:02:02,731 --> 00:02:04,544
+Hãy hình dung từ góc nhìn Gradient Descent.
+
+37
+00:02:04,544 --> 00:02:07,411
+Có hai con đường: phân tích hình thái học — tốn nhiều bước, khó học.
+
+38
+00:02:07,411 --> 00:02:09,267
+Hoặc đếm pixel nền — một phép tính đơn giản.
+
+39
+00:02:09,267 --> 00:02:10,996
+Gradient Descent luôn chọn con đường hai.
+
+40
+00:02:10,996 --> 00:02:13,863
+Không phải vì nó xấu xa, mà vì đó là chiều gradient giảm nhanh nhất.
+
+41
+00:02:13,863 --> 00:02:17,236
+Chúng ta gọi những đặc trưng như màu nền đó là Spurious Features — đặc trưng ảo.
+
+42
+00:02:17,236 --> 00:02:21,116
+Chúng trông giống tín hiệu hữu ích trong train data, nhưng chỉ là sự trùng hợp của ngữ cảnh.
+
+43
+00:02:21,116 --> 00:02:25,375
+Và câu hỏi tự nhiên tiếp theo là: làm sao ta phân biệt chính xác giữa đặc trưng thật và đặc trưng ảo?
+
+44
+00:02:25,375 --> 00:02:27,118
+Vậy spurious feature là gì, chính xác?
+
+45
+00:02:27,118 --> 00:02:28,998
+Hãy nghĩ về chuỗi sự kiện tạo ra dữ liệu.
+
+46
+00:02:28,998 --> 00:02:31,475
+Nhiếp ảnh gia muốn chụp chim cánh cụt, họ đến Bắc Cực.
+
+47
+00:02:31,475 --> 00:02:33,860
+Con chim là nguyên nhân, nền tuyết trắng là kết quả.
+
+48
+00:02:33,860 --> 00:02:35,558
+Mũi tên nhân quả đi từ nhãn sang nền.
+
+49
+00:02:35,558 --> 00:02:38,677
+Nhưng AI đang đọc ngược lại: thấy nền trắng, kết luận chim cánh cụt.
+
+50
+00:02:38,677 --> 00:02:40,328
+Đây là dự đoán ngược chiều nhân quả.
+
+51
+00:02:40,328 --> 00:02:44,181
+Khi môi trường thay đổi — chim cánh cụt xuất hiện ở sa mạc — tương quan đó tan biến.
+
+52
+00:02:44,181 --> 00:02:48,584
+Nhưng mối quan hệ nhân quả thật vẫn còn: chim cánh cụt có hình dáng chim cánh cụt dù đứng ở đâu.
+
+53
+00:02:48,584 --> 00:02:50,556
+Causal features ổn định qua mọi môi trường.
+
+54
+00:02:50,556 --> 00:02:52,987
+Spurious features chỉ tồn tại ở một hoàn cảnh cụ thể.
+
+55
+00:02:52,987 --> 00:02:55,694
+Nhưng cho đến giờ, tất cả những gì ta nói vẫn là trực giác.
+
+56
+00:02:55,694 --> 00:02:58,859
+Để thực sự giải quyết vấn đề, ta cần một ngôn ngữ toán học chính xác.
+
+57
+00:02:58,859 --> 00:02:59,564
+Trước khi đi sâu vào các giải pháp...
+
+58
+00:02:59,564 --> 00:03:00,346
+ta cần phải 'toán học hóa' trực giác này.
+
+59
+00:03:00,346 --> 00:03:00,899
+[pause 0.5s] Trong học máy...
+
+60
+00:03:00,899 --> 00:03:01,471
+mọi thứ bắt đầu bằng biến X...
+
+61
+00:03:01,471 --> 00:03:02,500
+[pause 0.3s] ...đây là đầu vào mà mô hình nhìn thấy...
+
+62
+00:03:02,500 --> 00:03:03,168
+như một tờ bệnh án hay một bức ảnh.
+
+63
+00:03:03,168 --> 00:03:04,064
+[pause 0.5s] Đích đến của chúng ta là biến Y...
+
+64
+00:03:04,064 --> 00:03:04,388
+nhãn cần dự đoán.
+
+65
+00:03:04,388 --> 00:03:04,788
+[pause 0.8s] Nhưng...
+
+66
+00:03:04,788 --> 00:03:05,570
+còn một biến số thứ ba thường bị bỏ quên.
+
+67
+00:03:05,570 --> 00:03:06,218
+[pause 0.5s] Đó là E — Môi trường.
+
+68
+00:03:06,218 --> 00:03:07,209
+[pause 0.8s] E đại diện cho ngữ cảnh tạo ra dữ liệu.
+
+69
+00:03:07,209 --> 00:03:08,029
+[pause 0.3s] Bệnh viện A là một môi trường.
+
+70
+00:03:08,029 --> 00:03:08,697
+Bệnh viện B là một môi trường khác.
+
+71
+00:03:08,697 --> 00:03:10,031
+[pause 0.5s] Môi trường chính là thứ chi phối mối quan hệ giữa X và Y.
+
+72
+00:03:10,031 --> 00:03:10,479
+Trong học máy tiêu chuẩn...
+
+73
+00:03:10,479 --> 00:03:11,142
+chúng ta luôn dựa vào một giả định ngầm.
+
+74
+00:03:11,142 --> 00:03:11,805
+[pause 0.5s] Đó là dữ liệu huấn luyện...
+
+75
+00:03:11,805 --> 00:03:12,169
+và dữ liệu kiểm thử...
+
+76
+00:03:12,169 --> 00:03:12,882
+được rút ra từ cùng một phân phối xác suất.
+
+77
+00:03:12,882 --> 00:03:13,263
+[pause 0.3s] P-train...
+
+78
+00:03:13,263 --> 00:03:13,529
+bằng với P-test.
+
+79
+00:03:13,529 --> 00:03:14,357
+[pause 1.0s] Nhưng bài toán Out-of-Distribution...
+
+80
+00:03:14,357 --> 00:03:14,523
+hay OOD...
+
+81
+00:03:14,523 --> 00:03:15,020
+đập vỡ hoàn toàn giả định này.
+
+82
+00:03:15,020 --> 00:03:15,501
+[pause 0.8s] Trong thực tế...
+
+83
+00:03:15,501 --> 00:03:16,065
+P-train không bao giờ bằng P-test.
+
+84
+00:03:16,065 --> 00:03:16,993
+[pause 0.5s] Dữ liệu huấn luyện đến từ môi trường e-1...
+
+85
+00:03:16,993 --> 00:03:17,623
+với những quy luật và định kiến riêng.
+
+86
+00:03:17,623 --> 00:03:18,319
+[pause 0.5s] Còn khi triển khai thực tế...
+
+87
+00:03:18,319 --> 00:03:18,966
+mô hình lại đối mặt với môi trường e-2.
+
+88
+00:03:18,966 --> 00:03:19,529
+[pause 0.8s] Hai môi trường này...
+
+89
+00:03:19,529 --> 00:03:20,209
+tạo ra hai phân phối hoàn toàn khác biệt.
+
+90
+00:03:20,209 --> 00:03:20,379
+Thay vì một phân phối...
+
+91
+00:03:20,379 --> 00:03:20,720
+chúng ta làm việc với một tập hợp các phân phối.
+
+92
+00:03:20,720 --> 00:03:21,075
+[pause 0.5s] Huấn luyện trên một vài môi trường...
+
+93
+00:03:21,075 --> 00:03:21,508
+và hy vọng mô hình ổn định trên một môi trường hoàn toàn mới.
+
+94
+00:03:21,508 --> 00:03:21,771
+[pause 0.8s] Đó chính là chìa khóa...
+
+95
+00:03:21,771 --> 00:03:21,849
+sự ổn định.
+
+96
+00:03:21,849 --> 00:03:22,119
+Vậy spurious feature là gì, chính xác?
+
+97
+00:03:22,119 --> 00:03:22,410
+Hãy nghĩ về chuỗi sự kiện tạo ra dữ liệu.
+
+98
+00:03:22,410 --> 00:03:22,793
+Nhiếp ảnh gia muốn chụp chim cánh cụt, họ đến Bắc Cực.
+
+99
+00:03:22,793 --> 00:03:23,162
+Con chim là nguyên nhân, nền tuyết trắng là kết quả.
+
+100
+00:03:23,162 --> 00:03:23,425
+Mũi tên nhân quả đi từ nhãn sang nền.
+
+101
+00:03:23,425 --> 00:03:23,958
+Nhưng AI đang đọc ngược lại: thấy nền trắng, kết luận đây là chim cánh cụt.
+
+102
+00:03:23,958 --> 00:03:24,384
+Đây là Anti-causal Prediction, dự đoán ngược chiều nhân quả.
+
+103
+00:03:24,384 --> 00:03:24,916
+Vấn đề: tương quan ngược chiều này chỉ tồn tại trong một môi trường cụ thể.
+
+104
+00:03:24,916 --> 00:03:25,498
+Khi môi trường thay đổi, chim cánh cụt xuất hiện ở sa mạc, tương quan đó tan biến.
+
+105
+00:03:25,498 --> 00:03:26,237
+Nhưng mối quan hệ nhân quả thật, chim cánh cụt có hình dáng của chim cánh cụt dù đứng ở đâu, vẫn còn đó.
+
+106
+00:03:26,237 --> 00:03:26,791
+Đây chính là sự khác biệt cốt lõi: Causal features ổn định qua mọi môi trường.
+
+107
+00:03:26,791 --> 00:03:27,167
+Spurious features chỉ tồn tại ở một hoàn cảnh cụ thể.
+
+108
+00:03:27,167 --> 00:03:29,475
+Ví dụ bệnh viện và chim cánh cụt vừa rồi nghe trực giác.
+
+109
+00:03:29,475 --> 00:03:32,484
+Nhưng để giải quyết vấn đề, ta cần đặt tên chính xác cho từng thành phần.
+
+110
+00:03:32,484 --> 00:03:33,226
+Ba ký hiệu cơ bản.
+
+111
+00:03:33,226 --> 00:03:34,999
+X là input — bệnh án điện tử, hoặc bức ảnh.
+
+112
+00:03:34,999 --> 00:03:36,771
+Y là label — loại bệnh, hoặc loài động vật.
+
+113
+00:03:36,771 --> 00:03:39,780
+Và E là environment — môi trường — bệnh viện A hay B, Bắc Cực hay sa mạc.
+
+114
+00:03:39,780 --> 00:03:43,325
+Chú ý: ERM truyền thống gộp tất cả dữ liệu từ mọi môi trường lại và tối ưu trung bình.
+
+115
+00:03:43,325 --> 00:03:44,727
+Nó không bao giờ nhìn thấy biến E.
+
+116
+00:03:44,727 --> 00:03:46,705
+Và chính sự mù quáng đó là nguồn gốc của vấn đề.
+
+117
+00:03:46,705 --> 00:03:50,332
+Bây giờ ta đã có ký hiệu, hãy định nghĩa chính xác thế nào là 'học tốt ngoài phân phối'.
+
+118
+00:03:50,332 --> 00:03:54,833
+Trong machine learning truyền thống, ta giả định train và test đến từ cùng một phân phối.
+
+119
+00:03:54,833 --> 00:03:56,198
+Đây gọi là In-Distribution.
+
+120
+00:03:56,198 --> 00:03:58,828
+Nhưng trong thực tế, phân phối test luôn khác train.
+
+121
+00:03:58,828 --> 00:04:00,699
+Bệnh viện mới, quốc gia mới, năm mới.
+
+122
+00:04:00,699 --> 00:04:02,064
+Đây là Out-of-Distribution.
+
+123
+00:04:02,064 --> 00:04:06,767
+OOD Generalization là khả năng mô hình hoạt động tốt khi phân phối test khác phân phối train.
+
+124
+00:04:06,767 --> 00:04:09,144
+Không phải khác một chút — mà khác về cấu trúc.
+
+125
+00:04:09,144 --> 00:04:12,583
+Và để nói chính xác 'khác như thế nào', ta cần khái niệm môi trường.
+
+126
+00:04:12,583 --> 00:04:15,866
+Mỗi môi trường e thuộc tập E tạo ra một phân phối dữ liệu riêng: P_e của X và Y.
+
+127
+00:04:15,866 --> 00:04:18,001
+Bệnh viện A có phân phối bệnh nhân khác Bệnh viện B.
+
+128
+00:04:18,001 --> 00:04:22,393
+Không phải vì bệnh khác, mà vì ngữ cảnh khác — cách ghi hồ sơ, thiết bị chẩn đoán, nhân khẩu học vùng miền.
+
+129
+00:04:22,393 --> 00:04:26,292
+Quan trọng là: mối quan hệ nhân quả giữa triệu chứng thật và bệnh không đổi qua các môi trường.
+
+130
+00:04:26,292 --> 00:04:28,878
+Chỉ có mối quan hệ giữa spurious features và nhãn mới thay đổi.
+
+131
+00:04:28,878 --> 00:04:34,213
+Và khi ta có nhiều môi trường, câu hỏi trở thành: ta muốn mô hình tốt trên MỘT phân phối cụ thể, hay trên TẤT CẢ phân phối có thể?
+
+132
+00:04:34,213 --> 00:04:35,167
+Đây là slide then chốt.
+
+133
+00:04:35,167 --> 00:04:40,265
+Gọi P là tập hợp tất cả phân phối có thể xảy ra — tất cả bệnh viện, tất cả quốc gia, tất cả ngữ cảnh mà mô hình có thể gặp.
+
+134
+00:04:40,265 --> 00:04:42,089
+ERM tối ưu trên đúng một phân phối: p train.
+
+135
+00:04:42,089 --> 00:04:44,368
+Nó không biết và không quan tâm đến phần còn lại của P.
+
+136
+00:04:44,368 --> 00:04:48,347
+Robust Learning thay đổi mục tiêu: ta muốn tìm mô hình hoạt động tốt trên mọi phân phối trong P.
+
+137
+00:04:48,347 --> 00:04:51,207
+Không phải tốt trung bình — mà tốt ngay cả trong trường hợp xấu nhất.
+
+138
+00:04:51,207 --> 00:04:52,202
+Nhưng 'tốt' nghĩa là gì?
+
+139
+00:04:52,202 --> 00:04:53,653
+Ta cần một cách đo lường chính xác.
+
+140
+00:04:53,653 --> 00:04:55,269
+Và đó chính là khái niệm Risk — rủi ro.
+
+141
+00:04:55,269 --> 00:04:58,175
+Đây là Simplicity Bias — một trong những insight quan trọng nhất của tutorial.
+
+142
+00:04:58,175 --> 00:05:01,118
+Trong không gian tham số, gradient descent bắt đầu từ điểm khởi tạo ngẫu nhiên.
+
+143
+00:05:01,118 --> 00:05:02,794
+Nó di chuyển theo hướng giảm loss nhanh nhất.
+
+144
+00:05:02,794 --> 00:05:04,954
+Câu hỏi: hướng nào nhanh hơn — theo phi-star hay psi-star?
+
+145
+00:05:04,954 --> 00:05:07,636
+Spurious feature psi-star có gradient lớn hơn ở gần origin vì hai lý do.
+
+146
+00:05:07,636 --> 00:05:10,430
+Thứ nhất, signal của nó mạnh: 95 phần trăm dữ liệu có spurious correlation.
+
+147
+00:05:10,430 --> 00:05:13,224
+Thứ hai, feature này đơn giản — chỉ cần 1 bit thông tin: bệnh viện A hay B.
+
+148
+00:05:13,224 --> 00:05:17,284
+Causal feature phi-star phức tạp hơn nhiều — cần tổng hợp nhiều chiều để nhận dạng hình thái học của penguin.
+
+149
+00:05:17,284 --> 00:05:20,599
+Kết quả: gradient descent chọn psi-star trước, đặt nhiều trọng số vào spurious direction.
+
+150
+00:05:20,599 --> 00:05:22,313
+Nó có thể bao giờ quay lại học phi-star không?
+
+151
+00:05:22,313 --> 00:05:24,623
+Có — nhưng chỉ khi spurious feature không đủ để giảm loss nữa.
+
+152
+00:05:24,623 --> 00:05:26,858
+Và với 95 phần trăm data ủng hộ nó, điều đó hiếm khi xảy ra.
+
+153
+00:05:26,858 --> 00:05:27,901
+Đây không phải lỗi kỹ thuật.
+
+154
+00:05:27,901 --> 00:05:30,024
+Đây là thuộc tính cơ bản của gradient-based optimization.
+
+155
+00:05:30,024 --> 00:05:31,737
+Và chính vì vậy, ta cần can thiệp có chủ đích.
+
+156
+00:05:31,737 --> 00:05:38,561
+[Chưa có bản dịch cho Scene 1.4B - GeometricSkewMaxMargin]
+
+157
+00:05:38,561 --> 00:05:40,447
+Risk, hay rủi ro, là thước đo cơ bản.
+
+158
+00:05:40,447 --> 00:05:44,322
+Với một phân phối P cụ thể, Risk của mô hình h bằng kỳ vọng của hàm mất mát.
+
+159
+00:05:44,322 --> 00:05:48,248
+Nói đơn giản: R of h là xác suất mô hình mắc lỗi trung bình trên phân phối P.
+
+160
+00:05:48,248 --> 00:05:51,970
+Nếu P là bệnh viện A, Risk là tỉ lệ chẩn đoán sai trung bình tại viện đó.
+
+161
+00:05:51,970 --> 00:05:54,316
+Nhưng ta có nhiều môi trường, nhiều phân phối.
+
+162
+00:05:54,316 --> 00:05:57,987
+Câu hỏi là: khi có nhiều Risk khác nhau, ta gộp chúng lại bằng cách nào?
+
+163
+00:05:57,987 --> 00:05:59,123
+Đây là một trong những insight quan trọng nhất của tutorial: các thuật toán robust khác nhau thực chất chỉ khác nhau ở cách gộp rủi ro.
+
+164
+00:05:59,123 --> 00:05:59,376
+Mean — trung bình bình thường.
+
+165
+00:05:59,376 --> 00:05:59,536
+ERM tối ưu cái này.
+
+166
+00:05:59,536 --> 00:05:59,872
+Nhanh, đơn giản, nhưng hy sinh thiểu số.
+
+167
+00:05:59,872 --> 00:06:00,015
+Max — worst-case.
+
+168
+00:06:00,015 --> 00:06:00,226
+Group DRO tối ưu cái này.
+
+169
+00:06:00,226 --> 00:06:00,621
+Bảo vệ nhóm yếu nhất, nhưng có thể quá bi quan.
+
+170
+00:06:00,621 --> 00:06:00,899
+CVaR — Conditional Value at Risk.
+
+171
+00:06:00,899 --> 00:06:01,875
+Không cực đoan như max, nhưng tập trung vào đuôi phân phối — những trường hợp tệ nhất, không phải tệ nhất tuyệt đối.
+
+172
+00:06:01,875 --> 00:06:02,473
+Distributionally Robust — bảo vệ trước mọi phân phối trong một tập hợp.
+
+173
+00:06:02,473 --> 00:06:02,995
+Mạnh nhất về lý thuyết, nhưng tập hợp phải được chọn cẩn thận.
+
+174
+00:06:02,995 --> 00:06:03,618
+Khi bạn chọn một thuật toán robust, thực chất bạn đang chọn cách gộp risk.
+
+175
+00:06:03,618 --> 00:06:04,106
+Hiểu điều này giúp bạn không bị lạc trong rừng thuật toán.
+
+176
+00:06:04,106 --> 00:06:04,400
+Bây giờ ta đã có ngôn ngữ toán học.
+
+177
+00:06:04,400 --> 00:06:05,065
+Câu hỏi tiếp theo: tại sao ERM — tối ưu mean risk — lại chọn spurious features?
+
+178
+00:06:05,065 --> 00:06:05,461
+Có phải chỉ vì thống kê, hay còn lý do sâu hơn?
+
+179
+00:06:05,461 --> 00:06:06,210
+# KỊCH BẢN V3 — PART IV, V, VI  ## (Mathematical Assumptions → Causal View → Reweighting)
+
+180
+00:06:06,210 --> 00:06:09,829
+Để nói chính xác về vấn đề này, chúng ta cần một ngôn ngữ toán học.
+
+181
+00:06:09,829 --> 00:06:13,555
+Tutorial NeurIPS 2024 đề xuất nhìn dữ liệu qua lăng kính nhóm, Group.
+
+182
+00:06:13,555 --> 00:06:17,174
+Mỗi nhóm được định nghĩa bởi sự kết hợp của nhãn Y và đặc trưng ảo.
+
+183
+00:06:17,174 --> 00:06:19,226
+Trong bài toán bò và lạc đà: bốn nhóm.
+
+184
+00:06:19,226 --> 00:06:19,820
+Bò trên cỏ.
+
+185
+00:06:19,820 --> 00:06:20,468
+Bò trên cát.
+
+186
+00:06:20,468 --> 00:06:21,279
+Lạc đà trên cỏ.
+
+187
+00:06:21,279 --> 00:06:22,143
+Lạc đà trên cát.
+
+188
+00:06:22,143 --> 00:06:24,735
+Trong thực tế, 90% dữ liệu là hai nhóm tự nhiên.
+
+189
+00:06:24,735 --> 00:06:26,410
+Chỉ 10% là hai nhóm nghịch nhĩ.
+
+190
+00:06:26,410 --> 00:06:29,542
+ERM tối ưu trung bình có trọng số, tự động ưu tiên 90% đó.
+
+191
+00:06:29,542 --> 00:06:31,270
+Accuracy tổng thể 92%, nghe hay.
+
+192
+00:06:31,270 --> 00:06:32,729
+Nhưng với nhóm bò trên cát?
+
+193
+00:06:32,729 --> 00:06:32,945
+18%.
+
+194
+00:06:32,945 --> 00:06:35,699
+Chính vì vậy, chúng ta cần một chỉ số đánh giá mới.
+
+195
+00:06:35,699 --> 00:06:36,605
+Nhìn vào hai mô hình.
+
+196
+00:06:36,605 --> 00:06:39,321
+Model A có average accuracy 82%, trông hay hơn Model B với 76%.
+
+197
+00:06:39,321 --> 00:06:40,054
+Theo ERM: chọn A.
+
+198
+00:06:40,054 --> 00:06:40,830
+Nhưng nhìn kỹ hơn.
+
+199
+00:06:40,830 --> 00:06:43,504
+Model A hoàn toàn thất bại ở hai nhóm thiểu số, chỉ 18 và 21%.
+
+200
+00:06:43,504 --> 00:06:47,945
+Trong thực tế điều này nghĩa là những bệnh nhân không theo khuôn sẽ bị chẩn đoán sai gần như hoàn toàn.
+
+201
+00:06:47,945 --> 00:06:50,963
+Model B có average thấp hơn, nhưng các nhóm đều được đối xử công bằng.
+
+202
+00:06:50,963 --> 00:06:54,973
+Worst-Group Accuracy là chỉ số chúng ta thực sự cần quan tâm khi deploy AI vào thế giới thực.
+
+203
+00:06:54,973 --> 00:06:59,285
+Và bây giờ, để hiểu sâu hơn tại sao ERM thất bại, chúng ta cần đi vào cấu trúc nhân quả của dữ liệu.
+
+204
+00:06:59,285 --> 00:07:01,368
+Không phải mọi distribution shift đều giống nhau.
+
+205
+00:07:01,368 --> 00:07:02,771
+Tutorial phân loại ba dạng chính.
+
+206
+00:07:02,771 --> 00:07:03,877
+Thứ nhất: Covariate Shift.
+
+207
+00:07:03,877 --> 00:07:06,726
+Phân phối đầu vào X thay đổi, nhưng mối quan hệ Y cho X vẫn nguyên.
+
+208
+00:07:06,726 --> 00:07:07,831
+Khó nhưng giải quyết được.
+
+209
+00:07:07,831 --> 00:07:08,724
+Thứ hai: Label Shift.
+
+210
+00:07:08,724 --> 00:07:10,085
+Tần suất của các class thay đổi.
+
+211
+00:07:10,085 --> 00:07:10,808
+Ít nguy hiểm hơn.
+
+212
+00:07:10,808 --> 00:07:12,594
+Thứ ba, và nguy hiểm nhất: Spurious Shift.
+
+213
+00:07:12,594 --> 00:07:15,187
+Mối quan hệ giữa đặc trưng ảo và nhãn bị đảo ngược hoàn toàn.
+
+214
+00:07:15,187 --> 00:07:19,269
+Nếu trước đây bò thường ở đồng cỏ, nay tất cả bò đều ở sa mạc, mô hình dùng màu nền sẽ sai 100%.
+
+215
+00:07:19,269 --> 00:07:21,905
+Đây chính là loại shift mà cả phần tutorial này tập trung vào.
+
+216
+00:07:21,905 --> 00:07:23,818
+Hãy xây dựng Structural Causal Model cho bài toán này.
+
+217
+00:07:23,818 --> 00:07:24,527
+Bắt đầu từ Y — nhãn.
+
+218
+00:07:24,527 --> 00:07:25,554
+Con vật là penguin hay camel.
+
+219
+00:07:25,554 --> 00:07:26,900
+Y quyết định đặc trưng vật lý: X_core.
+
+220
+00:07:26,900 --> 00:07:28,600
+Bốn chân hay hai chân, lưng thẳng hay lưng bướu.
+
+221
+00:07:28,600 --> 00:07:29,627
+Đây là mũi tên nhân quả thật.
+
+222
+00:07:29,627 --> 00:07:30,512
+Nhưng màu nền đến từ đâu?
+
+223
+00:07:30,512 --> 00:07:32,177
+Khi nhiếp ảnh gia chụp penguin, họ đến Bắc Cực.
+
+224
+00:07:32,177 --> 00:07:33,417
+Đây là quyết định của môi trường E.
+
+225
+00:07:33,417 --> 00:07:34,940
+Môi trường E tạo ra X_spur — màu nền trắng.
+
+226
+00:07:34,940 --> 00:07:36,427
+Không phải penguin trực tiếp chọn màu nền.
+
+227
+00:07:36,427 --> 00:07:39,615
+Tuy nhiên vì trong train data penguin đi với E là Bắc Cực, có tương quan giữa Y và X_spur.
+
+228
+00:07:39,615 --> 00:07:40,961
+AI nhìn thấy tương quan này và học nó.
+
+229
+00:07:40,961 --> 00:07:43,795
+Đây là bẫy: AI đang dự đoán ngược chiều nhân quả — từ hệ quả suy ra nguyên nhân.
+
+230
+00:07:43,795 --> 00:07:45,884
+Khi E thay đổi — penguin ở sa mạc — tương quan đó biến mất.
+
+231
+00:07:45,884 --> 00:07:47,691
+Chỉ mũi tên X_core đến Y là không bao giờ thay đổi.
+
+232
+00:07:47,691 --> 00:07:49,432
+Hãy xem điều gì xảy ra khi môi trường thay đổi.
+
+233
+00:07:49,432 --> 00:07:52,397
+E bằng đồng cỏ: mối liên hệ giữa Y và X_spur tồn tại — penguin đi với nền trắng.
+
+234
+00:07:52,397 --> 00:07:53,916
+E bằng bãi biển: mối liên hệ đó lung lay.
+
+235
+00:07:53,916 --> 00:07:55,176
+E bằng sa mạc: biến mất hoàn toàn.
+
+236
+00:07:55,176 --> 00:07:57,140
+Nhưng mũi tên từ X_core đến Y không bao giờ thay đổi.
+
+237
+00:07:57,140 --> 00:07:59,734
+Dù ở đồng cỏ, bãi biển, hay sa mạc — penguin vẫn có hình dáng penguin.
+
+238
+00:07:59,734 --> 00:08:03,292
+SCM cho ta thấy rõ: spurious features là hệ quả của môi trường, không phải nguyên nhân của nhãn.
+
+239
+00:08:03,292 --> 00:08:04,960
+Khi môi trường thay đổi, chúng thay đổi theo.
+
+240
+00:08:04,960 --> 00:08:05,923
+Causal features thì không.
+
+241
+00:08:05,923 --> 00:08:07,850
+Câu hỏi là: làm thế nào buộc mô hình chỉ học X_core?
+
+242
+00:08:07,850 --> 00:08:10,926
+Chính vì bài toán có cấu trúc nhân quả rõ ràng như vậy, ta có nhiều hướng tiếp cận.
+
+243
+00:08:10,926 --> 00:08:12,816
+Và hướng đầu tiên — đơn giản nhất — là reweighting.
+
+244
+00:08:12,816 --> 00:08:13,108
+Đây là bài kiểm tra sự thật.
+
+245
+00:08:13,108 --> 00:08:13,558
+[pause 0.5s] Trong môi trường huấn luyện...
+
+246
+00:08:13,558 --> 00:08:14,164
+cả mô hình nhân quả và mô hình đường tắt đều dự đoán đúng.
+
+247
+00:08:14,164 --> 00:08:14,623
+[pause 0.8s] Nhưng khi triển khai thực tế...
+
+248
+00:08:14,623 --> 00:08:15,292
+chỉ có mô hình nhân quả mới sống sót qua sự thay đổi môi trường.
+
+249
+00:08:15,292 --> 00:08:15,825
+[pause 0.8s] Đó là cái giá của việc học thuộc lòng.
+
+250
+00:08:15,825 --> 00:08:16,316
+Hãy xem điều gì xảy ra khi môi trường thay đổi.
+
+251
+00:08:16,316 --> 00:08:16,870
+E bằng đồng cỏ: mối liên hệ giữa Y và X_spur tồn tại.
+
+252
+00:08:16,870 --> 00:08:17,048
+AI hoạt động tốt.
+
+253
+00:08:17,048 --> 00:08:17,476
+E bằng bãi biển: mối liên hệ đó lung lay.
+
+254
+00:08:17,476 --> 00:08:17,821
+E bằng tuyết: hoàn toàn biến mất.
+
+255
+00:08:17,821 --> 00:08:18,751
+Nhưng mũi tên từ X_core đến Y, hình dáng con vật quyết định nhãn, không bao giờ thay đổi.
+
+256
+00:08:18,751 --> 00:08:19,451
+Dù ở đồng cỏ, bãi biển, hay sa mạc, bò vẫn có bốn chân và hai sừng.
+
+257
+00:08:19,451 --> 00:08:20,329
+Và câu hỏi đặt ra bây giờ là: làm thế nào để buộc AI chỉ học những thứ bất biến này?
+
+258
+00:08:20,329 --> 00:08:28,379
+Ý tưởng đơn giản nhất để chống shortcut: thay vì để mọi điểm dữ liệu đóng góp bằng nhau vào loss, ta gán trọng số lớn hơn cho nhóm thiểu số.
+
+259
+00:08:28,379 --> 00:08:33,496
+Công thức thay đổi từ trung bình đều sang trung bình có trọng số: L bằng tổng wᵢ nhân ℓᵢ.
+
+260
+00:08:33,496 --> 00:08:40,396
+Nếu minority chỉ chiếm 5 phần trăm nhưng ta gán trọng số 10 lần lớn hơn, chúng chiếm 50 phần trăm contribution vào loss.
+
+261
+00:08:40,396 --> 00:08:42,697
+Model bây giờ phải quan tâm đến nhóm đó.
+
+262
+00:08:42,697 --> 00:08:46,434
+Nhưng vấn đề là: làm sao ta biết trọng số đúng phải là bao nhiêu?
+
+263
+00:08:46,434 --> 00:08:46,891
+Nguyên lý Invariance...
+
+264
+00:08:46,891 --> 00:08:47,248
+hay sự bất biến...
+
+265
+00:08:47,248 --> 00:08:48,479
+phát biểu rằng: [pause 0.5s] Để tìm được đặc trưng bền vững...
+
+266
+00:08:48,479 --> 00:08:49,373
+chúng ta phải tìm một không gian biểu diễn...
+
+267
+00:08:49,373 --> 00:08:50,743
+[pause 0.3s] ...nơi mà bộ phân loại tối ưu là hoàn toàn giống nhau...
+
+268
+00:08:50,743 --> 00:08:51,140
+trên mọi môi trường.
+
+269
+00:08:51,140 --> 00:08:52,193
+[pause 0.8s] Mục tiêu là học một bộ dự đoán bất biến.
+
+270
+00:08:52,193 --> 00:08:54,033
+Chúng ta vừa thấy reweighting thất bại với mạng lớn.
+
+271
+00:08:54,033 --> 00:08:56,652
+IRM — Invariant Risk Minimization — tiếp cận từ một góc độ hoàn toàn khác.
+
+272
+00:08:56,652 --> 00:08:57,607
+Hãy nhìn vào ba môi trường.
+
+273
+00:08:57,607 --> 00:08:59,660
+Dữ liệu phân phối khác nhau — màu nền khác, ngữ cảnh khác.
+
+274
+00:08:59,660 --> 00:09:03,765
+Nhưng ranh giới quyết định đúng — đường phân chia penguin và camel theo hình dáng thật — giống hệt nhau trong cả ba.
+
+275
+00:09:03,765 --> 00:09:04,049
+Tại sao?
+
+276
+00:09:04,049 --> 00:09:05,889
+Vì hình dáng con vật không thay đổi theo môi trường.
+
+277
+00:09:05,889 --> 00:09:06,668
+Đây là causal feature.
+
+278
+00:09:06,668 --> 00:09:12,118
+IRM đặt ra một yêu cầu thanh lịch: tìm cách biểu diễn dữ liệu Phi, sao cho cùng một bộ phân loại tuyến tính w sẽ tối ưu ở tất cả các môi trường đồng thời.
+
+279
+00:09:12,118 --> 00:09:16,152
+Nếu tồn tại Phi như vậy, Phi phải đã loại bỏ hết spurious features — vì chúng không nhất quán giữa các môi trường.
+
+280
+00:09:16,152 --> 00:09:17,780
+Phi chỉ giữ lại causal features, vốn bất biến.
+
+281
+00:09:17,780 --> 00:09:18,347
+Nghe thanh lịch.
+
+282
+00:09:18,347 --> 00:09:19,692
+Nhưng viết thành toán học như thế nào?
+
+283
+00:09:19,692 --> 00:09:19,996
+Hãy nhìn cách không gian bất biến hoạt động.
+
+284
+00:09:19,996 --> 00:09:20,272
+[pause 0.5s] Hai môi trường bị méo mó...
+
+285
+00:09:20,272 --> 00:09:20,500
+đi qua bộ trích xuất đặc trưng...
+
+286
+00:09:20,500 --> 00:09:20,914
+[pause 0.3s] ...và được biến đổi thành một không gian chung.
+
+287
+00:09:20,914 --> 00:09:21,073
+[pause 0.5s] Tại đây...
+
+288
+00:09:21,073 --> 00:09:21,502
+một đường ranh giới duy nhất có thể phân loại đúng cho tất cả.
+
+289
+00:09:21,502 --> 00:09:22,649
+Bây giờ hãy đặt câu hỏi khác: điều gì sẽ xảy ra nếu chúng ta không gộp tất cả dữ liệu từ mọi môi trường lại rồi chạy ERM, mà thay vào đó nhìn các môi trường riêng lẻ?
+
+290
+00:09:22,649 --> 00:09:24,003
+IRM, Invariant Risk Minimization, đặt ra một yêu cầu rất thú vị: tìm một cách biểu diễn dữ liệu, gọi là Phi, sao cho cùng một bộ phân loại tuyến tính w sẽ tối ưu ở tất cả các môi trường đồng thời.
+
+291
+00:09:24,003 --> 00:09:24,811
+Nếu tồn tại một Phi như vậy, thì Phi phải loại bỏ hết spurious features vì chúng không nhất quán giữa các môi trường.
+
+292
+00:09:24,811 --> 00:09:25,136
+Phi chỉ giữ lại đặc trưng causal, vốn bất biến.
+
+293
+00:09:25,136 --> 00:09:25,247
+Nghe thanh lịch.
+
+294
+00:09:25,247 --> 00:09:25,530
+Nhưng làm thế nào để tối ưu hóa điều này?
+
+295
+00:09:25,530 --> 00:09:30,145
+IRM viết bài toán tối ưu bi-level: minimize tổng risk trên mọi môi trường, với ràng buộc rằng w phải là classifier tối ưu cho từng môi trường riêng lẻ.
+
+296
+00:09:30,145 --> 00:09:31,153
+Tại sao ràng buộc này quan trọng?
+
+297
+00:09:31,153 --> 00:09:35,616
+Nếu w tối ưu ở environment e₁ nhưng không tối ưu ở e₂, nghĩa là Phi đang dùng một đặc trưng hữu ích ở e₁ nhưng hại ở e₂ — tức là spurious feature.
+
+298
+00:09:35,616 --> 00:09:38,794
+Ràng buộc này bảo đảm Phi trích xuất đặc trưng đủ bất biến để một w duy nhất làm việc được ở tất cả nơi.
+
+299
+00:09:38,794 --> 00:09:39,772
+Vấn đề: bài toán này là NP-Hard.
+
+300
+00:09:39,772 --> 00:09:41,087
+Không giải trực tiếp bằng Gradient Descent.
+
+301
+00:09:41,087 --> 00:09:44,021
+Hình dung: ba parabola với đáy ở ba vị trí khác nhau — không có w nào là đáy của cả ba cùng lúc.
+
+302
+00:09:44,021 --> 00:09:44,754
+Chúng ta cần một xấp xỉ.
+
+303
+00:09:44,754 --> 00:09:46,191
+Và đây là nơi một trick toán học đẹp xuất hiện.
+
+304
+00:09:46,191 --> 00:09:47,369
+Tại sao chọn w bằng 1 cố định?
+
+305
+00:09:47,369 --> 00:09:51,768
+Vì với classifier tuyến tính, w chỉ là scalar scale — Phi có thể học scale đó vào trong representation của mình.
+
+306
+00:09:51,768 --> 00:09:54,517
+Nên w=1 không mất tính tổng quát, nhưng đơn giản hóa bài toán đáng kể.
+
+307
+00:09:54,517 --> 00:10:00,959
+Nhìn trực quan: với spurious feature, gradient tại w=1 trỏ về hướng khác nhau ở mỗi environment — vì spurious hữu ích ở environment này nhưng hại ở environment kia.
+
+308
+00:10:00,959 --> 00:10:02,058
+Penalty phạt sự phân kỳ này.
+
+309
+00:10:02,058 --> 00:10:04,729
+Với causal feature, gradient gần như đồng hướng qua mọi environment.
+
+310
+00:10:04,729 --> 00:10:05,790
+Penalty gần như bằng không.
+
+311
+00:10:05,790 --> 00:10:07,086
+Phi được phép giữ causal feature.
+
+312
+00:10:07,086 --> 00:10:10,895
+Kết quả: Phi hội tụ về invariant representation — chỉ chứa những gì nhất quán qua mọi môi trường.
+
+313
+00:10:10,895 --> 00:10:12,629
+IRM có giới hạn lý thuyết quan trọng.
+
+314
+00:10:12,629 --> 00:10:17,221
+Nó chỉ hoạt động khi các môi trường đủ đa dạng để expose sự không nhất quán của spurious features.
+
+315
+00:10:17,221 --> 00:10:21,531
+Nếu chỉ có hai môi trường mà cả hai đều chứa cùng shortcut, IRM không có cách nào phát hiện.
+
+316
+00:10:21,531 --> 00:10:25,373
+Ngoài ra, IRMv1 rất nhạy với lựa chọn lambda và thường không ổn định khi training.
+
+317
+00:10:25,373 --> 00:10:28,746
+Nhiều nghiên cứu cho thấy ERM được tuning tốt đôi khi còn vượt trội hơn.
+
+318
+00:10:28,746 --> 00:10:32,166
+Vậy nếu không có đủ môi trường rõ ràng, chúng ta cần hướng tiếp cận khác.
+
+319
+00:10:32,166 --> 00:10:54,857
+[Chưa có bản dịch cho Scene 4.5 - NuRD]
+
+320
+00:10:54,857 --> 00:11:02,360
+[Chưa có bản dịch cho Scene N1.5 - NuRDDivergencePenalty]
+
+321
+00:11:02,360 --> 00:11:10,862
+[Chưa có bản dịch cho Scene RW4 - AvoidingInterpolation]
+
+322
+00:11:10,862 --> 00:11:55,399
+[Chưa có bản dịch cho Scene 5.1 - GroupDRO]
+
+323
+00:11:55,399 --> 00:12:24,915
+[Chưa có bản dịch cho Scene 6.0 - SemanticCorruptions]
+
+324
+00:12:24,915 --> 00:12:56,634
+[Chưa có bản dịch cho Scene 6.1 - JTT]
+
+325
+00:12:56,634 --> 00:13:17,785
+[Chưa có bản dịch cho Scene 7.1 - ScaleDoesNotSolve]
+
+326
+00:13:17,785 --> 00:13:47,460
+[Chưa có bản dịch cho Scene 7.2 - CLIPSpuriousWeb]
+
+327
+00:13:47,460 --> 00:13:50,797
+Trong thế giới Large Language Models, spurious shortcuts xuất hiện ở một nơi bất ngờ: ngay trong cái prompt mà bạn viết.
+
+328
+00:13:50,797 --> 00:13:53,689
+In-Context Learning, hay ICL, là khả năng LLM học từ một vài ví dụ được cung cấp trực tiếp trong prompt.
+
+329
+00:13:53,689 --> 00:13:54,329
+Nhìn qua thì tuyệt vời.
+
+330
+00:13:54,329 --> 00:13:55,775
+Nhưng slides của tutorial chỉ ra một vấn đề tinh vi.
+
+331
+00:13:55,775 --> 00:13:57,527
+Trong prompt này, tất cả ba ví dụ Positive đều chứa từ 'movie'.
+
+332
+00:13:57,527 --> 00:13:59,252
+LLM không học được rằng câu văn tích cực thì nhãn là Positive.
+
+333
+00:13:59,252 --> 00:14:01,560
+Nó học được điều đơn giản hơn: 'movie' xuất hiện trong prompt thì nhãn là Positive.
+
+334
+00:14:01,560 --> 00:14:04,007
+Khi gặp một câu không liên quan đến phim nhưng cũng là Positive, hay ngược lại, LLM sai.
+
+335
+00:14:04,007 --> 00:14:06,733
+Đây là spurious correlation được tạo ra bởi chính người viết prompt, không phải bởi dữ liệu train.
+
+336
+00:14:06,733 --> 00:14:08,596
+Và đây là điểm đặc biệt nguy hiểm của ICL shortcuts: chúng vô hình.
+
+337
+00:14:08,596 --> 00:14:11,350
+Bạn không thể kiểm tra 'model weights' vì shortcuts nằm trong ngữ cảnh, thay đổi theo từng lần gọi.
+
+338
+00:14:11,350 --> 00:14:14,168
+Đây là phát hiện gây sốc nhất trong phần Foundation Models của tutorial: Reverse Scaling.
+
+339
+00:14:14,168 --> 00:14:16,828
+Thông thường chúng ta kỳ vọng mô hình lớn hơn sẽ mạnh hơn, robust hơn với shortcuts.
+
+340
+00:14:16,828 --> 00:14:18,697
+Nhưng với ICL spurious correlations, điều ngược lại xảy ra.
+
+341
+00:14:18,697 --> 00:14:21,927
+Mô hình 13 tỉ tham số bị ảnh hưởng bởi shortcut 'movie' trong prompt nhiều hơn mô hình 2.7 tỉ tham số.
+
+342
+00:14:21,927 --> 00:14:22,180
+Tại sao?
+
+343
+00:14:22,180 --> 00:14:24,840
+Vì mô hình lớn hơn rất giỏi trong việc đọc ngữ cảnh và nắm bắt pattern trong prompt.
+
+344
+00:14:24,840 --> 00:14:25,917
+Đây chính là khả năng tạo nên ICL.
+
+345
+00:14:25,917 --> 00:14:29,622
+Nhưng nó cũng có nghĩa là mô hình lớn hơn 'quá nhạy' với mọi pattern, kể cả pattern không liên quan đến task thực sự.
+
+346
+00:14:29,622 --> 00:14:30,921
+Scale không phải là thuốc chữa bách bệnh.
+
+347
+00:14:30,921 --> 00:14:55,841
+[Chưa có bản dịch cho Scene 7.5 - PromptingForRobustness]
+
+348
+00:14:55,841 --> 00:15:25,395
+[Chưa có bản dịch cho Scene 7.6 - CATO]
+
+349
+00:15:25,395 --> 00:15:58,944
+[Chưa có bản dịch cho Scene 8.1 - BenchmarksReality]
+
+350
+00:15:58,944 --> 00:16:21,004
+[Chưa có bản dịch cho Scene 8.2 - ModelSelectionParadox]
+
+351
+00:16:21,004 --> 00:16:43,146
+[Chưa có bản dịch cho Scene 8.3 - BestPractices]
+
+352
+00:16:43,146 --> 00:16:43,484
+Chúng ta đã đi một hành trình dài.
+
+353
+00:16:43,484 --> 00:16:44,102
+Bắt đầu từ một câu hỏi đơn giản: tại sao AI học những thứ sai?
+
+354
+00:16:44,102 --> 00:16:44,351
+ERM và shortcut learning.
+
+355
+00:16:44,351 --> 00:16:45,835
+Rồi nhìn qua lăng kính nhân quả: spurious features tồn tại vì AI học tương quan thay vì nhân quả, và tương quan đó bị phá vỡ khi môi trường thay đổi.
+
+356
+00:16:45,835 --> 00:16:47,717
+Ba phương pháp, IRM, Group DRO, JTT, cố gắng buộc AI học causal features bằng những cách khác nhau: qua invariance của gradient, qua tối ưu worst-case, qua self-identification của thiểu số.
+
+357
+00:16:47,717 --> 00:16:48,304
+Và trong thời đại foundation models, vấn đề không biến mất.
+
+358
+00:16:48,304 --> 00:16:48,663
+Nó chỉ thay đổi hình dạng và quy mô.
+
+359
+00:16:48,663 --> 00:16:48,981
+Tất cả dẫn về một từ: Stability.
+
+360
+00:16:48,981 --> 00:16:49,619
+Một AI ổn định không phải là AI không bao giờ gặp phân phối mới.
+
+361
+00:16:49,619 --> 00:16:50,495
+Mà là AI biết điều gì thực sự quan trọng, và giữ vững niềm tin đó dù hoàn cảnh thay đổi.
+
+362
+00:16:50,495 --> 00:16:50,764
+Đây là ranh giới tiếp theo.
+
+363
+00:16:50,764 --> 00:16:57,587
+[Chưa có bản dịch cho Scene 9.1B - BigTriangleConclusion]
+
+364
+00:16:57,587 --> 00:17:14,184
+[Chưa có bản dịch cho Scene 9.2 - OpenProblemsCredits]

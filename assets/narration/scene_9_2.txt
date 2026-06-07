@@ -1,0 +1,1 @@
+Cảm ơn các bạn. Tutorial để lại ba cánh cửa mở: lý thuyết OOD cho foundation models, model selection không cần OOD validation, và OOD trong thế giới multimodal và agentic AI. Đây là biên giới tiếp theo của nghiên cứu. Link tutorial gốc, slides, và source code Manim đều có trong phần mô tả.

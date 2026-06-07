@@ -1,0 +1,5 @@
+IRM translates this into a bi-level optimization problem.
+We minimize the risk across all environments, subject to the classifier being optimal in each.
+
+This prevents the model from exploiting local shortcuts.
+But this constraint is NP-hard. We need a practical approximation.

@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,000
+CLIP represents a unique case.
+
+2
+00:00:04,000 --> 00:00:08,000
+It is trained on four hundred million image-text pairs using contrastive learning.
+
+3
+00:00:08,000 --> 00:00:12,000
+It achieves seventy-five percent worst-group accuracy on Waterbirds zero-shot. Why?
+
+4
+00:00:12,000 --> 00:00:16,000
+Because web data is highly diverse.
+
+5
+00:00:16,000 --> 00:00:20,000
+But CLIP still inherits web biases, strongly associating terms like doctor with male faces.
+
+6
+00:00:20,000 --> 00:00:29,000
+With four hundred million examples, the model treats this bias as a true pattern.

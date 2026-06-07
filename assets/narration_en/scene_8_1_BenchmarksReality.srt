@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:03,000
+We evaluate robust algorithms on four standard benchmarks. First: Waterbirds.
+
+2
+00:00:03,000 --> 00:00:06,000
+It controls bird and background correlations. Second: CelebA.
+
+3
+00:00:06,000 --> 00:00:09,000
+The task is blonde hair, which strongly correlates with gender.
+
+4
+00:00:09,000 --> 00:00:12,000
+Third: CivilComments.
+
+5
+00:00:12,000 --> 00:00:15,000
+Toxicity detection, where demographic terms correlate with toxic labels.
+
+6
+00:00:15,000 --> 00:00:18,000
+Fourth: Camelyon17.
+
+7
+00:00:18,000 --> 00:00:23,000
+Tumor detection, where the scanner model shifts across hospitals.

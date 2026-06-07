@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:07,000
+Để đánh giá khách quan, cộng đồng xây dựng các benchmark chuẩn.
+
+2
+00:00:07,000 --> 00:00:14,000
+WILDS cung cấp dữ liệu thực từ y tế và khoa học, nơi distribution shift xảy ra tự nhiên.
+
+3
+00:00:14,000 --> 00:00:21,000
+DomainBed tổng hợp nhiều dataset để kiểm chứng domain generalization.
+
+4
+00:00:21,000 --> 00:00:28,000
+Và đây là sự thật phũ phàng: nhìn vào kết quả thực nghiệm, không có phương pháp nào thống trị tuyệt đối.
+
+5
+00:00:28,000 --> 00:00:35,000
+Tệ hơn: khi ERM được tuning cẩn thận, lựa chọn learning rate, weight decay và augmentation tốt, nó thường cạnh tranh được với các phương pháp phức tạp hơn nhiều.
+
+6
+00:00:35,000 --> 00:00:42,000
+Điều này không có nghĩa các phương pháp robust vô ích.
+
+7
+00:00:42,000 --> 00:00:49,000
+Khi spurious correlation cực mạnh và có cấu trúc rõ ràng, chúng thực sự giúp ích.
+
+8
+00:00:49,000 --> 00:01:03,000
+Nhưng bài học thực tiễn: đừng bỏ qua baseline trước khi bạn đã tuning nó thật kỹ.

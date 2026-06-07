@@ -1,0 +1,5 @@
+Because IRM requires diverse environments, NuRD takes a different approach.
+Instead of searching for invariance, it directly filters out nuisance features.
+
+The key condition: the label Y must be independent of the nuisance Z, given the representation.
+This mathematically prevents the model from using Z as a shortcut.

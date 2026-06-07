@@ -1,0 +1,11 @@
+Suppose you train a classifier to distinguish penguins from camels.
+In your dataset, all penguins are on snow, and camels are on sand.
+The classes are perfectly separable.
+The model easily achieves ninety-eight percent training accuracy.
+
+But look closely.
+The decision boundary only aligns with the background color. It ignores the animal shape.
+So, when we place a penguin on sand, the model predicts camel.
+
+The prediction is wrong.
+The model relied on a shortcut.

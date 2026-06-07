@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:04,000
+To measure this, we split the training distribution into groups.
+
+2
+00:00:04,000 --> 00:00:08,000
+We cross the label Y with the spurious attribute Z.
+
+3
+00:00:08,000 --> 00:00:12,000
+Cows on grass and camels on sand are large majority groups.
+
+4
+00:00:12,000 --> 00:00:16,000
+Cows on sand and camels on grass are small minority groups.
+
+5
+00:00:16,000 --> 00:00:20,000
+ERM averages the risk across all groups.
+
+6
+00:00:20,000 --> 00:00:24,000
+Because the majority dominates, the average risk remains low.
+
+7
+00:00:24,000 --> 00:00:30,000
+The model sacrifices the minority to minimize average loss.

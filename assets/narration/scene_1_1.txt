@@ -1,0 +1,11 @@
+Hãy bắt đầu bằng ví dụ kinh điển trong tutorial. Bạn xây dựng AI phân loại chim cánh cụt và lạc đà.
+
+Tập dữ liệu huấn luyện: chim cánh cụt luôn đứng trên tuyết trắng, lạc đà luôn đứng trên cát vàng. Trong không gian đặc trưng hai chiều, trục ngang là màu nền, trục dọc là hình dáng, dữ liệu chia thành hai cụm tách biệt hoàn hảo.
+
+Thuật toán học và vẽ được một đường phân loại. Accuracy 98%. Tuyệt vời.
+
+Nhưng chú ý kỹ đường này đang làm gì. Nó đi theo trục ngang, đọc màu nền. Không phải trục dọc, không dựa vào hình dáng thực của con vật.
+
+Khi một chú chim cánh cụt bị đặt trên cát vàng, đường phân loại không ngần ngại: đây là lạc đà. Sai hoàn toàn.
+
+Điều gì đã xảy ra? Để hiểu, chúng ta cần nhìn vào trái tim của mọi thuật toán học máy hiện đại.

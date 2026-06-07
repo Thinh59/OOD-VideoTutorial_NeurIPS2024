@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:05,000
+Tutorial kết thúc với bảy best practices được đúc kết từ hàng trăm công trình nghiên cứu.
+
+2
+00:00:05,000 --> 00:00:10,000
+Một: hiểu rõ loại distribution shift trong bài toán của bạn trước khi chọn phương pháp.
+
+3
+00:00:10,000 --> 00:00:15,000
+Hai: luôn report Worst-Group Accuracy, không chỉ average.
+
+4
+00:00:15,000 --> 00:00:20,000
+Ba: tune ERM thật kỹ làm baseline trước.
+
+5
+00:00:20,000 --> 00:00:25,000
+Bốn: nếu có group labels, Group DRO là lựa chọn mạnh nhất.
+
+6
+00:00:25,000 --> 00:00:30,000
+Năm: nếu không, JTT hoặc clustering-based là điểm khởi đầu tốt.
+
+7
+00:00:30,000 --> 00:00:35,000
+Sáu: với foundation models, thử Last Layer Retraining trước khi fine-tune toàn bộ.
+
+8
+00:00:35,000 --> 00:00:40,000
+Và bảy, quan trọng nhất: thu thập thêm dữ liệu đa dạng môi trường.
+
+9
+00:00:40,000 --> 00:00:51,000
+Data collection thường hiệu quả hơn mọi algorithmic fix.

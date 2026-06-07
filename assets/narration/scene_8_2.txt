@@ -1,0 +1,5 @@
+Một nghịch lý thực tiễn không có lời giải hoàn hảo. Giả sử bạn đã train ERM, IRM, và DRO. Bây giờ cần chọn model nào để deploy. Bạn cần một validation set OOD để đánh giá.
+
+Nhưng nếu đã có validation set OOD, tại sao không dùng nó để train luôn? Và nếu dùng để train, nó không còn là OOD nữa.
+
+Dùng ID validation set thường không tương quan tốt với OOD performance. Tutorial gọi đây là một trong những open problems quan trọng nhất của lĩnh vực.

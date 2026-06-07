@@ -1,0 +1,6 @@
+IRMv1 approximates this using a gradient penalty.
+If the classifier is optimal, its gradient must be zero.
+We add a penalty measuring the squared norm of the gradient at a dummy classifier.
+
+A large penalty indicates the representation relies on shortcuts.
+The optimizer is forced to find a representation where gradients from all environments agree.

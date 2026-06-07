@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:06,000
+Đây là giải pháp đột phá của năm 2024: PfR - Prompting for Robustness.
+
+2
+00:00:06,000 --> 00:00:12,000
+Vấn đề cốt lõi: Group DRO cần nhãn nhóm, tức là với mỗi ảnh chim, cần biết nền là nước hay đất.
+
+3
+00:00:12,000 --> 00:00:18,000
+Gán nhãn thủ công cho hàng vạn ảnh rất tốn kém.
+
+4
+00:00:18,000 --> 00:00:24,000
+Giải pháp: dùng chính một mô hình lớn như GPT-4V để gán nhãn phông nền.
+
+5
+00:00:24,000 --> 00:00:30,000
+Đưa từng ảnh vào VLM với prompt đơn giản: hãy mô tả nền của ảnh này.
+
+6
+00:00:30,000 --> 00:00:36,000
+VLM trả về nhãn phông nền chính xác với chi phí gần như bằng không.
+
+7
+00:00:36,000 --> 00:00:42,000
+Sau đó kết hợp nhãn phông nền tự động này với nhãn bệnh nhân thủ công để chạy Group DRO.
+
+8
+00:00:42,000 --> 00:00:48,000
+Kết quả trên Waterbirds: Worst-group accuracy tăng từ 71% lên 91.05%.
+
+9
+00:00:48,000 --> 00:00:54,000
+Không cần thêm dữ liệu train, không cần thay đổi thuật toán.
+
+10
+00:00:54,000 --> 00:01:08,000
+Chỉ cần dùng AI lớn để gán nhãn cho AI nhỏ.

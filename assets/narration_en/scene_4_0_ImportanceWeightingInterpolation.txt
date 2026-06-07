@@ -1,0 +1,9 @@
+The simplest way to balance groups is importance weighting.
+We upweight rare groups in the loss function.
+
+But there's a problem.
+Modern networks easily interpolate all training points, reaching zero loss.
+When loss is zero, gradients are zero.
+Multiplying by weights has no effect.
+
+The model simply memorizes the minority while using the shortcut for the rest.

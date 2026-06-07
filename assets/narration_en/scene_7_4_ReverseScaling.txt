@@ -1,0 +1,5 @@
+Under complex spurious shifts, the linear relationship between ID and OOD accuracy breaks.
+We see reverse scaling: larger models perform worse on OOD test sets.
+
+Accuracy on the Line is a special case for simple shifts.
+It is not a general law of scaling.

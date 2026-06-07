@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:06,000
+Cảm ơn các bạn.
+
+2
+00:00:06,000 --> 00:00:12,000
+Tutorial để lại ba cánh cửa mở: lý thuyết OOD cho foundation models, model selection không cần OOD validation, và OOD trong thế giới multimodal và agentic AI.
+
+3
+00:00:12,000 --> 00:00:18,000
+Đây là biên giới tiếp theo của nghiên cứu.
+
+4
+00:00:18,000 --> 00:00:26,000
+Link tutorial gốc, slides, và source code Manim đều có trong phần mô tả.

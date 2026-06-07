@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,000
+To filter out a nuisance feature, we must detect it. We use Semantic Corruption.
+
+2
+00:00:04,000 --> 00:00:08,000
+Think about it. In NLP, we shuffle word order.
+
+3
+00:00:08,000 --> 00:00:12,000
+If a classifier remains accurate on scrambled text, it is only counting words.
+
+4
+00:00:12,000 --> 00:00:16,000
+In CV, we apply random patch masking.
+
+5
+00:00:16,000 --> 00:00:20,000
+If a medical model still predicts, it is reading scanner artifacts.
+
+6
+00:00:20,000 --> 00:00:26,000
+Semantic corruption exposes our shortcuts.

@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:07,000
+IRM viết bài toán tối ưu bi-level: minimize tổng risk trên mọi môi trường, với ràng buộc rằng w phải là classifier tối ưu cho từng môi trường riêng lẻ.
+
+2
+00:00:07,000 --> 00:00:14,000
+Ràng buộc này bảo đảm Phi trích xuất đặc trưng đủ bất biến để một w duy nhất làm việc được ở tất cả nơi.
+
+3
+00:00:14,000 --> 00:00:21,000
+Vấn đề: bài toán này là NP-Hard. Không giải trực tiếp bằng Gradient Descent được.
+
+4
+00:00:21,000 --> 00:00:28,000
+Đây là nơi một trick toán học đẹp xuất hiện.
+
+5
+00:00:28,000 --> 00:00:35,000
+Nếu w bằng 1.0 là minimum của hàm loss, thì gradient của hàm loss tại w bằng 1.0 phải bằng 0.
+
+6
+00:00:35,000 --> 00:00:42,000
+Đó là định nghĩa của minimum.
+
+7
+00:00:42,000 --> 00:00:49,000
+Vậy thay vì ràng buộc cứng, ta đo mức độ vi phạm bằng độ lớn của gradient.
+
+8
+00:00:49,000 --> 00:00:56,000
+Gradient lớn tại w bằng 1.0 nghĩa là w chưa phải minimum, Phi đang dùng shortcut.
+
+9
+00:00:56,000 --> 00:01:03,000
+Gradient nhỏ nghĩa là Phi đã học đặc trưng bất biến. Đây là IRMv1.
+
+10
+00:01:03,000 --> 00:01:10,000
+Khi lambda tăng, optimizer bị ép phải tìm Phi sao cho mọi môi trường đồng thuận.
+
+11
+00:01:10,000 --> 00:01:26,000
+Spurious features bị loại vì chúng là nguyên nhân của sự bất đồng đó.

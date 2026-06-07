@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+IRM translates this into a bi-level optimization problem.
+
+2
+00:00:05,000 --> 00:00:10,000
+We minimize the risk across all environments, subject to the classifier being optimal in each.
+
+3
+00:00:10,000 --> 00:00:15,000
+This prevents the model from exploiting local shortcuts.
+
+4
+00:00:15,000 --> 00:00:20,000
+But this constraint is NP-hard. We need a practical approximation.

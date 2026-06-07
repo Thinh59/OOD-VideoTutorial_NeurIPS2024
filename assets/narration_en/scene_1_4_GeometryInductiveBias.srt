@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:03,000
+Why does gradient descent consistently prefer shortcuts?
+
+2
+00:00:03,000 --> 00:00:06,000
+Consider the majority group, where background and label match.
+
+3
+00:00:06,000 --> 00:00:09,000
+This group represents ninety-five percent of the training data.
+
+4
+00:00:09,000 --> 00:00:12,000
+The minority group is only five percent.
+
+5
+00:00:12,000 --> 00:00:15,000
+For ERM, this minority is virtually invisible.
+
+6
+00:00:15,000 --> 00:00:18,000
+The average loss is dominated by the majority.
+
+7
+00:00:18,000 --> 00:00:21,000
+Geometrically, the max-margin boundary is pulled toward the majority geometry.
+
+8
+00:00:21,000 --> 00:00:24,000
+The minority is left with insufficient margin.
+
+9
+00:00:24,000 --> 00:00:32,000
+The invariant feature is present, but underused.

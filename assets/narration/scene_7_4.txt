@@ -1,0 +1,7 @@
+Đây là phát hiện gây sốc nhất trong phần Foundation Models của tutorial: Reverse Scaling.
+
+Thông thường chúng ta kỳ vọng mô hình lớn hơn sẽ mạnh hơn, robust hơn với shortcuts. Nhưng với ICL spurious correlations, điều ngược lại xảy ra. Mô hình 13 tỉ tham số bị ảnh hưởng bởi shortcut 'movie' trong prompt nhiều hơn mô hình 2.7 tỉ tham số.
+
+Tại sao? Vì mô hình lớn hơn rất giỏi trong việc đọc ngữ cảnh và nắm bắt pattern trong prompt. Đây chính là khả năng tạo nên ICL. Nhưng nó cũng có nghĩa là mô hình lớn hơn 'quá nhạy' với mọi pattern, kể cả pattern không liên quan đến task thực sự.
+
+Scale không phải là thuốc chữa bách bệnh.

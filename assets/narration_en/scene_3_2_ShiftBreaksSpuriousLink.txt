@@ -1,0 +1,7 @@
+When the environment shifts, the link between the label and the background is fractured.
+The background changes, and shortcut predictions fail.
+
+But the causal features are invariant.
+A penguin still looks like a penguin on a beach.
+Causal features are stable. Spurious features are brittle.
+We must force the model to rely only on invariant features.

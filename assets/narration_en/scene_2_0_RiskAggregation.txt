@@ -1,0 +1,6 @@
+The core of robust learning is risk aggregation.
+ERM minimizes average risk.
+Group DRO minimizes the worst-case risk over groups.
+CVaR focuses on the average of the high-loss tail.
+
+This choice of aggregation operator is the key difference between robust methods.

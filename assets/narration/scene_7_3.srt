@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:07,000
+Trong thế giới Large Language Models, spurious shortcuts xuất hiện ở một nơi bất ngờ: ngay trong cái prompt mà bạn viết.
+
+2
+00:00:07,000 --> 00:00:14,000
+In-Context Learning, hay ICL, là khả năng LLM học từ một vài ví dụ được cung cấp trực tiếp trong prompt.
+
+3
+00:00:14,000 --> 00:00:21,000
+Nhìn qua thì tuyệt vời. Nhưng slides của tutorial chỉ ra một vấn đề tinh vi.
+
+4
+00:00:21,000 --> 00:00:28,000
+Trong prompt này, tất cả ba ví dụ Positive đều chứa từ 'movie'.
+
+5
+00:00:28,000 --> 00:00:35,000
+LLM không học được rằng câu văn tích cực thì nhãn là Positive.
+
+6
+00:00:35,000 --> 00:00:42,000
+Nó học được điều đơn giản hơn: 'movie' xuất hiện trong prompt thì nhãn là Positive.
+
+7
+00:00:42,000 --> 00:00:49,000
+Khi gặp một câu không liên quan đến phim nhưng cũng là Positive, hay ngược lại, LLM sai.
+
+8
+00:00:49,000 --> 00:00:56,000
+Đây là spurious correlation được tạo ra bởi chính người viết prompt, không phải bởi dữ liệu train.
+
+9
+00:00:56,000 --> 00:01:03,000
+Và đây là điểm đặc biệt nguy hiểm của ICL shortcuts: chúng vô hình.
+
+10
+00:01:03,000 --> 00:01:18,000
+Bạn không thể kiểm tra 'model weights' vì shortcuts nằm trong ngữ cảnh, thay đổi theo từng lần gọi.

@@ -1,0 +1,7 @@
+Does scaling solve this?
+
+If we look at worst-group accuracy, standard ERM plateaus.
+Scaling improves average performance but does not eliminate shortcuts.
+In fact, larger models have the capacity to learn more complex, high-dimensional shortcuts.
+
+Scale alone is not enough.

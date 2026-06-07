@@ -1,0 +1,9 @@
+Hãy bắt đầu với một ví dụ thực tế. Một AI được huấn luyện để dự đoán bệnh từ hồ sơ bệnh án điện tử. Tại Bệnh viện A, nó đạt 95% - ấn tượng.
+
+Nhưng khi chuyển sang Bệnh viện B, accuracy rớt xuống 72%.
+
+Điều gì đã xảy ra? Nhìn kỹ vào dữ liệu huấn luyện. Tại Viện A, một bác sĩ cụ thể có thói quen: ông ta viết 'man' khi ghi hồ sơ bệnh nhân tiểu đường, và 'gentleman' khi ghi bệnh nhân viêm khớp. Hai từ đồng nghĩa - nhưng AI đã học được sự phân biệt này và dùng nó như một đường tắt.
+
+Khi sang Viện B, bác sĩ mới không có thói quen đó. Shortcut biến mất. Mô hình sụp đổ.
+
+Đây chính là vấn đề trọng tâm của tutorial này. Không phải AI thiếu dữ liệu hay thiếu tham số. Mà là AI đang học sai thứ.

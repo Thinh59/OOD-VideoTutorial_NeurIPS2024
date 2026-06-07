@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:04,000
+Empirical Risk Minimization, or ERM, is standard.
+
+2
+00:00:04,000 --> 00:00:08,000
+Its objective is simple: minimize the average training loss. But here's the catch.
+
+3
+00:00:08,000 --> 00:00:12,000
+ERM is lazy.
+
+4
+00:00:12,000 --> 00:00:16,000
+It is indifferent to whether it learns semantic features or simple shortcuts.
+
+5
+00:00:16,000 --> 00:00:20,000
+From a gradient perspective, counting background pixels is easy, while learning shape features is hard.
+
+6
+00:00:20,000 --> 00:00:24,000
+Gradient descent takes the path of steepest descent, choosing the shortcut first.
+
+7
+00:00:24,000 --> 00:00:31,000
+We call these unstable backgrounds spurious features.

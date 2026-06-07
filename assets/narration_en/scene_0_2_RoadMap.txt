@@ -1,0 +1,8 @@
+In this video, we trace eight key stops.
+First: the intuition of shortcut learning.
+Second: the mathematical formalization of out-of-distribution shifts.
+Third: causal graphs.
+Fourth: robust methods like IRM and Group DRO.
+Finally, we cover benchmarks, foundation models, and how to use AI to fix AI.
+
+Let us begin.

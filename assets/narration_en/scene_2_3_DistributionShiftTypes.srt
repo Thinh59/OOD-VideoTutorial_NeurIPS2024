@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+Not all shifts are the same. Covariate shift changes the input distribution, P of X.
+
+2
+00:00:04,000 --> 00:00:08,000
+Label shift changes class proportions, P of Y.
+
+3
+00:00:08,000 --> 00:00:12,000
+But spurious shift alters the correlation between the shortcut and the label.
+
+4
+00:00:12,000 --> 00:00:16,000
+This is the hardest shift.
+
+5
+00:00:16,000 --> 00:00:23,000
+The model's reliance on the shortcut actively leads it astray.

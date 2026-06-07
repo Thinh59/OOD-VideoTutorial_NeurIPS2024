@@ -1,0 +1,8 @@
+Just Train Twice, or JTT, lets a standard model identify its own weaknesses.
+
+In Stage One, we train an ERM model for only a few epochs.
+It learns easy shortcuts, but doesn't memorize exceptions.
+The mistakes it makes are minority examples where the shortcut fails.
+
+In Stage Two, we upweight these mistakes and train a new model.
+This simple process massively improves worst-group accuracy, without manual group labels.

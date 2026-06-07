@@ -1,0 +1,7 @@
+1
+00:00:00,000 --> 00:00:04,000
+Shortcuts still exist in modern AI.
+
+2
+00:00:04,000 --> 00:00:09,000
+Our goal is to redefine what's easy, achieving ultimate stability.

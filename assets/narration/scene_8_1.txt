@@ -1,0 +1,5 @@
+Để đánh giá khách quan, cộng đồng xây dựng các benchmark chuẩn. WILDS cung cấp dữ liệu thực từ y tế và khoa học, nơi distribution shift xảy ra tự nhiên. DomainBed tổng hợp nhiều dataset để kiểm chứng domain generalization.
+
+Và đây là sự thật phũ phàng: nhìn vào kết quả thực nghiệm, không có phương pháp nào thống trị tuyệt đối. Tệ hơn: khi ERM được tuning cẩn thận, lựa chọn learning rate, weight decay và augmentation tốt, nó thường cạnh tranh được với các phương pháp phức tạp hơn nhiều.
+
+Điều này không có nghĩa các phương pháp robust vô ích. Khi spurious correlation cực mạnh và có cấu trúc rõ ràng, chúng thực sự giúp ích. Nhưng bài học thực tiễn: đừng bỏ qua baseline trước khi bạn đã tuning nó thật kỹ.

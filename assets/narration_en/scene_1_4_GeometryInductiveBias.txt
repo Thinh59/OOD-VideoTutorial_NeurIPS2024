@@ -1,0 +1,12 @@
+Why does gradient descent consistently prefer shortcuts?
+
+Consider the majority group, where background and label match.
+This group represents ninety-five percent of the training data.
+The minority group is only five percent.
+
+For ERM, this minority is virtually invisible.
+The average loss is dominated by the majority.
+Geometrically, the max-margin boundary is pulled toward the majority geometry.
+The minority is left with insufficient margin.
+
+The invariant feature is present, but underused.

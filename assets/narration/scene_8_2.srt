@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:07,000
+Một nghịch lý thực tiễn không có lời giải hoàn hảo. Giả sử bạn đã train ERM, IRM, và DRO.
+
+2
+00:00:07,000 --> 00:00:14,000
+Bây giờ cần chọn model nào để deploy. Bạn cần một validation set OOD để đánh giá.
+
+3
+00:00:14,000 --> 00:00:21,000
+Nhưng nếu đã có validation set OOD, tại sao không dùng nó để train luôn?
+
+4
+00:00:21,000 --> 00:00:28,000
+Và nếu dùng để train, nó không còn là OOD nữa.
+
+5
+00:00:28,000 --> 00:00:35,000
+Dùng ID validation set thường không tương quan tốt với OOD performance.
+
+6
+00:00:35,000 --> 00:00:42,000
+Tutorial gọi đây là một trong những open problems quan trọng nhất của lĩnh vực.

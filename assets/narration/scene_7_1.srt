@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:07,000
+Câu hỏi tự nhiên: liệu chúng ta có cần lo về điều này khi các mô hình ngày càng to hơn?
+
+2
+00:00:07,000 --> 00:00:14,000
+Phải chăng 100 tỉ tham số tự động giải quyết vấn đề? Câu trả lời là không.
+
+3
+00:00:14,000 --> 00:00:21,000
+Khi model size tăng nhưng vẫn train theo ERM, worst-group accuracy gần như không tăng sau một điểm nhất định.
+
+4
+00:00:21,000 --> 00:00:28,000
+Scale giúp average accuracy, nhưng không giải quyết spurious correlations.
+
+5
+00:00:28,000 --> 00:00:35,000
+Thậm chí tệ hơn: mô hình lớn hơn có capacity lớn hơn để memorize spurious features tinh vi hơn.
+
+6
+00:00:35,000 --> 00:00:44,000
+Scale amplifies, không fixes, vấn đề.

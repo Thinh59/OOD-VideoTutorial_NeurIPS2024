@@ -61,6 +61,42 @@ class ImportanceWeightingInterpolation(OODScene):
         self.active_wait(VGroup(formula, net, warning), 1.0, GOLD)
         self.wait(9.64)
 
+
+class InvariancePrinciple(OODScene):
+    def construct(self):
+        title = Text("The Invariance Principle", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        quote = Text(
+            '"To learn features that are robust to distributional shifts,\n'
+            'we must find a representation where the optimal classifier\n'
+            'is the same across all environments."',
+            font_size=24, color=WHITE, line_spacing=1.5
+        ).shift(UP * 0.5)
+        
+        box = SurroundingRectangle(quote, color=GOLD, buff=0.4, corner_radius=0.1)
+        
+        self.play(Create(box), run_time=0.8)
+        self.play(Write(quote), run_time=2.0)
+        self.wait(1.5)
+        
+        highlight1 = Text("representation", font_size=24, color=BLUE_D).move_to(quote[0][44:58])
+        highlight2 = Text("same across all environments", font_size=24, color=GREEN_D).move_to(quote[0][92:])
+        
+        self.play(quote[0][44:58].animate.set_color(BLUE_D), run_time=0.5)
+        self.play(quote[0][92:].animate.set_color(GREEN_D), run_time=0.5)
+        self.wait(1.0)
+        
+        target = Text("Goal: Learn an invariant predictor", font_size=28, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.8)
+        self.play(FadeIn(target, shift=UP * 0.2), run_time=0.8)
+        
+        for _ in range(3):
+            self.play(Indicate(quote[0][44:58], color=BLUE_D), run_time=0.6)
+            self.play(Indicate(quote[0][92:], color=GREEN_D), run_time=0.6)
+            self.play(Circumscribe(target, color=GOLD), run_time=0.8)
+        self.active_wait(VGroup(box, quote, target), 1.0, GOLD)
+
+
 class IRMInvariantIdea(OODScene):
     def construct(self):
         title = Text("One rule across environments", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
@@ -120,6 +156,65 @@ class IRMInvariantIdea(OODScene):
         self.play(FadeIn(shared_w, shift=UP * 0.1), FadeIn(env_tokens), run_time=0.6)
         self.play(LaggedStart(*[Indicate(t, color=t.get_color()) for t in env_tokens], lag_ratio=0.1), Circumscribe(shared_w, color=GOLD), run_time=0.8)
         self.active_wait(VGroup(clouds, good, shared_w, env_tokens), 1.0, GOLD)
+
+
+class IRMRepresentationSpace(OODScene):
+    def construct(self):
+        title = Text("Finding the Invariant Space", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # Environments
+        env1 = labeled_box("E1", 1.8, 1.2, BLUE_D, 18).shift(LEFT * 4.0 + UP * 1.5).rotate(15 * DEGREES)
+        env2 = labeled_box("E2", 1.8, 1.2, GREEN_D, 18).shift(LEFT * 4.0 + DOWN * 1.5).rotate(-25 * DEGREES)
+        
+        # Beat 1: Môi trường 1
+        self.play(FadeIn(env1), run_time=0.8)
+        self.wait(1.5)
+        
+        # Beat 2: Môi trường 2
+        self.play(FadeIn(env2), run_time=0.8)
+        self.wait(1.5)
+        
+        # Beat 3: Không có classifier chung
+        fail_txt = Text("No shared classifier", font_size=20, color=RED, weight=BOLD).shift(LEFT * 4.0)
+        self.play(FadeIn(fail_txt, shift=UP * 0.1), Flash(fail_txt, color=RED), run_time=0.8)
+        self.wait(2.0)
+        self.play(FadeOut(fail_txt), run_time=0.4)
+        
+        # Beat 4: Qua Phi
+        phi = labeled_box(r"\Phi (Feature Extractor)", 2.8, 0.8, PURPLE, 18).shift(ORIGIN)
+        a1 = Arrow(env1.get_right(), phi.get_left(), color=GRAY_B)
+        a2 = Arrow(env2.get_right(), phi.get_left(), color=GRAY_B)
+        
+        self.play(FadeIn(phi, shift=LEFT * 0.2), GrowArrow(a1), GrowArrow(a2), run_time=1.0)
+        self.wait(1.5)
+        
+        # Beat 5: Một classifier duy nhất
+        rep_space = Axes(x_range=[-2, 2], y_range=[-2, 2], x_length=2.5, y_length=2.5, axis_config={"include_ticks": False, "color": GRAY_B}).shift(RIGHT * 4.0)
+        rep_lbl = Text("Invariant Space", font_size=18, color=GOLD).next_to(rep_space, UP, buff=0.1)
+        a3 = Arrow(phi.get_right(), rep_space.get_left(), color=GOLD)
+        
+        self.play(Create(rep_space), FadeIn(rep_lbl), GrowArrow(a3), run_time=1.0)
+        
+        dots_e1 = dot_cloud(10, rep_space.c2p(1, 1), spread=(0.4, 0.4), color=BLUE_D, seed=1)
+        dots_e2 = dot_cloud(10, rep_space.c2p(1, 1), spread=(0.4, 0.4), color=GREEN_D, seed=2)
+        dots_e1_neg = dot_cloud(10, rep_space.c2p(-1, -1), spread=(0.4, 0.4), color=BLUE_D, seed=3)
+        dots_e2_neg = dot_cloud(10, rep_space.c2p(-1, -1), spread=(0.4, 0.4), color=GREEN_D, seed=4)
+        
+        self.play(FadeIn(dots_e1), FadeIn(dots_e2), FadeIn(dots_e1_neg), FadeIn(dots_e2_neg), run_time=1.0)
+        
+        w_line = Line(rep_space.c2p(-2, 2), rep_space.c2p(2, -2), color=RED, stroke_width=4)
+        w_lbl = MathTex("w", font_size=24, color=RED).next_to(w_line.get_end(), RIGHT, buff=0.1)
+        self.play(Create(w_line), FadeIn(w_lbl), run_time=0.8)
+        self.play(Flash(w_line, color=RED), run_time=0.5)
+        self.wait(1.0)
+        
+        for _ in range(2):
+            self.play(Indicate(phi, color=PURPLE), run_time=0.6)
+            self.play(Indicate(w_line, color=RED), run_time=0.6)
+            self.play(Circumscribe(rep_space, color=GOLD), run_time=0.8)
+            
+        self.active_wait(VGroup(env1, env2, phi, rep_space, w_line), 1.0, GOLD)
 
 
 class IRMFormula(OODScene):
@@ -205,7 +300,7 @@ class IRMFormula(OODScene):
             self.play(FadeIn(s, shift=DOWN * 0.08), Indicate(target, color=s.get_color()), run_time=0.2)
             self.wait(0.2)
         self.active_wait(VGroup(full, relax, envs, w), 1.0, ORANGE)
-        self.wait(13.66)
+        self.wait(13.22)
 
 
 class IRMGradientVectors(OODScene):
@@ -260,7 +355,7 @@ class IRMGradientVectors(OODScene):
         self.play(Flash(center + UP * 0.25, color=GOLD), run_time=0.5)
         
         self.active_wait(VGroup(arrows, penalty, lambda_bar, dot), 1.0, ORANGE)
-        self.wait(0.2)
+        self.wait(12.04)
 
 class IRMLimitations(OODScene):
     def construct(self):
@@ -416,7 +511,7 @@ class NuRD(OODScene):
         
         # Create elements for details below the stages
         # N3 Details: Vision Masking (re-create x and slide a purple mask onto bg_patch)
-        det_x_box = RoundedRectangle(width=1.6, height=1.1, corner_radius=0.08, color=WHITE, stroke_width=2).set_fill(WHITE, opacity=0.05).shift(LEFT * 4.0 + DOWN * 1.0)
+        det_x_box = RoundedRectangle(width=1.6, height=1.1, corner_radius=0.08, color=WHITE, stroke_width=2).set_fill(WHITE, opacity=0.05).shift(LEFT * 4.5 + DOWN * 1.2)
         det_penguin = simple_penguin().scale(0.45).move_to(det_x_box.get_center() + LEFT * 0.25)
         det_bg = Rectangle(width=0.4, height=0.4, color=RED).set_fill(RED, 0.5).move_to(det_x_box.get_center() + RIGHT * 0.25)
         det_x = VGroup(det_x_box, det_penguin, det_bg)
@@ -424,28 +519,126 @@ class NuRD(OODScene):
         mask = VGroup(
             Rectangle(width=0.42, height=0.42, color=PURPLE).set_fill(PURPLE, 0.7),
             Text("mask", font_size=10, color=WHITE)
-        ).move_to(det_x_box.get_center() + UP * 1.2 + LEFT * 0.2)
+        ).move_to(det_bg.get_center() + UP * 1.5)
         
         # N4 Details: Distillation (teacher and student)
-        teacher = labeled_box("teacher", 1.4, 0.55, GREEN_D, 15).shift(LEFT * 0.2 + DOWN * 1.0)
-        student = labeled_box("student phi", 1.6, 0.55, BLUE_D, 15).next_to(teacher, RIGHT, buff=0.4)
+        teacher = labeled_box("teacher", 1.4, 0.55, GREEN_D, 15).next_to(det_x_box, RIGHT, buff=0.6)
+        student = labeled_box("student phi", 2.2, 0.55, BLUE_D, 15).next_to(teacher, RIGHT, buff=0.6)
         distill_arrow = Arrow(teacher.get_right(), student.get_left(), color=GREEN_D, buff=0.08)
         
         # N5 Details: Mutual Info
-        mi = MathTex(r"\min I(\phi(X);Z)\quad \mathrm{keep}\quad I(\phi(X);Y)", font_size=30, color=GOLD).shift(RIGHT * 3.8 + DOWN * 1.0)
+        mi = MathTex(r"\min I(\phi(X);Z)\quad \mathrm{keep}\quad I(\phi(X);Y)", font_size=30, color=GOLD).next_to(student, RIGHT, buff=0.6)
         
         self.play(Indicate(stages[1], color=ORANGE), run_time=0.4)
+        self.wait(1.5)
         
         # Show N3 Masking details
         self.play(FadeIn(det_x), FadeIn(mask), Indicate(stages[2], color=PURPLE), run_time=0.4)
         self.play(mask.animate.move_to(det_bg.get_center()), Flash(det_x_box, color=PURPLE), run_time=0.5)
+        self.wait(1.5)
         
         # Show N4 Distillation details
         self.play(FadeIn(teacher, shift=UP * 0.1), FadeIn(student, shift=UP * 0.1), GrowArrow(distill_arrow), Indicate(stages[3], color=GREEN_D), run_time=0.5)
+        self.wait(1.5)
         
         # Show N5 Mutual Info details
         self.play(Write(mi), Indicate(stages[4], color=GOLD), run_time=0.4)
         self.play(Circumscribe(mi, color=GOLD), run_time=0.3)
+        self.wait(7.5)
         
         self.active_wait(VGroup(stages, mask, teacher, student, mi), 1.0, GOLD)
+
+
+class NuRDDivergencePenalty(OODScene):
+    def construct(self):
+        title = Text("NuRD: Matching Distributions", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # Beat 1: "Nhìn công thức này"
+        formula = MathTex(r"D(P(\phi(X) \mid Y, e_1) \parallel P(\phi(X) \mid Y, e_2)) \to 0", font_size=38, color=GOLD).shift(UP * 1.5)
+        self.play(Write(formula), run_time=0.8)
+        
+        ax = Axes(x_range=[-3, 3], y_range=[-3, 3], x_length=4, y_length=4, axis_config={"include_ticks": False, "color": GRAY_B}).shift(DOWN * 0.5)
+        self.play(Create(ax), run_time=0.5)
+        
+        contour1 = VGroup(*[Circle(radius=r, color=BLUE_D, stroke_width=2).set_fill(BLUE_D, 0.1).shift(LEFT * 1.5 + DOWN * 0.5) for r in [0.4, 0.8, 1.2]])
+        lbl1 = Text("E1", font_size=18, color=BLUE_D).move_to(contour1).add_background_rectangle(color=BLACK, opacity=0.7, buff=0.05)
+        contour2 = VGroup(*[Circle(radius=r, color=GREEN_D, stroke_width=2).set_fill(GREEN_D, 0.1).shift(RIGHT * 1.5 + UP * 0.5) for r in [0.4, 0.8, 1.2]])
+        lbl2 = Text("E2", font_size=18, color=GREEN_D).move_to(contour2).add_background_rectangle(color=BLACK, opacity=0.7, buff=0.05)
+        
+        # Beat 2 & 3: "Z=1" and "Z=0"
+        self.play(FadeIn(contour1), FadeIn(lbl1), FadeIn(contour2), FadeIn(lbl2), run_time=0.8)
+        
+        # Beat 4: "D lớn"
+        dist_arrow = DoubleArrow(contour1[0].get_center(), contour2[0].get_center(), color=RED, buff=0)
+        dist_lbl = Text("Divergence Penalty", font_size=18, color=RED).next_to(dist_arrow, UP, buff=0.1).add_background_rectangle(color=BLACK, opacity=0.8, buff=0.05)
+        self.play(GrowArrow(dist_arrow), FadeIn(dist_lbl), run_time=0.6)
+        self.play(Indicate(dist_lbl, color=RED), run_time=0.5)
+        
+        # Beat 5: "D→0"
+        self.play(
+            FadeOut(dist_arrow), FadeOut(dist_lbl),
+            contour1.animate.move_to(ORIGIN), lbl1.animate.move_to(ORIGIN).shift(LEFT * 0.2),
+            contour2.animate.move_to(ORIGIN), lbl2.animate.move_to(ORIGIN).shift(RIGHT * 0.2),
+            run_time=1.0
+        )
+        self.play(Flash(ORIGIN, color=GOLD), run_time=0.4)
+        
+        match_lbl = Text("Distributions Matched", font_size=24, color=GOLD, weight=BOLD).to_edge(DOWN, buff=0.5)
+        self.play(FadeIn(match_lbl, shift=UP * 0.1), run_time=0.5)
+        
+        for _ in range(1):
+            self.play(Indicate(formula, color=GOLD), run_time=0.4)
+            self.play(Circumscribe(contour1, color=BLUE_D), run_time=0.4)
+            self.play(Indicate(match_lbl, color=GOLD), run_time=0.4)
+            
+        self.active_wait(VGroup(formula, contour1, contour2, match_lbl), 1.0, GOLD)
         self.wait(1.0)
+
+class AvoidingInterpolation(OODScene):
+    def construct(self):
+        title = Text("Avoiding Interpolation", font_size=36, color=WHITE, weight=BOLD).to_edge(UP, buff=0.35)
+        self.play(FadeIn(title, shift=DOWN * 0.2), run_time=0.8)
+        
+        # Split screen: Undersampling vs Two-Stage
+        line = Line(UP * 2.5, DOWN * 2.5, color=GRAY_B)
+        self.play(Create(line), run_time=0.8)
+        
+        us_title = Text("1. Undersampling", font_size=24, color=BLUE_D).shift(LEFT * 3.5 + UP * 2.0)
+        ts_title = Text("2. Two-Stage Learning", font_size=24, color=GREEN_D).shift(RIGHT * 3.5 + UP * 2.0)
+        self.play(FadeIn(us_title), FadeIn(ts_title), run_time=0.8)
+        
+        # Undersampling
+        maj_cloud = dot_cloud(30, LEFT * 3.5, spread=(1.0, 1.0), color=GRAY_B, seed=1)
+        min_cloud = dot_cloud(5, LEFT * 3.5 + DOWN * 1.5, spread=(0.3, 0.3), color=RED, seed=2)
+        self.play(FadeIn(maj_cloud), FadeIn(min_cloud), run_time=0.8)
+        self.wait(1.0)
+        
+        keep_maj = VGroup(*maj_cloud[:5])
+        fade_maj = VGroup(*maj_cloud[5:])
+        self.play(fade_maj.animate.set_opacity(0.1), run_time=0.8)
+        us_desc = Text("Drop majority samples\nuntil classes balance", font_size=18, color=WHITE).shift(LEFT * 3.5 + DOWN * 2.5)
+        self.play(FadeIn(us_desc), run_time=0.6)
+        
+        # Two-Stage
+        stage1 = labeled_box("Stage 1: Train ERM", 2.0, 0.6, GRAY_B, 16).shift(RIGHT * 3.5 + UP * 0.8)
+        freeze = Text("❄️ Freeze Extractor", font_size=20, color=BLUE_D).next_to(stage1, DOWN, buff=0.4)
+        stage2 = labeled_box("Stage 2: Retrain\nClassifier on subset", 2.0, 0.8, GREEN_D, 16).next_to(freeze, DOWN, buff=0.4)
+        
+        self.play(FadeIn(stage1, shift=UP * 0.1), run_time=0.6)
+        self.wait(1.0)
+        self.play(FadeIn(freeze), run_time=0.6)
+        self.wait(1.0)
+        self.play(FadeIn(stage2, shift=DOWN * 0.1), run_time=0.6)
+        
+        ts_desc = Text("Prevents memorization", font_size=18, color=WHITE).shift(RIGHT * 3.5 + DOWN * 2.5)
+        self.play(FadeIn(ts_desc), run_time=0.6)
+        
+        for _ in range(3):
+            self.play(Indicate(us_title, color=BLUE_D), run_time=0.5)
+            self.play(Indicate(keep_maj, color=GRAY_B), run_time=0.5)
+            self.play(Indicate(ts_title, color=GREEN_D), run_time=0.5)
+            self.play(Indicate(freeze, color=BLUE_D), run_time=0.5)
+            self.play(Circumscribe(stage2, color=GREEN_D), run_time=0.5)
+            
+        self.active_wait(VGroup(maj_cloud, min_cloud, stage1, stage2), 1.0, GOLD)

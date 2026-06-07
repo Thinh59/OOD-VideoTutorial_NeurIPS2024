@@ -1,0 +1,49 @@
+scene_id,scene_name,title,seconds,text_file,srt_file
+0.1,OpeningClinicalNotes,"Opening: Clinical Notes",46,scene_0_1_OpeningClinicalNotes.txt,scene_0_1_OpeningClinicalNotes.srt
+0.2,RoadMap,"Road Map",23,scene_0_2_RoadMap.txt,scene_0_2_RoadMap.srt
+1.1,ERMAccuracyIllusion,"ERM and the Accuracy Illusion",33,scene_1_1_ERMAccuracyIllusion.txt,scene_1_1_ERMAccuracyIllusion.srt
+1.2,ERMAnatomy,"Why ERM Is Lazy",31,scene_1_2_ERMAnatomy.txt,scene_1_2_ERMAnatomy.srt
+1.3,SpuriousDefinition,"What Is a Spurious Feature?",32,scene_1_3_SpuriousDefinition.txt,scene_1_3_SpuriousDefinition.srt
+1.31,FormalizingVariables,"Formalizing Variables",24,scene_1_31_FormalizingVariables.txt,scene_1_31_FormalizingVariables.srt
+1.32,IDOODDistributions,"ID and OOD Distributions",21,scene_1_32_IDOODDistributions.txt,scene_1_32_IDOODDistributions.srt
+1.33,EnvironmentFormalization,"Environment Formalization",22,scene_1_33_EnvironmentFormalization.txt,scene_1_33_EnvironmentFormalization.srt
+1.34,DistributionSet,"Distribution Set",23,scene_1_34_DistributionSet.txt,scene_1_34_DistributionSet.srt
+1.4,GeometryInductiveBias,"Geometry and Inductive Bias",32,scene_1_4_GeometryInductiveBias.txt,scene_1_4_GeometryInductiveBias.srt
+2.0,RiskAggregation,"Risk Aggregation Families",20,scene_2_0_RiskAggregation.txt,scene_2_0_RiskAggregation.srt
+2.1,GroupStructure,"Group Structure",30,scene_2_1_GroupStructure.txt,scene_2_1_GroupStructure.srt
+2.2,WorstGroupAccuracy,"Worst-Group Accuracy",24,scene_2_2_WorstGroupAccuracy.txt,scene_2_2_WorstGroupAccuracy.srt
+2.3,DistributionShiftTypes,"Distribution Shift Types",23,scene_2_3_DistributionShiftTypes.txt,scene_2_3_DistributionShiftTypes.srt
+3.1,StructuralCausalModel,"Structural Causal Model",24,scene_3_1_StructuralCausalModel.txt,scene_3_1_StructuralCausalModel.srt
+3.2,ShiftBreaksSpuriousLink,"Shift Breaks Shortcut",25,scene_3_2_ShiftBreaksSpuriousLink.txt,scene_3_2_ShiftBreaksSpuriousLink.srt
+4.0,ImportanceWeightingInterpolation,"Importance Weighting and Interpolation",26,scene_4_0_ImportanceWeightingInterpolation.txt,scene_4_0_ImportanceWeightingInterpolation.srt
+4.1,IRMInvariantIdea,"IRM Idea",24,scene_4_1_IRMInvariantIdea.txt,scene_4_1_IRMInvariantIdea.srt
+4.2,IRMFormula,"IRM Formula",20,scene_4_2_IRMFormula.txt,scene_4_2_IRMFormula.srt
+4.3,IRMGradientVectors,"IRM Gradients",25,scene_4_3_IRMGradientVectors.txt,scene_4_3_IRMGradientVectors.srt
+4.4,IRMLimitations,"IRM Limits",17,scene_4_4_IRMLimitations.txt,scene_4_4_IRMLimitations.srt
+4.5,NuRD,"NuRD",22,scene_4_5_NuRD.txt,scene_4_5_NuRD.srt
+5.1,GroupDRO,"Group DRO",41,scene_5_1_GroupDRO.txt,scene_5_1_GroupDRO.srt
+6.0,SemanticCorruptions,"Semantic Corruptions",26,scene_6_0_SemanticCorruptions.txt,scene_6_0_SemanticCorruptions.srt
+6.1,JTT,"Just Train Twice",31,scene_6_1_JTT.txt,scene_6_1_JTT.srt
+7.1,ScaleDoesNotSolve,"Scale Does Not Solve It",19,scene_7_1_ScaleDoesNotSolve.txt,scene_7_1_ScaleDoesNotSolve.srt
+7.2,CLIPSpuriousWeb,"CLIP and Web Correlations",29,scene_7_2_CLIPSpuriousWeb.txt,scene_7_2_CLIPSpuriousWeb.srt
+7.3,ICLShortcuts,"ICL Shortcuts",24,scene_7_3_ICLShortcuts.txt,scene_7_3_ICLShortcuts.srt
+7.4,ReverseScaling,"Reverse Scaling",20,scene_7_4_ReverseScaling.txt,scene_7_4_ReverseScaling.srt
+7.5,PromptingForRobustness,"Prompting for Robustness",24,scene_7_5_PromptingForRobustness.txt,scene_7_5_PromptingForRobustness.srt
+7.6,CATO,"CATO",26,scene_7_6_CATO.txt,scene_7_6_CATO.srt
+8.1,BenchmarksReality,"Benchmarks",23,scene_8_1_BenchmarksReality.txt,scene_8_1_BenchmarksReality.srt
+8.2,ModelSelectionParadox,"Model Selection Paradox",22,scene_8_2_ModelSelectionParadox.txt,scene_8_2_ModelSelectionParadox.srt
+8.3,BestPractices,"Best Practices",20,scene_8_3_BestPractices.txt,scene_8_3_BestPractices.srt
+9.1,JourneySummary,"Journey Summary",22,scene_9_1_JourneySummary.txt,scene_9_1_JourneySummary.srt
+1.3A,FormalizingXYE,"Variables: X, Y, E",13,scene_1_3A_FormalizingXYE.txt,scene_1_3A_FormalizingXYE.srt
+1.3B,OODShiftBreaks,"OOD Shift Breaks Assumptions",11,scene_1_3B_OODShiftBreaks.txt,scene_1_3B_OODShiftBreaks.srt
+1.3C,DistributionSetFamily,"Distribution Set",9,scene_1_3C_DistributionSetFamily.txt,scene_1_3C_DistributionSetFamily.srt
+1.4B,GeometricSkewMaxMargin,"Geometric Skew",9,scene_1_4B_GeometricSkewMaxMargin.txt,scene_1_4B_GeometricSkewMaxMargin.srt
+R4,RiskAggregationFamilies,"Risk Aggregation",9,scene_R4_RiskAggregationFamilies.txt,scene_R4_RiskAggregationFamilies.srt
+3.3,CausalVsSpuriousTest,"The Ultimate Test",8,scene_3_3_CausalVsSpuriousTest.txt,scene_3_3_CausalVsSpuriousTest.srt
+4.1A,InvariancePrinciple,"The Invariance Principle",8,scene_4_1A_InvariancePrinciple.txt,scene_4_1A_InvariancePrinciple.srt
+4.1B,IRMRepresentationSpace,"Finding the Invariant Space",8,scene_4_1B_IRMRepresentationSpace.txt,scene_4_1B_IRMRepresentationSpace.srt
+N1.5,NuRDDivergencePenalty,"NuRD Divergence",8,scene_N1_5_NuRDDivergencePenalty.txt,scene_N1_5_NuRDDivergencePenalty.srt
+RW4,AvoidingInterpolation,"Avoiding Interpolation",10,scene_RW4_AvoidingInterpolation.txt,scene_RW4_AvoidingInterpolation.srt
+9.1,JourneySummaryRemastered,"The Journey Remastered",9,scene_9_1_JourneySummaryRemastered.txt,scene_9_1_JourneySummaryRemastered.srt
+9.1B,BigTriangleConclusion,"The Robustness Triangle",8,scene_9_1B_BigTriangleConclusion.txt,scene_9_1B_BigTriangleConclusion.srt
+9.2,OpenProblemsCredits,"Open Problems and Credits",14,scene_9_2_OpenProblemsCredits.txt,scene_9_2_OpenProblemsCredits.srt

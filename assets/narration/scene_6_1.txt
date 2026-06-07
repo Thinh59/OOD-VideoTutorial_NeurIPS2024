@@ -1,0 +1,9 @@
+JTT, Just Train Twice, có câu trả lời thanh lịch: hãy để ERM tự chỉ ra.
+
+Bước 1: Train một mô hình ERM nhỏ trong vài epochs, đủ để nó học shortcuts, nhưng chưa memorize. Nhìn vào những điểm mà mô hình này dự đoán sai.
+
+Tại sao những điểm bị sai lại quan trọng? Vì mô hình ERM học shortcuts ngay lập tức. Điểm nào thuộc nhóm đa số, shortcut hoạt động, dự đoán đúng. Điểm nào thuộc nhóm thiểu số, shortcut chỉ sai hướng, dự đoán sai. Các điểm bị sai chính xác là những điểm mà shortcut không giúp ích được.
+
+Bước 2: Gom những điểm sai đó lại, nhân bản chúng lên K lần, tạo dataset mới nơi thiểu số được đại diện đầy đủ. Train mô hình thứ hai trên dataset này.
+
+Kết quả: Worst-group accuracy tăng từ 32% lên 71%, mà không cần một nhãn nhóm thủ công nào. ERM đã tự lộ ra điểm yếu của chính mình.

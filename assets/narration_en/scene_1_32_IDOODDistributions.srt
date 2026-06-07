@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:05,000
+In standard learning, training and testing data come from the same distribution.
+
+2
+00:00:05,000 --> 00:00:10,000
+Out-of-distribution generalization breaks this assumption.
+
+3
+00:00:10,000 --> 00:00:15,000
+The training distribution, P train, is not equal to the test distribution, P test.
+
+4
+00:00:15,000 --> 00:00:21,000
+The challenge? The classifier must perform well even after this shift occurs.

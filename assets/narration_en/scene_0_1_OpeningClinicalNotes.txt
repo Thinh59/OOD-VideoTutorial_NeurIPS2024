@@ -1,0 +1,13 @@
+Consider this. An AI is trained to predict diseases from electronic health records.
+At Hospital A, it reaches ninety-five percent accuracy. Incredible, right?
+But when we test it at Hospital B, the accuracy collapses to seventy-two percent.
+
+Why?
+
+Let's look at the training data.
+At Hospital A, a specific doctor wrote the word man for diabetes, and gentleman for arthritis.
+The AI exploited this stylistic habit as a shortcut.
+At Hospital B, new doctors did not share this habit.
+The shortcut disappeared, and the model failed.
+
+The AI didn't fail from lack of data. It failed because it learned the wrong signal.

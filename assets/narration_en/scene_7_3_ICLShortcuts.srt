@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+In large language models, shortcuts emerge dynamically within the prompt during in-context learning.
+
+2
+00:00:04,000 --> 00:00:08,000
+If all positive examples contain the word movie, the model learns this shortcut.
+
+3
+00:00:08,000 --> 00:00:12,000
+Here's the catch.
+
+4
+00:00:12,000 --> 00:00:16,000
+Larger models are more likely to exploit this shortcut, showing reverse scaling.
+
+5
+00:00:16,000 --> 00:00:24,000
+They are highly sensitive to accidental correlations in the prompt.

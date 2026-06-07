@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:04,000
+Let's build a Structural Causal Model.
+
+2
+00:00:04,000 --> 00:00:08,000
+The label Y determines the causal features, X-core. This is the stable path.
+
+3
+00:00:08,000 --> 00:00:12,000
+The environment E determines the background, X-spurious.
+
+4
+00:00:12,000 --> 00:00:16,000
+During training, Y and E are correlated, creating a spurious link.
+
+5
+00:00:16,000 --> 00:00:20,000
+The model exploits this link.
+
+6
+00:00:20,000 --> 00:00:24,000
+But when the environment shifts, this correlation shatters.

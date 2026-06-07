@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:07,000
+Vậy spurious feature là gì, chính xác? Hãy nghĩ về chuỗi sự kiện tạo ra dữ liệu.
+
+2
+00:00:07,000 --> 00:00:14,000
+Nhiếp ảnh gia muốn chụp chim cánh cụt, họ đến Bắc Cực.
+
+3
+00:00:14,000 --> 00:00:21,000
+Con chim là nguyên nhân, nền tuyết trắng là kết quả. Mũi tên nhân quả đi từ nhãn sang nền.
+
+4
+00:00:21,000 --> 00:00:28,000
+Nhưng AI đang đọc ngược lại: thấy nền trắng, kết luận đây là chim cánh cụt.
+
+5
+00:00:28,000 --> 00:00:35,000
+Đây là Anti-causal Prediction, dự đoán ngược chiều nhân quả.
+
+6
+00:00:35,000 --> 00:00:42,000
+Vấn đề: tương quan ngược chiều này chỉ tồn tại trong một môi trường cụ thể.
+
+7
+00:00:42,000 --> 00:00:49,000
+Khi môi trường thay đổi, chim cánh cụt xuất hiện ở sa mạc, tương quan đó tan biến.
+
+8
+00:00:49,000 --> 00:00:56,000
+Nhưng mối quan hệ nhân quả thật, chim cánh cụt có hình dáng của chim cánh cụt dù đứng ở đâu, vẫn còn đó.
+
+9
+00:00:56,000 --> 00:01:03,000
+Đây chính là sự khác biệt cốt lõi: Causal features ổn định qua mọi môi trường.
+
+10
+00:01:03,000 --> 00:01:14,000
+Spurious features chỉ tồn tại ở một hoàn cảnh cụ thể.

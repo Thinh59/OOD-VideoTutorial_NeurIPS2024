@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:04,000
+Prompting for Robustness, or PfR, uses a Vision-Language Model to generate group labels automatically.
+
+2
+00:00:04,000 --> 00:00:08,000
+We prompt the VLM to describe the background of each image.
+
+3
+00:00:08,000 --> 00:00:12,000
+This avoids expensive manual annotation.
+
+4
+00:00:12,000 --> 00:00:16,000
+Group DRO trained on these automated labels matches manual label performance, tripling the ERM baseline.
+
+5
+00:00:16,000 --> 00:00:24,000
+We are using AI to fix AI.

@@ -1,0 +1,6 @@
+IRM faces severe practical limits.
+It requires multiple, clearly defined environments.
+The gradient penalty is highly sensitive and makes training unstable.
+In practice, standard ERM often outperforms IRM.
+
+IRM is elegant in theory, but fragile in practice.

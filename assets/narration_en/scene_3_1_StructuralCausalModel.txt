@@ -1,0 +1,7 @@
+Let's build a Structural Causal Model.
+The label Y determines the causal features, X-core. This is the stable path.
+The environment E determines the background, X-spurious.
+
+During training, Y and E are correlated, creating a spurious link.
+The model exploits this link.
+But when the environment shifts, this correlation shatters.

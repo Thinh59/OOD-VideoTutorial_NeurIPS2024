@@ -1,0 +1,9 @@
+Empirical Risk Minimization, or ERM, is standard.
+Its objective is simple: minimize the average training loss.
+
+But here's the catch.
+ERM is lazy. It is indifferent to whether it learns semantic features or simple shortcuts.
+From a gradient perspective, counting background pixels is easy, while learning shape features is hard.
+Gradient descent takes the path of steepest descent, choosing the shortcut first.
+
+We call these unstable backgrounds spurious features.

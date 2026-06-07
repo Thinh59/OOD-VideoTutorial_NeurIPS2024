@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:08,000
+Nhìn vào hai mô hình. Model A có average accuracy 82%, trông hay hơn Model B với 76%.
+
+2
+00:00:08,000 --> 00:00:16,000
+Theo ERM: chọn A. Nhưng nhìn kỹ hơn.
+
+3
+00:00:16,000 --> 00:00:24,000
+Model A hoàn toàn thất bại ở hai nhóm thiểu số, chỉ 18 và 21%.
+
+4
+00:00:24,000 --> 00:00:32,000
+Trong thực tế điều này nghĩa là những bệnh nhân không theo khuôn sẽ bị chẩn đoán sai gần như hoàn toàn.
+
+5
+00:00:32,000 --> 00:00:40,000
+Model B có average thấp hơn, nhưng các nhóm đều được đối xử công bằng.
+
+6
+00:00:40,000 --> 00:00:48,000
+Worst-Group Accuracy là chỉ số chúng ta thực sự cần quan tâm khi deploy AI vào thế giới thực.
+
+7
+00:00:48,000 --> 00:00:56,000
+Và bây giờ, để hiểu sâu hơn tại sao ERM thất bại, chúng ta cần đi vào cấu trúc nhân quả của dữ liệu.
